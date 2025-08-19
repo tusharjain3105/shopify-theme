@@ -1,0 +1,58 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "type": "header",
+  "name": "t:general.header",
+  "sections": {
+    "promobar": {
+      "type": "promobar",
+      "blocks": {
+        "announcement_9ht3hL": {
+          "type": "announcement",
+          "settings": {
+            "text": "Welcome to sicsense 1"
+          }
+        },
+        "announcement_ECaXgR": {
+          "type": "announcement",
+          "settings": {
+            "text": "Welcome to sicsense 2"
+          }
+        },
+        "announcement_BXBmPm": {
+          "type": "announcement",
+          "settings": {
+            "text": "Welcome to sicsense 3"
+          }
+        }
+      },
+      "block_order": [
+        "announcement_9ht3hL",
+        "announcement_ECaXgR",
+        "announcement_BXBmPm"
+      ],
+      "settings": {
+        "autoplay_speed": 3000,
+        "autoplay_duration": 1000
+      }
+    },
+    "header": {
+      "type": "header",
+      "settings": {
+        "variant": "sticky",
+        "logo": "shopify://shop_images/logo.png"
+      }
+    }
+  },
+  "order": [
+    "promobar",
+    "header"
+  ]
+}

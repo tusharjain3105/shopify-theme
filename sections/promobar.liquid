@@ -1,0 +1,124 @@
+{% if section.blocks.size > 0 %}
+  <div class="flex items-center justify-center px-4 py-1 bg-black text-white gap-4">
+    <div class="hidden md:block cursor-pointer" onclick="previousAnnouncement()">
+      {% render 'icon'
+        , icon: 'chevron-left' %}
+    </div>
+    <div class="promobar-announcements">
+      <div class="announcement-carousel relative overflow-hidden w-full md:w-md">
+        <div class="announcement-wrapper flex" style="transition: transform {{ section.settings.autoplay_duration }}ms;">
+          {% for i in (1..3) %}
+            {% for block in section.blocks %}
+              <p
+                class="announcement text-center data-[active=true]:opacity-100 opacity-0 min-w-full text-sm"
+                data-active="true"
+                style="transition: opacity {{ section.settings.autoplay_duration }}ms;">{{ block.settings.text }}</p>
+            {% endfor %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    <div class="hidden md:block cursor-pointer" onclick="nextAnnouncement()">
+      {% render 'icon'
+        , icon: 'chevron-right' %}
+    </div>
+  </div>
+{% endif %}
+
+<script>
+  const announcements = Array.from(document.querySelectorAll('.announcement-carousel .announcement'));
+  const announcementWrapper = document.querySelector('.announcement-wrapper');
+  let currentIndex = 0;
+
+  function showAnnouncement(index) {
+    const offset = -index * 100; // Calculate the offset for sliding
+    announcementWrapper.style.transform = `translateX(${offset}%)`;
+    const announcement = announcements[index];
+    announcements.forEach((announcement, i) => announcement.dataset.active = i === index);
+  }
+
+  let autoplayTimeout;
+  function previousAnnouncement() {
+    currentIndex = (currentIndex - 1 + announcements.length) % announcements.length;
+    showAnnouncement(currentIndex);
+    scheduleNextAnnouncement();
+  }
+
+  function nextAnnouncement() {
+    currentIndex = (currentIndex + 1) % announcements.length;
+    showAnnouncement(currentIndex);
+    scheduleNextAnnouncement();
+  }
+
+  function scheduleNextAnnouncement() {
+    clearTimeout(autoplayTimeout);
+    autoplayTimeout = setTimeout(nextAnnouncement, {{ section.settings.autoplay_speed }});
+  }
+
+  // Initial display
+  showAnnouncement(currentIndex);
+  // Autoplay every 3 seconds
+  scheduleNextAnnouncement();
+</script>
+
+{% schema %}
+  {
+    "name": "Promobar",
+    "settings": [
+      {
+        "id": "autoplay_speed",
+        "type": "range",
+        "label": "Autoplay Speed (ms)",
+        "default": 3000,
+        "info": "Set to 0 to disable autoplay",
+        "unit": "ms",
+        "step": 100,
+        "min": 0,
+        "max": 5000
+      }, {
+        "id": "autoplay_duration",
+        "type": "range",
+        "label": "Autoplay Duration (ms)",
+        "default": 2000,
+        "info": "Set to 0 to disable autoplay",
+        "unit": "ms",
+        "step": 50,
+        "min": 0,
+        "max": 3000
+      }
+    ],
+    "blocks": [
+      {
+        "type": "announcement",
+        "name": "Announcement",
+        "settings": [
+          {
+            "id": "text",
+            "type": "text",
+            "label": "Announcement Text",
+            "default": "Welcome to sicsense"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Promobar",
+        "category": "Demo",
+        "blocks": [
+          {
+            "type": "announcement",
+            "settings": {
+              "text": "Welcome to sicsense"
+            }
+          }, {
+            "type": "announcement",
+            "settings": {
+              "text": "Free shipping on orders over $100"
+            }
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

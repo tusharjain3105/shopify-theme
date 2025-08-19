@@ -1,0 +1,218 @@
+{% comment %}
+  Product Add to Cart Form - Monochromatic Button Design
+  Usage: {% render 'product-form', product: product %}
+{% endcomment %}
+
+<div class="product-form">
+  {% form 'product'
+    , product
+    , class: 'product-form-inner' %}
+    {% assign current_variant = product.selected_or_first_available_variant %}
+
+    <!-- Variant Selector -->
+    {% if product.variants.size > 1 %}
+      <div class="variant-selector mb-4">
+        <label for="variant-select" class="block text-sm font-medium text-gray-700 mb-2">
+          Choose variant:
+        </label>
+        <select
+          name="id"
+          id="variant-select"
+          class="w-full border border-gray-300 rounded-md px-3 py-2 bg-white focus:ring-2 focus:ring-gray-500 focus:border-gray-500">
+          {% for variant in product.variants %}
+            <option
+              value="{{ variant.id }}"
+              {% if variant == current_variant %}
+              selected{% endif %}
+              {% unless variant.available %}
+              disabled{% endunless %}
+              data-price="{{ variant.price | money }}"
+              data-compare-price="{{ variant.compare_at_price | money }}">
+              {{ variant.title }}
+              {% unless variant.available %}
+                - Sold out{% endunless %}
+            </option>
+          {% endfor %}
+        </select>
+      </div>
+    {% else %}
+      <input
+        type="hidden"
+        name="id"
+        value="{{ current_variant.id }}">
+    {% endif %}
+
+    <!-- Quantity Selector -->
+    <div class="quantity-selector mb-6">
+      <label for="quantity" class="block text-sm font-medium text-gray-700 mb-2">
+        Quantity:
+      </label>
+      <div class="flex items-center border border-gray-300 rounded-md w-32">
+        <button
+          type="button"
+          class="quantity-btn minus px-3 py-2 text-gray-600 hover:text-gray-800"
+          data-action="minus">
+          <svg
+            class="w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M20 12H4" />
+          </svg>
+        </button>
+        <input
+          type="number"
+          name="quantity"
+          id="quantity"
+          min="1"
+          value="1"
+          class="w-full text-center border-0 focus:ring-0 py-2">
+        <button
+          type="button"
+          class="quantity-btn plus px-3 py-2 text-gray-600 hover:text-gray-800"
+          data-action="plus">
+          <svg
+            class="w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 6v12M6 12h12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- CTA Buttons -->
+    <div class="add-to-cart-container space-y-3">
+      <!-- Secondary Add to Cart Button -->
+      <button
+        type="submit"
+        class="add-to-cart-btn w-full bg-gray-100 text-gray-900 border border-gray-300 py-4 px-6 rounded-lg font-semibold hover:bg-gray-200 hover:border-gray-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-gray-100"
+        {% unless current_variant.available %}
+        disabled{% endunless %}>
+        {% if current_variant.available %}
+          Add to Cart
+        {% else %}
+          Sold Out
+        {% endif %}
+      </button>
+
+      <!-- Primary Buy Now Button -->
+      {% if current_variant.available %}
+        <div class="buy-now-wrapper">
+          <!-- Custom styled buy now button -->
+          <button
+            type="button"
+            class="buy-now-btn w-full bg-gray-900 text-white py-4 px-6 rounded-lg font-semibold hover:bg-black transition-colors"
+            onclick="handleBuyNow()">
+            Buy Now
+          </button>
+
+          <!-- Hidden payment button for fallback -->
+          <div class="hidden">
+            {{ form | payment_button }}
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  {% endform %}
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+  // Quantity controls
+  const quantityInput = document.getElementById('quantity');
+  const minusBtn = document.querySelector('.quantity-btn[data-action="minus"]');
+  const plusBtn = document.querySelector('.quantity-btn[data-action="plus"]');
+
+  minusBtn?.addEventListener('click', function() {
+    const currentValue = parseInt(quantityInput.value);
+    if (currentValue > 1) {
+      quantityInput.value = currentValue - 1;
+    }
+  });
+
+  plusBtn?.addEventListener('click', function() {
+    const currentValue = parseInt(quantityInput.value);
+    quantityInput.value = currentValue + 1;
+  });
+
+  // Buy Now functionality
+  window.handleBuyNow = function() {
+    // Try to click the hidden payment button first
+    const paymentButton = document.querySelector('.shopify-payment-button__button');
+    if (paymentButton) {
+      paymentButton.click();
+    } else {
+      // Fallback: add to cart and redirect to checkout
+      const form = document.querySelector('.product-form-inner');
+      const formData = new FormData(form);
+      
+      fetch('/cart/add.js', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        // Redirect to checkout
+        window.location.href = '/checkout';
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        // Fallback: submit the form normally
+        form.submit();
+      });
+    }
+  };
+
+  // Variant change handling
+  const variantSelect = document.getElementById('variant-select');
+  variantSelect?.addEventListener('change', function() {
+    const selectedOption = this.options[this.selectedIndex];
+    const price = selectedOption.dataset.price;
+    const comparePrice = selectedOption.dataset.comparePrice;
+    
+    // Update price display
+    const currentPriceElement = document.querySelector('.current-price');
+    const comparePriceElement = document.querySelector('.compare-price');
+    
+    if (currentPriceElement && price) {
+      currentPriceElement.textContent = price;
+    }
+    
+    if (comparePriceElement && comparePrice && comparePrice !== price) {
+      comparePriceElement.textContent = comparePrice;
+      comparePriceElement.style.display = 'inline';
+    } else if (comparePriceElement) {
+      comparePriceElement.style.display = 'none';
+    }
+
+    // Update button states
+    const addToCartBtn = document.querySelector('.add-to-cart-btn');
+    const buyNowBtn = document.querySelector('.buy-now-btn');
+    const buyNowWrapper = document.querySelector('.buy-now-wrapper');
+    
+    if (selectedOption.disabled) {
+      addToCartBtn.disabled = true;
+      addToCartBtn.textContent = 'Sold Out';
+      if (buyNowWrapper) {
+        buyNowWrapper.style.display = 'none';
+      }
+    } else {
+      addToCartBtn.disabled = false;
+      addToCartBtn.textContent = 'Add to Cart';
+      if (buyNowWrapper) {
+        buyNowWrapper.style.display = 'block';
+      }
+    }
+  });
+  });
+</script>

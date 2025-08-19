@@ -1,0 +1,149 @@
+{% if paginate.pages > 1 %}
+  <div class="pagination-wrapper mt-12 mx-auto max-w-fit">
+    <nav class="flex items-center justify-center">
+      <div class="flex items-center space-x-1">
+
+        <!-- Previous Button -->
+        {% if paginate.previous %}
+          <a href="{{ paginate.previous.url }}" class="inline-flex items-center justify-center px-4 py-2 border border-gray-300 bg-white text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 group">
+            <svg
+              class="w-4 h-4 group-hover:-translate-x-0.5 transition-transform"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M15 19l-7-7 7-7" />
+            </svg>
+            <span class="hidden sm:inline ml-1">Previous</span>
+          </a>
+        {% else %}
+          <span class="inline-flex items-center justify-center px-4 py-2 border border-gray-300 bg-white text-gray-400 text-sm font-medium rounded-lg opacity-50 cursor-not-allowed">
+            <svg
+              class="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M15 19l-7-7 7-7" />
+            </svg>
+            <span class="hidden sm:inline ml-1">Previous</span>
+          </span>
+        {% endif %}
+
+        <!-- Page Numbers Container -->
+        <div class="flex items-center space-x-1 mx-2">
+
+          <!-- Calculate page range -->
+          {% assign current_page = paginate.current_page %}
+          {% assign total_pages = paginate.pages %}
+          {% assign max_visible = 5 %}
+
+          {% if total_pages <= max_visible %}
+            {% assign start_page = 1 %}
+            {% assign end_page = total_pages %}
+          {% else %}
+            {% assign half_visible = max_visible | divided_by: 2 %}
+            {% assign start_page = current_page | minus: half_visible %}
+            {% assign end_page = current_page | plus: half_visible %}
+
+            {% if start_page < 1 %}
+              {% assign start_page = 1 %}
+              {% assign end_page = max_visible %}
+            {% endif %}
+
+            {% if end_page > total_pages %}
+              {% assign end_page = total_pages %}
+              {% assign start_page = total_pages | minus: max_visible | plus: 1 %}
+              {% if start_page < 1 %}
+                {% assign start_page = 1 %}
+              {% endif %}
+            {% endif %}
+          {% endif %}
+
+          <!-- Show first page if not in range -->
+          {% if start_page > 1 %}
+            <a href="{{ paginate.parts.first.url }}" class="inline-flex items-center justify-center w-10 h-10 border border-gray-300 bg-white text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-50 hover:border-gray-400 transition-all duration-200">1</a>
+            {% if start_page > 2 %}
+              <span class="inline-flex items-center justify-center w-10 h-10 text-gray-500 text-sm">...</span>
+            {% endif %}
+          {% endif %}
+
+          <!-- Page numbers in range -->
+          {% for i in (start_page..end_page) %}
+            {% if i == current_page %}
+              <span class="inline-flex items-center justify-center w-10 h-10 border border-gray-900 bg-gray-900 text-white text-sm font-medium rounded-lg">{{ i }}</span>
+            {% else %}
+              {% assign page_url = paginate.parts.first.url %}
+              {% if i == 1 %}
+                {% assign page_url = paginate.parts.first.url %}
+              {% elsif i == total_pages %}
+                {% assign page_url = paginate.parts.last.url %}
+              {% else %}
+                {% for part in paginate.parts %}
+                  {% if part.title == i %}
+                    {% assign page_url = part.url %}
+                    {% break %}
+                  {% endif %}
+                {% endfor %}
+              {% endif %}
+              <a href="{{ page_url }}" class="inline-flex items-center justify-center w-10 h-10 border border-gray-300 bg-white text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-50 hover:border-gray-400 transition-all duration-200">{{ i }}</a>
+            {% endif %}
+          {% endfor %}
+
+          <!-- Show last page if not in range -->
+          {% assign last_page_minus_one = total_pages | minus: 1 %}
+          {% if end_page < total_pages %}
+            {% if end_page < last_page_minus_one %}
+              <span class="inline-flex items-center justify-center w-10 h-10 text-gray-500 text-sm">...</span>
+            {% endif %}
+            <a href="{{ paginate.parts.last.url }}" class="inline-flex items-center justify-center w-10 h-10 border border-gray-300 bg-white text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-50 hover:border-gray-400 transition-all duration-200">{{ total_pages }}</a>
+          {% endif %}
+        </div>
+
+        <!-- Next Button -->
+        {% if paginate.next %}
+          <a href="{{ paginate.next.url }}" class="inline-flex items-center justify-center px-4 py-2 border border-gray-300 bg-white text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 group">
+            <span class="hidden sm:inline mr-1">Next</span>
+            <svg
+              class="w-4 h-4 group-hover:translate-x-0.5 transition-transform"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 5l7 7-7 7" />
+            </svg>
+          </a>
+        {% else %}
+          <span class="inline-flex items-center justify-center px-4 py-2 border border-gray-300 bg-white text-gray-400 text-sm font-medium rounded-lg opacity-50 cursor-not-allowed">
+            <span class="hidden sm:inline mr-1">Next</span>
+            <svg
+              class="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 5l7 7-7 7" />
+            </svg>
+          </span>
+        {% endif %}
+      </div>
+    </nav>
+
+    <!-- Page Info -->
+    <div class="text-center mt-4 text-sm text-gray-500">
+      Showing {{ paginate.current_offset | plus: 1 }}-{{ paginate.current_offset | plus: paginate.items }} of {{ paginate.items }} products
+    </div>
+  </div>
+{% endif %}

@@ -1,0 +1,242 @@
+{% comment %}
+  Product Image Carousel with Swiper - Fixed Version
+  Usage: {% render 'product-image-carousel', product: product, mobile: true/false %}
+{% endcomment %}
+
+{% assign is_mobile = mobile | default: false %}
+{% assign carousel_id = 'product-carousel-' | append: product.id %}
+
+<div class="product-image-carousel">
+  {% if product.images.size > 0 %}
+    <div class="swiper {{ carousel_id }}">
+      <div class="swiper-wrapper">
+        {% for image in product.images %}
+          <div class="swiper-slide">
+            <div class="aspect-square {% if is_mobile %}rounded-lg{% else %}rounded-xl{% endif %} overflow-hidden bg-gray-100">
+              <img
+                src="{{ image | img_url: '800x800' }}"
+                srcset="{{ image | img_url: '400x400' }} 400w, {{ image | img_url: '800x800' }} 800w"
+                sizes="(max-width: 768px) 400px, 800px"
+                alt="{{ image.alt | default: product.title | escape }}"
+                class="w-full h-full object-cover"
+                loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+                onerror="this.src='image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0yNCAyNEg1NlY1Nkg0NFY0NEgyNFYyNFoiIGZpbGw9IiM5Q0E0QUYiLz4KPHBhdGggZD0iTTQ0IDQ0TDUyIDM2TDU2IDQwVjU2SDI0VjQ0SDQ0WiIgZmlsbD0iIzlDQTRBRiIvPgo8L3N2Zz4K'" />
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+      <!-- Navigation arrows (only show if multiple images) -->
+      {% if product.images.size > 1 %}
+        <div class="swiper-button-next after:content-[''] bg-white rounded-full shadow-lg w-10 h-10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+          <svg
+            class="w-5 h-5 text-gray-600"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 5l7 7-7 7" />
+          </svg>
+        </div>
+        <div class="swiper-button-prev after:content-[''] bg-white rounded-full shadow-lg w-10 h-10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+          <svg
+            class="w-5 h-5 text-gray-600"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M15 19l-7-7 7-7" />
+          </svg>
+        </div>
+
+        <!-- Pagination dots -->
+        <div class="swiper-pagination mt-4"></div>
+      {% endif %}
+    </div>
+
+    <!-- Thumbnail Navigation (Desktop Only) -->
+    {% unless is_mobile %}
+      {% if product.images.size > 1 %}
+        <div class="thumbnail-nav mt-4 grid grid-cols-5 gap-2">
+          {% for image in product.images limit: 5 %}
+            <button class="thumbnail-btn aspect-square rounded-md overflow-hidden border-2 {% if forloop.first %}border-gray-800{% else %}border-transparent{% endif %} hover:border-gray-400 transition-colors" data-slide="{{ forloop.index0 }}">
+              <img
+                src="{{ image | img_url: '120x120' }}"
+                alt="{{ image.alt | default: product.title | escape }}"
+                class="w-full h-full object-cover"
+                loading="lazy" />
+            </button>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endunless %}
+  {% else %}
+    <!-- Fallback when no images -->
+    <div class="no-image-placeholder aspect-square {% if is_mobile %}rounded-lg{% else %}rounded-xl{% endif %} bg-gray-100 flex items-center justify-center">
+      <svg
+        class="w-16 h-16 text-gray-400"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24">
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="1.5"
+          d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+      </svg>
+    </div>
+  {% endif %}
+</div>
+
+<!-- Swiper CSS & JS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+  console.log('Initializing carousel for product {{ product.id }}');
+  console.log('Images count: {{ product.images.size }}');
+  
+  {% if product.images.size > 0 %}
+    // Add hover effect for navigation arrows
+    const carouselContainer = document.querySelector('.{{ carousel_id }}').closest('.product-image-carousel');
+    if (carouselContainer) {
+      carouselContainer.classList.add('group');
+    }
+
+    {% assign should_loop = false %}
+    {% if product.images.size > 1 %}
+      {% assign should_loop = true %}
+    {% endif %}
+
+    const carousel{{ product.id }} = new Swiper('.{{ carousel_id }}', {
+      slidesPerView: 1,
+      spaceBetween: 0,
+      loop: {{ should_loop }},
+      grabCursor: true,
+      
+      {% if product.images.size > 1 %}
+      navigation: {
+        nextEl: '.{{ carousel_id }} .swiper-button-next',
+        prevEl: '.{{ carousel_id }} .swiper-button-prev',
+      },
+      
+      pagination: {
+        el: '.{{ carousel_id }} .swiper-pagination',
+        clickable: true,
+        dynamicBullets: true,
+      },
+      {% endif %}
+
+      // Accessibility
+      a11y: {
+        prevSlideMessage: 'Previous image',
+        nextSlideMessage: 'Next image',
+      },
+
+      // Lazy loading
+      lazy: {
+        loadPrevNext: true,
+      },
+
+      // Events
+      on: {
+        init: function () {
+          console.log('Carousel initialized successfully');
+        },
+        slideChange: function () {
+          console.log('Slide changed to: ' + this.realIndex);
+          {% unless is_mobile %}
+          // Update active thumbnail
+          const activeIndex = this.realIndex;
+          document.querySelectorAll('.thumbnail-btn').forEach((btn, index) => {
+            if (index === activeIndex) {
+              btn.classList.remove('border-transparent');
+              btn.classList.add('border-gray-800');
+            } else {
+              btn.classList.remove('border-gray-800');
+              btn.classList.add('border-transparent');
+            }
+          });
+          {% endunless %}
+        }
+      }
+    });
+
+    {% unless is_mobile %}
+    // Thumbnail navigation click handlers
+    document.querySelectorAll('.thumbnail-btn').forEach((btn, index) => {
+      btn.addEventListener('click', function() {
+        console.log('Thumbnail clicked: ' + index);
+        const slideIndex = parseInt(this.dataset.slide);
+        const swipers = [carousel{{ product.id }}].flat();
+        swipers.forEach((swiper) => {
+          swiper.slideTo(slideIndex);
+        });
+      });
+    });
+    {% endunless %}
+
+    // Keyboard navigation
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'ArrowLeft') {
+        carousel{{ product.id }}.slidePrev();
+      } else if (e.key === 'ArrowRight') {
+        carousel{{ product.id }}.slideNext();
+      }
+    });
+
+  {% else %}
+    console.log('No images found for product {{ product.id }}');
+  {% endif %}
+  });
+</script>
+
+<style>
+  .{{ carousel_id }} .swiper-button-next
+  , .{{ carousel_id }}
+  .swiper-button-prev {
+    margin-top: 0;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .{{ carousel_id }}
+  .swiper-button-next {
+    right: 10px;
+  }
+
+  .{{ carousel_id }}
+  .swiper-button-prev {
+    left: 10px;
+  }
+
+  .{{ carousel_id }}
+  .swiper-pagination-bullet {
+    width: 8px;
+    height: 8px;
+    background: #d1d5db;
+    opacity: 1;
+    transition: all 0.3s ease;
+  }
+
+  .{{ carousel_id }}
+  .swiper-pagination-bullet-active {
+    background: #374151;
+    transform: scale(1.2);
+  }
+
+  .product-image-carousel .swiper-slide img {
+    transition: transform 0.3s ease;
+  }
+
+  .product-image-carousel:hover .swiper-slide img {
+    transform: scale(1.05);
+  }
+</style>

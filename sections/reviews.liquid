@@ -1,0 +1,99 @@
+{% schema %}
+  {
+    "name": "Reviews",
+    "tag": "section",
+    "settings": [
+      {
+        "type": "text",
+        "id": "section_heading",
+        "label": "Section Heading",
+        "default": "Customer Reviews"
+      }, {
+        "type": "textarea",
+        "id": "section_subtext",
+        "label": "Section Subtext",
+        "default": "Read what our customers have to say or leave a review yourself!"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "review",
+        "name": "Review",
+        "settings": [
+          {
+            "type": "text",
+            "id": "reviewer_name",
+            "label": "Reviewer Name",
+            "default": "Jane Doe"
+          }, {
+            "type": "select",
+            "id": "review_rating",
+            "label": "Rating",
+            "options": [
+              {
+                "value": "5",
+                "label": "★★★★★"
+              },
+              {
+                "value": "4",
+                "label": "★★★★☆"
+              },
+              {
+                "value": "3",
+                "label": "★★★☆☆"
+              },
+              {
+                "value": "2",
+                "label": "★★☆☆☆"
+              }, {
+                "value": "1",
+                "label": "★☆☆☆☆"
+              }
+            ],
+            "default": "5"
+          }, {
+            "type": "textarea",
+            "id": "review_text",
+            "label": "Review Text",
+            "default": "This is an example review. Products are excellent and the service is outstanding!"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Reviews"
+      }
+    ]
+  }
+{% endschema %}
+
+<section class="max-w-5xl mx-auto px-4 py-12">
+  <h2 class="text-3xl font-bold text-center mb-2">{{ section.settings.section_heading }}</h2>
+  <p class="text-center text-gray-600 mb-8">{{ section.settings.section_subtext }}</p>
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+    {% for block in section.blocks %}
+      <div class="bg-white rounded-xl p-6 shadow flex flex-col items-center">
+        <div class="flex text-yellow-400 text-xl mb-2">
+          {% case block.settings.review_rating %}
+            {% when '5' %}
+              ★★★★★
+            {% when '4' %}
+              ★★★★☆
+            {% when '3' %}
+              ★★★☆☆
+            {% when '2' %}
+              ★★☆☆☆
+            {% when '1' %}
+              ★☆☆☆☆
+          {% endcase %}
+        </div>
+        <p class="text-gray-800 text-base text-center mb-4">“{{ block.settings.review_text }}”</p>
+        <span class="font-medium text-indigo-700 text-sm">— {{ block.settings.reviewer_name }}</span>
+      </div>
+    {% endfor %}
+  </div>
+  {% if section.blocks.size == 0 %}
+    <p class="text-center text-gray-400 mt-8">No reviews available yet.</p>
+  {% endif %}
+</section>

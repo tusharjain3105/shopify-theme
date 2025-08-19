@@ -1,0 +1,14 @@
+{
+  "name": "tushar-x-sicsense",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "shopify theme dev --theme-editor-sync",
+    "tailwind": "npx tailwindcss -i ./assets/base-tailwind.css -o ./assets/base.css --watch"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "tailwindcss": "^4.1.11"
+  }
+}

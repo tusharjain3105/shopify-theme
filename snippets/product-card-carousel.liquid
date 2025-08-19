@@ -1,0 +1,59 @@
+{% comment %}
+  Carousel Product Card Snippet - Clean and minimal
+  Usage: {% render 'product-card-carousel', product: product %}
+{% endcomment %}
+
+<div class="swiper-slide">
+  <a href="{{ product.url }}" class="block group bg-white h-full">
+    <div class="relative overflow-hidden">
+      {% if product.featured_image %}
+        <img
+          src="{{ product.featured_image | img_url: '400x400' }}"
+          alt="{{ product.title | escape }}"
+          class="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+          loading="lazy" />
+      {% else %}
+        <div class="w-full h-64 bg-gray-100 flex items-center justify-center">
+          <svg
+            class="w-12 h-12 text-gray-300"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.5"
+              d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+        </div>
+      {% endif %}
+
+      {% if product.compare_at_price > product.price %}
+        <div class="absolute top-2 left-2 bg-gray-500 text-white px-2 py-1 text-xs font-medium">
+          SALE
+        </div>
+      {% endif %}
+
+      {% unless product.available %}
+        <div class="absolute top-2 right-2 bg-gray-800 text-white px-2 py-1 text-xs font-medium">
+          SOLD OUT
+        </div>
+      {% endunless %}
+    </div>
+
+    <div class="p-3">
+      <h3 class="text-sm font-medium text-gray-900 group-hover:text-indigo-600 transition-colors duration-200 mb-2">
+        {{ product.title | truncate: 50 }}
+      </h3>
+
+      <div>
+        {% if product.compare_at_price > product.price %}
+          <span class="text-sm font-semibold text-gray-600">{{ product.price | money }}</span>
+          <span class="text-xs text-gray-400 line-through ml-1">{{ product.compare_at_price | money }}</span>
+        {% else %}
+          <span class="text-sm font-semibold text-gray-900">{{ product.price | money }}</span>
+        {% endif %}
+      </div>
+    </div>
+  </a>
+</div>

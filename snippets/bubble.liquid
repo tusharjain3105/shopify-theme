@@ -1,0 +1,166 @@
+{% comment %}
+  Single Liquid Bubble Animation Snippet
+  Usage: {% render 'single-bubble', position_x: '10%', position_y: '20%', size: '80px' %}
+  
+  Parameters:
+  - position_x: horizontal position (default: '50%')
+  - position_y: vertical position (default: '50%')
+  - size: bubble size (default: '60px')
+  - color: bubble base color (default: 'white')
+  - opacity: bubble opacity (default: '0.8')
+  - animation_duration: animation speed in seconds (default: '8')
+  - animation_delay: delay before animation starts (default: '0')
+{% endcomment %}
+
+{% assign position_x = position_x | default: '50%' %}
+{% assign position_y = position_y | default: '50%' %}
+{% assign size = size | default: '60px' %}
+{% assign color = color | default: 'white' %}
+{% assign opacity = opacity | default: '0.8' %}
+{% assign animation_duration = animation_duration | default: '8' %}
+{% assign animation_delay = animation_delay | default: '0' %}
+{% assign bubble_id = 'bubble-' | append: position_x | append: '-' | append: position_y | replace: '%', '' | replace: 'px', '' %}
+
+<div class="single-bubble-container">
+  <div class="liquid-bubble" id="{{ bubble_id }}">
+    <div class="bubble-inner"></div>
+    <div class="bubble-highlight"></div>
+  </div>
+</div>
+
+<style>
+  .single-bubble-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  #{{ bubble_id }} {
+    position: absolute;
+    left: {{ position_x }};
+    top: {{ position_y }};
+    width: {{ size }};
+    height: {{ size }};
+    border-radius: 50%;
+    opacity: {{ opacity }};
+    animation: float-bubble {{ animation_duration }}s infinite ease-in-out;
+    animation-delay: {{ animation_delay }}s;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.15)) 
+            drop-shadow(0 2px 6px rgba(0, 0, 0, 0.1))
+            blur(0.5px);
+  }
+
+  #{{ bubble_id }} .bubble-inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    {% if color == 'white' %}
+      background: radial-gradient(ellipse at 30% 25%, 
+                  rgba(255, 255, 255, 0.8) 0%, 
+                  rgba(240, 240, 240, 0.6) 30%, 
+                  rgba(217, 217, 217, 0.4) 60%, 
+                  rgba(204, 204, 204, 0.3) 100%);
+    {% elsif color == 'gray' %}
+      background: radial-gradient(ellipse at 30% 25%, 
+                  rgba(240, 240, 240, 0.8) 0%, 
+                  rgba(217, 217, 217, 0.6) 30%, 
+                  rgba(204, 204, 204, 0.4) 60%, 
+                  rgba(156, 163, 175, 0.3) 100%);
+    {% else %}
+      background: radial-gradient(ellipse at 30% 25%, 
+                  {{ color }}, 
+                  {{ color | color_modify: 'alpha', 0.6 }} 30%, 
+                  {{ color | color_modify: 'alpha', 0.4 }} 60%, 
+                  {{ color | color_modify: 'alpha', 0.2 }} 100%);
+    {% endif %}
+    backdrop-filter: blur(8px) saturate(150%);
+    box-shadow: 
+      inset 0 1px 2px rgba(255, 255, 255, 0.8),
+      inset 0 -1px 2px rgba(0, 0, 0, 0.1),
+      0 8px 16px rgba(0, 0, 0, 0.08),
+      0 4px 8px rgba(0, 0, 0, 0.06);
+    animation: morph-bubble {{ animation_duration | times: 1.5 }}s infinite ease-in-out;
+  }
+
+  #{{ bubble_id }} .bubble-highlight {
+    position: absolute;
+    top: 15%;
+    left: 20%;
+    width: 30%;
+    height: 25%;
+    border-radius: 50%;
+    background: radial-gradient(ellipse, 
+                rgba(255, 255, 255, 0.9) 0%, 
+                rgba(255, 255, 255, 0.4) 50%, 
+                transparent 100%);
+    filter: blur(1px);
+    animation: shimmer-bubble {{ animation_duration | divided_by: 2 }}s infinite ease-in-out;
+  }
+
+  @keyframes float-bubble {
+    0%, 100% {
+      transform: scale(1) rotate(0deg) translateY(0);
+    }
+    25% {
+      transform: scale(1.05) rotate(90deg) translateY(-3px);
+    }
+    50% {
+      transform: scale(0.95) rotate(180deg) translateY(2px);
+    }
+    75% {
+      transform: scale(1.02) rotate(270deg) translateY(-1px);
+    }
+  }
+
+  @keyframes morph-bubble {
+    0%, 100% {
+      transform: scale(1) skew(0deg);
+      border-radius: 50%;
+    }
+    25% {
+      transform: scale(1.05, 0.95) skew(2deg);
+      border-radius: 55% 45% 60% 40%;
+    }
+    50% {
+      transform: scale(0.95, 1.05) skew(-2deg);
+      border-radius: 45% 55% 40% 60%;
+    }
+    75% {
+      transform: scale(1.02, 0.98) skew(1deg);
+      border-radius: 52% 48% 45% 55%;
+    }
+  }
+
+  @keyframes shimmer-bubble {
+    0%, 100% {
+      opacity: 0.7;
+      transform: scale(1) translateX(0);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.2) translateX(2px);
+    }
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    #{{ bubble_id }} {
+      filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.1)) blur(0.3px);
+      {% assign mobile_size = size | remove: 'px' | times: 0.7 | append: 'px' %}
+      width: {{ mobile_size }};
+      height: {{ mobile_size }};
+    }
+    
+    #{{ bubble_id }} .bubble-inner {
+      backdrop-filter: blur(4px) saturate(120%);
+    }
+  }
+</style>

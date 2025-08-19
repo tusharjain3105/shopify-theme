@@ -1,0 +1,122 @@
+{% schema %}
+  {
+    "name": "Quiz CTA Banner",
+    "tag": "section",
+    "settings": [
+      {
+        "type": "text",
+        "id": "main_heading",
+        "label": "Main heading",
+        "default": "Discover Your Style DNA"
+      },
+      {
+        "type": "text",
+        "id": "sub_heading",
+        "label": "Sub heading",
+        "default": "Unlock Your Personal Style Code"
+      },
+      {
+        "type": "textarea",
+        "id": "description",
+        "label": "Description text",
+        "default": "Every individual has a unique style signature. Our interactive quiz analyzes your preferences and lifestyle to reveal your distinct SicSense aesthetic. Ready to decode what makes you, you?"
+      },
+      {
+        "type": "text",
+        "id": "button_text",
+        "label": "Button text",
+        "default": "Start Discovery"
+      }, {
+        "type": "url",
+        "id": "button_link",
+        "label": "Quiz link"
+      }, {
+        "type": "image_picker",
+        "id": "hero_image",
+        "label": "Hero image"
+      }, {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background color",
+        "default": "#f8fafc"
+      }, {
+        "type": "color",
+        "id": "text_color",
+        "label": "Text color",
+        "default": "#1f2937"
+      }, {
+        "type": "color",
+        "id": "button_bg_color",
+        "label": "Button background color",
+        "default": "#1f2937"
+      }, {
+        "type": "color",
+        "id": "button_text_color",
+        "label": "Button text color",
+        "default": "#ffffff"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Quiz CTA Banner"
+      }
+    ]
+  }
+{% endschema %}
+
+<section class="py-12 md:py-16" style="background-color: {{ section.settings.background_color }};">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+
+      <!-- Left Column - Text Content -->
+      <div class="order-2 lg:order-1">
+        <div class="max-w-xl">
+          {% if section.settings.main_heading != blank %}
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 leading-tight" style="color: {{ section.settings.text_color }};">
+              {{ section.settings.main_heading }}
+            </h1>
+          {% endif %}
+
+          {% if section.settings.sub_heading != blank %}
+            <h2 class="text-2xl md:text-3xl font-semibold mb-6" style="color: {{ section.settings.text_color }};">
+              {{ section.settings.sub_heading }}
+            </h2>
+          {% endif %}
+
+          {% if section.settings.description != blank %}
+            <p class="text-lg mb-8 leading-relaxed opacity-80" style="color: {{ section.settings.text_color }};">
+              {{ section.settings.description }}
+            </p>
+          {% endif %}
+
+          {% if section.settings.button_link != blank and section.settings.button_text != blank %}
+            <a
+              href="{{ section.settings.button_link }}"
+              class="inline-block px-8 py-4 text-lg font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+              style="background-color: {{ section.settings.button_bg_color }}; color: {{ section.settings.button_text_color }};">
+              {{ section.settings.button_text }}
+            </a>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Right Column - Image -->
+      <div class="order-1 lg:order-2">
+        {% if section.settings.hero_image != blank %}
+          <div class="relative">
+            <img
+              src="{{ section.settings.hero_image | img_url: '800x800' }}"
+              alt="{{ section.settings.main_heading | escape }}"
+              class="w-full h-auto rounded-2xl shadow-2xl"
+              loading="lazy">
+          </div>
+        {% else %}
+          <div class="w-full h-96 bg-gray-200 rounded-2xl flex items-center justify-center">
+            <span class="text-gray-400 text-xl">Upload hero image</span>
+          </div>
+        {% endif %}
+      </div>
+
+    </div>
+  </div>
+</section>

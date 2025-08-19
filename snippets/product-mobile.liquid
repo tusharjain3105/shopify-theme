@@ -1,0 +1,54 @@
+{% comment %}
+  Mobile Product Layout - Vertical Stack
+  Usage: {% render 'product-mobile', product: product %}
+{% endcomment %}
+
+<div class="product-mobile px-4 py-6">
+  
+  <!-- Product Badges -->
+  <div class="product-badges mb-4">
+    {% render 'product-badges', product: product %}
+  </div>
+
+  <!-- Image Carousel -->
+  <div class="product-images-mobile mb-6">
+    {% render 'product-image-carousel', product: product, mobile: true %}
+  </div>
+
+  <!-- Product Info -->
+  <div class="product-info-mobile">
+    <div class="mb-4">
+      {% if product.vendor != blank and section.settings.show_vendor %}
+        <p class="text-sm text-gray-500 mb-2">{{ product.vendor }}</p>
+      {% endif %}
+      <h1 class="text-2xl font-bold text-gray-900 mb-3">{{ product.title }}</h1>
+    </div>
+
+    <!-- Pricing -->
+    <div class="pricing mb-6">
+      {% render 'product-pricing', product: product %}
+    </div>
+
+    <!-- CTA Form -->
+    <div class="product-form mb-8">
+      {% render 'product-form', product: product %}
+    </div>
+
+    <!-- Product Description -->
+    {% if product.description != blank %}
+    <div class="product-description mb-8">
+      <h3 class="text-lg font-semibold mb-3">Description</h3>
+      <div class="text-gray-700 prose prose-sm">
+        {{ product.description }}
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- Specifications -->
+    {% if section.settings.show_specs %}
+    <div class="product-specs">
+      {% render 'product-specs', product: product, title: section.settings.specs_title %}
+    </div>
+    {% endif %}
+  </div>
+</div>

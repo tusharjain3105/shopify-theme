@@ -1,0 +1,81 @@
+{% schema %}
+  {
+    "name": "SicArchive",
+    "tag": "section",
+    "class": "relative",
+    "settings": [
+      {
+        "type": "collection",
+        "id": "archive_collection",
+        "label": "Select SIC Archive Collection"
+      }, {
+        "type": "text",
+        "id": "section_heading",
+        "label": "Section Heading",
+        "default": "SIC Archive"
+      }, {
+        "type": "range",
+        "id": "products_limit",
+        "label": "Number of products to display",
+        "default": 8,
+        "step": 1,
+        "min": 1,
+        "max": 20
+      }
+    ],
+    "presets": [
+      {
+        "name": "SIC Archive"
+      }
+    ]
+  }
+{% endschema %}
+
+<section class="max-w-7xl mx-auto px-4 py-12">
+  {% render 'bubble'
+    , position_x: '90%'
+    , position_y: '10%'
+    , size: '80px' %}
+  {% render 'bubble'
+    , position_x: '5%'
+    , position_y: '20%'
+    , size: '60px'
+    , animation_delay: '0' %}
+  {% render 'bubble'
+    , position_x: '95%'
+    , position_y: '50%'
+    , size: '100px'
+    , animation_delay: '2' %}
+  {% render 'bubble'
+    , position_x: '40%'
+    , position_y: '83%'
+    , size: '75px'
+    , animation_delay: '4' %}
+  {% render 'bubble'
+    , position_x: '-3%'
+    , position_y: '70%'
+    , size: '100px'
+    , animation_delay: '2' %}
+  <h2 class="text-3xl font-bold text-center mb-8">{{ section.settings.section_heading }}</h2>
+  {% assign collection = collections[section.settings.archive_collection] %}
+  {% if collection and collection.products_count > 0 %}
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+      {% for product in collection.products limit: section.settings.products_limit %}
+        <a href="{{ product.url }}" class="block group border rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition">
+          {% if product.featured_image %}
+            <img
+              src="{{ product.featured_image | img_url: '480x480' }}"
+              alt="{{ product.title | escape }}"
+              class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300">
+          {% endif %}
+          <div class="p-4">
+            <h3 class="text-lg font-semibold text-gray-900 group-hover:text-indigo-600">{{ product.title }}</h3>
+            <p class="mt-1 text-gray-700">{{ product.price | money }}</p>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="text-center text-gray-500">No products found in the selected collection.</p>
+  {% endif %}
+</section>

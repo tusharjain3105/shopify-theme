@@ -1,0 +1,69 @@
+{% comment %}
+  Enhanced Collection Page with Modular Components
+  https://shopify.dev/docs/storefronts/themes/architecture/templates/collection
+{% endcomment %}
+
+<section class="collection-page py-8">
+  <div class="mx-auto px-4 md:px-8 lg:px-10">
+    
+    <!-- Collection Header -->
+    <div class="collection-header text-center mb-8 hidden">
+      <h1 class="text-4xl font-bold text-gray-900 mb-4">{{ collection.title }}</h1>
+      {% if collection.description != blank %}
+        <div class="text-lg text-gray-600 max-w-3xl mx-auto">
+          {{ collection.description }}
+        </div>
+      {% endif %}
+      <p class="text-sm text-gray-500 mt-4">{{ collection.products_count }} products</p>
+    </div>
+
+    <div class="collection-content flex gap-8">
+      
+      <!-- Filter Sidebar -->
+       <div class="sticky top-36 max-h-fit">
+         {% render 'filter-sidebar', collection: collection %}
+         </div>
+       
+      <!-- Products Grid -->
+      <main class="flex-1">
+        {% paginate collection.products by 24 %}
+          
+          <!-- Active Filters Display -->
+          <div id="active-filters" class="mb-4 flex-wrap gap-2 hidden"></div>
+
+          <!-- Products Container -->
+          <div id="products-container" class="products-grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {% for product in collection.products %}
+              {% render 'product-card-enhanced', product: product %}
+            {% endfor %}
+          </div>
+
+          <!-- No Products Message -->
+          <div id="no-products" class="hidden text-center py-16">
+            <svg class="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+            </svg>
+            <p class="text-xl text-gray-500">No products match your filters</p>
+            <button onclick="clearAllFilters()" class="mt-4 bg-gray-800 text-white px-6 py-2 rounded-md hover:bg-gray-900 transition-colors">
+              Clear Filters
+            </button>
+          </div>
+
+          <!-- Pagination -->
+          {% if paginate.pages > 1 %}
+          <div class="pagination-wrapper mt-12 m-auto max-w-fit">
+            {% render 'pagination', paginate: paginate %}
+          </div>
+          {% endif %}
+
+        {% endpaginate %}
+      </main>
+    </div>
+  </div>
+</section>
+
+<!-- Mobile Filter Overlay -->
+{% render 'mobile-filter-overlay', collection: collection %}
+
+<!-- Collection Scripts -->
+{% render 'collection-scripts' %}

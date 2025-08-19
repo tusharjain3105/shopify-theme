@@ -1,0 +1,33 @@
+{% comment %}
+  Product Pricing Component
+  Usage: {% render 'product-pricing', product: product %}
+{% endcomment %}
+
+<div class="product-pricing">
+  <div class="price-container flex items-baseline gap-3 mb-2">
+    <span class="current-price text-3xl font-bold text-gray-900">
+      {{ product.price | money }}
+    </span>
+    
+    {% if product.compare_at_price > product.price %}
+      <span class="compare-price text-lg text-gray-500 line-through">
+        {{ product.compare_at_price | money_without_currency }}
+      </span>
+    {% endif %}
+  </div>
+
+  {% if product.compare_at_price > product.price %}
+    {% assign savings = product.compare_at_price | minus: product.price %}
+    <p class="savings text-sm text-gray-600">
+      You save {{ savings | money }}
+    </p>
+  {% endif %}
+
+  <!-- Price per unit (if applicable) -->
+  {% assign current_variant = product.selected_or_first_available_variant %}
+  {% if current_variant.unit_price_measurement %}
+    <div class="unit-price text-sm text-gray-500 mt-1">
+      {{ current_variant.unit_price | money }}/{{ current_variant.unit_price_measurement.reference_unit }}
+    </div>
+  {% endif %}
+</div>

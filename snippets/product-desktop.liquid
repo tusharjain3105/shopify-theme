@@ -1,0 +1,54 @@
+{% comment %}
+  Desktop Product Layout - Grid with Sticky Image
+  Usage: {% render 'product-desktop', product: product %}
+{% endcomment %}
+
+<div class="product-desktop max-w-7xl mx-auto px-4 py-12">
+  <div class="grid grid-cols-2 gap-12">
+    
+    <!-- Left Column: Sticky Image Carousel -->
+    <div class="sticky top-8 h-fit">
+      <div class="product-badges mb-4">
+        {% render 'product-badges', product: product %}
+      </div>
+      {% render 'product-image-carousel', product: product, mobile: false %}
+    </div>
+
+    <!-- Right Column: Product Details -->
+    <div class="product-details">
+      <div class="mb-6">
+        {% if product.vendor != blank and section.settings.show_vendor %}
+          <p class="text-sm text-gray-500 mb-3">{{ product.vendor }}</p>
+        {% endif %}
+        <h1 class="text-4xl font-bold text-gray-900 mb-4">{{ product.title }}</h1>
+      </div>
+
+      <!-- Pricing -->
+      <div class="pricing mb-8">
+        {% render 'product-pricing', product: product %}
+      </div>
+
+      <!-- CTA Form -->
+      <div class="product-form mb-10">
+        {% render 'product-form', product: product %}
+      </div>
+
+      <!-- Product Description -->
+      {% if product.description != blank %}
+      <div class="product-description mb-10">
+        <h3 class="text-xl font-semibold mb-4">Description</h3>
+        <div class="text-gray-700 prose">
+          {{ product.description }}
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- Specifications -->
+      {% if section.settings.show_specs %}
+      <div class="product-specs">
+        {% render 'product-specs', product: product, title: section.settings.specs_title %}
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>

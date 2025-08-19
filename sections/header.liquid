@@ -1,0 +1,108 @@
+<header id="main-header" class="shadow transition-all duration-150 ease-in-out z-50 backdrop-blur-md bg-white">
+  <div class="mx-auto">
+    <div class="grid grid-cols-[1fr_1fr_1fr] gap-4 py-4 px-4 md:px-8 lg:px-10">
+
+      <div class="flex items-center justify-left-safe">
+        <a href="{{ routes.search_url }}" class="text-gray-700 hover:text-gray-900">
+          {% render 'icon'
+            , icon: 'search' %}
+        </a>
+      </div>
+
+      <!-- Logo -->
+      <div class="flex-shrink-0 relative h-10 w-full flex justify-center-safe">
+        {% if section.settings.logo != blank %}
+          <a href="{{ routes.home_url }}" class="absolute grid place-items-center text-2xl font-bold uppercase tracking-wider nav-logo-title left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2">{{ shop.name }}</a>
+          <a href="/" class="nav-logo opacity-0 absolute grid place-items-center size-16 left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2">
+            <img
+              src="{{ section.settings.logo | image_url: width: 180 }}"
+              alt="{{ shop.name }}"
+              class="size-16 object-contain"
+              loading="eager"
+              width="180"
+              height="auto">
+          </a>
+        {% else %}
+          <a href="{{ routes.home_url }}" class="text-2xl font-bold">{{ shop.name }}</a>
+        {% endif %}
+      </div>
+
+
+      <!-- Right side icons -->
+      <div class="flex items-center gap-2 md:gap-4 lg:gap-6 justify-end-safe">
+        <a href="{{ routes.cart_url }}" class="relative text-gray-700 hover:text-gray-900">
+          {% render 'icon'
+            , icon: 'wishlist' %}
+        </a>
+        <a href="{{ routes.cart_url }}" class="relative text-gray-700 hover:text-gray-900">
+          {% render 'icon'
+            , icon: 'cart' %}
+          {% if cart.item_count > 0 %}
+            <span class="absolute -top-2 -right-2 bg-black text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+              {{ cart.item_count }}
+            </span>
+          {% endif %}
+        </a>
+        <a href="{{ routes.account_url }}" class="text-gray-700 hover:text-gray-900">
+          {% render 'icon'
+            , icon: 'account' %}
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="hidden md:flex items-center gap-2 md:gap-4 py-4 justify-center-safe">
+    {% for link in linklists.main-menu.links %}
+      <a href="{{ link.url }}" class="text-gray-700 hover:text-gray-900 transition-colors nth-last-[2]:text-red-500 last:text-red-500">
+        {{ link.title }}
+      </a>
+    {% endfor %}
+  </nav>
+</header>
+
+<script defer async>
+  const onScroll = function() {
+    const navLogoTitle = document.querySelector('.nav-logo-title');
+    const navLogo = document.querySelector('.nav-logo');
+    const scrollTop = document.scrollingElement.scrollTop
+
+    const OPACITY_HEIGHT_RATIO = 100;
+    if(scrollTop < OPACITY_HEIGHT_RATIO) {
+      navLogoTitle.style.opacity = 100;
+      navLogo.style.opacity = 0;
+    } else if (scrollTop < OPACITY_HEIGHT_RATIO * 2) {
+      navLogoTitle.style.opacity = (OPACITY_HEIGHT_RATIO * 2 - scrollTop) / OPACITY_HEIGHT_RATIO;
+      navLogo.style.opacity = 0;
+    } else if (scrollTop < OPACITY_HEIGHT_RATIO * 3) {
+      navLogoTitle.style.opacity = 0;
+      navLogo.style.opacity = (scrollTop - OPACITY_HEIGHT_RATIO * 2) / OPACITY_HEIGHT_RATIO;
+    } else {
+      navLogoTitle.style.opacity = 0;
+      navLogo.style.opacity = 100;
+    }
+  }
+  document.addEventListener('DOMContentLoaded', onScroll);
+  document.addEventListener('scroll', onScroll);
+</script>
+
+{% schema %}
+  {
+    "name": "Header",
+    "class": "sticky top-0 z-10",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Logo",
+        "info": "Recommended size: 180x40px"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Header",
+        "category": "Header"
+      }
+    ]
+  }
+{% endschema %}

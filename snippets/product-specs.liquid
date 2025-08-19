@@ -1,0 +1,59 @@
+{% comment %}
+  Product Specifications Component
+  Usage: {% render 'product-specs', product: product, title: 'Specifications' %}
+{% endcomment %}
+
+{% assign specs_title = title | default: 'Specifications' %}
+
+<div class="product-specs">
+  <h3 class="text-xl font-semibold mb-4">{{ specs_title }}</h3>
+  
+  <div class="specs-list space-y-3">
+    <!-- Product Type -->
+    {% if product.type != blank %}
+    <div class="spec-item flex justify-between py-2 border-b border-gray-100">
+      <span class="text-gray-600">Type:</span>
+      <span class="font-medium">{{ product.type }}</span>
+    </div>
+    {% endif %}
+
+    <!-- Vendor/Brand -->
+    {% if product.vendor != blank %}
+    <div class="spec-item flex justify-between py-2 border-b border-gray-100">
+      <span class="text-gray-600">Brand:</span>
+      <span class="font-medium">{{ product.vendor }}</span>
+    </div>
+    {% endif %}
+
+    <!-- Weight -->
+    {% assign current_variant = product.selected_or_first_available_variant %}
+    {% if current_variant.weight > 0 %}
+    <div class="spec-item flex justify-between py-2 border-b border-gray-100">
+      <span class="text-gray-600">Weight:</span>
+      <span class="font-medium">{{ current_variant.weight | weight_with_unit }}</span>
+    </div>
+    {% endif %}
+
+    <!-- SKU -->
+    {% if current_variant.sku != blank %}
+    <div class="spec-item flex justify-between py-2 border-b border-gray-100">
+      <span class="text-gray-600">SKU:</span>
+      <span class="font-medium">{{ current_variant.sku }}</span>
+    </div>
+    {% endif %}
+
+    <!-- Tags as features -->
+    {% if product.tags.size > 0 %}
+    <div class="spec-item py-2">
+      <span class="text-gray-600 block mb-2">Features:</span>
+      <div class="flex flex-wrap gap-2">
+        {% for tag in product.tags limit: 5 %}
+          <span class="inline-block bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded">
+            {{ tag }}
+          </span>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</div>

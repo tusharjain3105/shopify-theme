@@ -1,0 +1,40 @@
+{% comment %}
+  Product Badges Component
+  Usage: {% render 'product-badges', product: product %}
+{% endcomment %}
+
+<div class="product-badges flex flex-wrap gap-2">
+  <!-- Sale Badge -->
+  {% if product.compare_at_price > product.price %}
+    {% assign discount_percent = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price %}
+    <span class="badge bg-gray-900 text-white text-xs font-medium px-3 py-1 rounded-full">
+      {{ discount_percent }}% OFF
+    </span>
+  {% endif %}
+
+  <!-- New Product Badge -->
+  {% assign days_since_created = 'now' | date: '%s' | minus: product.created_at | date: '%s' | divided_by: 86400 %}
+  {% if days_since_created <= 30 %}
+    <span class="badge bg-gray-600 text-white text-xs font-medium px-3 py-1 rounded-full">
+      NEW
+    </span>
+  {% endif %}
+
+  <!-- Out of Stock Badge -->
+  {% unless product.available %}
+    <span class="badge bg-gray-400 text-white text-xs font-medium px-3 py-1 rounded-full">
+      OUT OF STOCK
+    </span>
+  {% endunless %}
+
+  <!-- Limited Stock Badge -->
+  {% assign total_inventory = 0 %}
+  {% for variant in product.variants %}
+    {% assign total_inventory = total_inventory | plus: variant.inventory_quantity %}
+  {% endfor %}
+  {% if total_inventory > 0 and total_inventory <= 5 %}
+    <span class="badge bg-gray-700 text-white text-xs font-medium px-3 py-1 rounded-full">
+      ONLY {{ total_inventory }} LEFT
+    </span>
+  {% endif %}
+</div>

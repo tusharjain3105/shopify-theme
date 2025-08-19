@@ -1,0 +1,152 @@
+{% comment %}
+  Collection Page JavaScript Functionality
+  Usage: {% render 'collection-scripts' %}
+{% endcomment %}
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Mobile filter toggle
+  const mobileFilterToggle = document.getElementById('mobile-filter-toggle');
+  const mobileFilterOverlay = document.getElementById('mobile-filter-overlay');
+  const mobileFilterPanel = document.getElementById('mobile-filter-panel');
+  const closeMobileFilter = document.getElementById('close-mobile-filter');
+
+  mobileFilterToggle?.addEventListener('click', function() {
+    mobileFilterOverlay.classList.remove('hidden');
+    setTimeout(() => {
+      mobileFilterPanel.style.transform = 'translateX(0)';
+    }, 10);
+  });
+
+  closeMobileFilter?.addEventListener('click', function() {
+    mobileFilterPanel.style.transform = 'translateX(100%)';
+    setTimeout(() => {
+      mobileFilterOverlay.classList.add('hidden');
+    }, 300);
+  });
+
+  // Sort functionality
+  const sortSelect = document.getElementById('sort-select');
+  sortSelect?.addEventListener('change', function() {
+    const sortValue = this.value;
+    const url = new URL(window.location);
+    url.searchParams.set('sort_by', sortValue);
+    window.location.href = url.toString();
+  });
+
+  // View toggle
+  const gridView = document.getElementById('grid-view');
+  const listView = document.getElementById('list-view');
+  const productsContainer = document.getElementById('products-container');
+
+  gridView?.addEventListener('click', function() {
+    productsContainer.className = 'products-grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6';
+    gridView.classList.add('bg-white', 'shadow-sm');
+    listView.classList.remove('bg-white', 'shadow-sm');
+  });
+
+  listView?.addEventListener('click', function() {
+    productsContainer.className = 'products-list space-y-4';
+    listView.classList.add('bg-white', 'shadow-sm');
+    gridView.classList.remove('bg-white', 'shadow-sm');
+  });
+
+  // Filter functionality
+  function filterProducts() {
+    const products = document.querySelectorAll('.product-card-enhanced');
+    const priceFilters = document.querySelectorAll('.price-filter:checked');
+    const availabilityFilters = document.querySelectorAll('.availability-filter:checked');
+    const typeFilters = document.querySelectorAll('.type-filter:checked');
+    const vendorFilters = document.querySelectorAll('.vendor-filter:checked');
+
+    let visibleCount = 0;
+
+    products.forEach(product => {
+      let showProduct = true;
+
+      // Price filter
+      if (priceFilters.length > 0) {
+        const productPrice = parseFloat(product.dataset.price);
+        let matchesPrice = false;
+        priceFilters.forEach(filter => {
+          const min = parseFloat(filter.dataset.min);
+          const max = parseFloat(filter.dataset.max);
+          if (productPrice >= min && productPrice <= max) {
+            matchesPrice = true;
+          }
+        });
+        if (!matchesPrice) showProduct = false;
+      }
+
+      // Availability filter
+      if (availabilityFilters.length > 0) {
+        const isAvailable = product.dataset.available === 'true';
+        let matchesAvailability = false;
+        availabilityFilters.forEach(filter => {
+          if ((filter.dataset.value === 'in-stock' && isAvailable) ||
+              (filter.dataset.value === 'out-of-stock' && !isAvailable)) {
+            matchesAvailability = true;
+          }
+        });
+        if (!matchesAvailability) showProduct = false;
+      }
+
+      // Type filter
+      if (typeFilters.length > 0) {
+        const productType = product.dataset.type;
+        let matchesType = false;
+        typeFilters.forEach(filter => {
+          if (filter.dataset.value === productType) {
+            matchesType = true;
+          }
+        });
+        if (!matchesType) showProduct = false;
+      }
+
+      // Vendor filter
+      if (vendorFilters.length > 0) {
+        const productVendor = product.dataset.vendor;
+        let matchesVendor = false;
+        vendorFilters.forEach(filter => {
+          if (filter.dataset.value === productVendor) {
+            matchesVendor = true;
+          }
+        });
+        if (!matchesVendor) showProduct = false;
+      }
+
+      if (showProduct) {
+        product.style.display = 'block';
+        visibleCount++;
+      } else {
+        product.style.display = 'none';
+      }
+    });
+
+    // Show/hide no products message
+    const noProductsMessage = document.getElementById('no-products');
+    if (visibleCount === 0) {
+      noProductsMessage.classList.remove('hidden');
+    } else {
+      noProductsMessage.classList.add('hidden');
+    }
+  }
+
+  // Add event listeners to all filter checkboxes
+  document.querySelectorAll('.price-filter, .availability-filter, .type-filter, .vendor-filter').forEach(filter => {
+    filter.addEventListener('change', filterProducts);
+  });
+
+  // Clear filters function
+  window.clearAllFilters = function() {
+    document.querySelectorAll('.price-filter, .availability-filter, .type-filter, .vendor-filter').forEach(filter => {
+      filter.checked = false;
+    });
+    filterProducts();
+  };
+
+  // Clear filters event listeners
+  document.getElementById('clear-filters')?.addEventListener('click', clearAllFilters);
+  document.getElementById('clear-filters-mobile')?.addEventListener('click', clearAllFilters);
+});
+</script>

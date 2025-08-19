@@ -1,0 +1,142 @@
+{% comment %}
+  Mobile Filter Overlay Component
+  Usage: {% render 'mobile-filter-overlay', collection: collection %}
+{% endcomment %}
+
+<div id="mobile-filter-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-50 lg:hidden hidden">
+  <div class="fixed right-0 top-0 h-full w-80 bg-white shadow-xl transform translate-x-full transition-transform duration-300" id="mobile-filter-panel">
+    <div class="p-6">
+      <div class="flex items-center justify-between mb-6">
+        <h3 class="text-lg font-semibold">Filters</h3>
+        <button id="close-mobile-filter" class="p-2">
+          <svg
+            class="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Filter Content - Same as sidebar -->
+      <div class="filter-content">
+        <h3 class="text-lg font-semibold text-gray-900 mb-4">Filters</h3>
+
+        <!-- Price Filter in Mobile -->
+        <div class="filter-group mb-6">
+          <h4 class="text-sm font-medium text-gray-700 mb-3">Price Range</h4>
+          <div class="space-y-2">
+            <label class="flex items-center">
+              <input
+                type="checkbox"
+                class="price-filter mr-2"
+                data-min="0"
+                data-max="500">
+              <span class="text-sm">Under ₹500</span>
+            </label>
+            <label class="flex items-center">
+              <input
+                type="checkbox"
+                class="price-filter mr-2"
+                data-min="500"
+                data-max="1000">
+              <span class="text-sm">₹500 - ₹1,000</span>
+            </label>
+            <label class="flex items-center">
+              <input
+                type="checkbox"
+                class="price-filter mr-2"
+                data-min="1000"
+                data-max="2500">
+              <span class="text-sm">₹1,000 - ₹2,500</span>
+            </label>
+            <label class="flex items-center">
+              <input
+                type="checkbox"
+                class="price-filter mr-2"
+                data-min="2500"
+                data-max="5000">
+              <span class="text-sm">₹2,500 - ₹5,000</span>
+            </label>
+            <label class="flex items-center">
+              <input
+                type="checkbox"
+                class="price-filter mr-2"
+                data-min="5000"
+                data-max="999999">
+              <span class="text-sm">Over ₹5,000</span>
+            </label>
+          </div>
+        </div>
+
+
+        <!-- Availability Filter -->
+        <div class="filter-group mb-6">
+          <h4 class="text-sm font-medium text-gray-700 mb-3">Availability</h4>
+          <div class="space-y-2">
+            <label class="flex items-center">
+              <input
+                type="checkbox"
+                class="availability-filter mr-2"
+                data-value="in-stock">
+              <span class="text-sm">In Stock</span>
+            </label>
+            <label class="flex items-center">
+              <input
+                type="checkbox"
+                class="availability-filter mr-2"
+                data-value="out-of-stock">
+              <span class="text-sm">Out of Stock</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Product Type Filter -->
+        {% if collection.all_types.size > 0 %}
+          <div class="filter-group mb-6">
+            <h4 class="text-sm font-medium text-gray-700 mb-3">Product Type</h4>
+            <div class="space-y-2">
+              {% for product_type in collection.all_types %}
+                <label class="flex items-center">
+                  <input
+                    type="checkbox"
+                    class="type-filter mr-2"
+                    data-value="{{ product_type | handleize }}">
+                  <span class="text-sm">{{ product_type }}</span>
+                </label>
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+
+        <!-- Vendor Filter -->
+        {% if collection.all_vendors.size > 1 %}
+          <div class="filter-group mb-6">
+            <h4 class="text-sm font-medium text-gray-700 mb-3">Brand</h4>
+            <div class="space-y-2">
+              {% for vendor in collection.all_vendors %}
+                <label class="flex items-center">
+                  <input
+                    type="checkbox"
+                    class="vendor-filter mr-2"
+                    data-value="{{ vendor | handleize }}">
+                  <span class="text-sm">{{ vendor }}</span>
+                </label>
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+
+        <!-- Clear Filters -->
+        <button id="clear-filters-mobile" class="w-full bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300 transition-colors">
+          Clear All Filters
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

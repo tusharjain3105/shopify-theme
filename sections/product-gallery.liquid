@@ -1,0 +1,118 @@
+{% schema %}
+  {
+    "name": "Product Gallery",
+    "tag": "section",
+    "settings": [
+      {
+        "type": "collection",
+        "id": "gallery_collection",
+        "label": "Choose collection for gallery"
+      },
+      {
+        "type": "text",
+        "id": "section_heading",
+        "label": "Gallery heading"
+      },
+      {
+        "type": "range",
+        "id": "products_limit",
+        "label": "Number of products to show",
+        "default": 20,
+        "step": 1,
+        "min": 1,
+        "max": 50
+      },
+      {
+        "type": "range",
+        "id": "slides_per_view",
+        "label": "Products visible at once",
+        "default": 5,
+        "step": 1,
+        "min": 2,
+        "max": 6
+      }, {
+        "type": "checkbox",
+        "id": "autoplay",
+        "label": "Enable autoplay",
+        "default": true
+      }, {
+        "type": "checkbox",
+        "id": "show_navigation",
+        "label": "Show navigation arrows",
+        "default": false
+      }
+    ],
+    "presets": [
+      {
+        "name": "Product Gallery"
+      }
+    ]
+  }
+{% endschema %}
+
+<section class="w-full">
+  <div class="max-w-7xl mx-auto px-4 py-8">
+    <h2 class="text-3xl font-bold text-center mb-8">{{ section.settings.section_heading }}</h2>
+  </div>
+
+  {% assign gallery_collection = collections[section.settings.gallery_collection] %}
+  {% if gallery_collection and gallery_collection.products_count > 0 %}
+
+    <div class="product-carousel relative">
+      <div class="swiper product-swiper">
+        <div class="swiper-wrapper">
+          {% for product in gallery_collection.products limit: section.settings.products_limit %}
+            {% render 'product-card-carousel'
+              , product: product %}
+          {% endfor %}
+        </div>
+      </div>
+
+      {% if section.settings.show_navigation %}
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+      {% endif %}
+    </div>
+
+  {% else %}
+    <div class="text-center py-16">
+      <p class="text-xl text-gray-500">No products available in this gallery.</p>
+    </div>
+  {% endif %}
+</section>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    new Swiper('.product-swiper', {
+      slidesPerView: 2,
+      spaceBetween: 0,
+      loop: true,
+      {% if section.settings.autoplay %}
+      autoplay: {
+        delay: 3000,
+        disableOnInteraction: false,
+      },
+      {% endif %}
+      {% if section.settings.show_navigation %}
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      {% endif %}
+      breakpoints: {
+        640: {
+          slidesPerView: 3,
+        },
+        768: {
+          slidesPerView: 4,
+        },
+        1024: {
+          slidesPerView: {{ section.settings.slides_per_view }},
+        }
+      }
+    });
+  });
+</script>

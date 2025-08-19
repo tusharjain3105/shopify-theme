@@ -1,0 +1,64 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "type": "footer",
+  "name": "t:general.footer",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "social_iEFeVh": {
+          "type": "social",
+          "settings": {
+            "show_facebook": false,
+            "facebook_url": "https://www.facebook.com/Sisense/",
+            "show_twitter": true,
+            "twitter_url": "",
+            "show_instagram": true,
+            "instagram_url": "https://www.instagram.com/sicsense.in/",
+            "show_pinterest": false,
+            "pinterest_url": ""
+          }
+        },
+        "custom_hCgWqH": {
+          "type": "custom",
+          "name": "About Us",
+          "settings": {
+            "custom_html": "<h1 style=\"font-weight:bold;font-size:large;margin-bottom:1rem;\">About Us</h1>\n<p style=\"font-size:small\">We offer unbeatable prices and a vast selection of fashion accessories all in one place. Our commitment to providing high-quality products at affordable prices sets us apart from other brands.</p>"
+          }
+        },
+        "links_9HXKBm": {
+          "type": "links",
+          "settings": {
+            "link_list": "main-menu",
+            "title": "Quick Links"
+          }
+        },
+        "links_JYkChc": {
+          "type": "links",
+          "settings": {
+            "link_list": "policies",
+            "title": "Policies"
+          }
+        }
+      },
+      "block_order": [
+        "social_iEFeVh",
+        "custom_hCgWqH",
+        "links_9HXKBm",
+        "links_JYkChc"
+      ],
+      "settings": {}
+    }
+  },
+  "order": [
+    "footer"
+  ]
+}

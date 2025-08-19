@@ -1,0 +1,193 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "banner": {
+      "type": "banner",
+      "settings": {
+        "media_type": "image",
+        "banner_image": "shopify://shop_images/Screenshot_2025-07-27_at_12.23.35_PM.png",
+        "autoplay_video": true,
+        "loop_video": true,
+        "mute_video": true,
+        "show_card": false,
+        "heading": "Welcome to Our Store",
+        "subtext": "Discover the latest collections and exclusive offers.",
+        "button_link": "",
+        "button_text": "Shop Now"
+      }
+    },
+    "categories": {
+      "type": "categories",
+      "blocks": {
+        "category_DzYmAG": {
+          "type": "category",
+          "settings": {
+            "category_image": "shopify://shop_images/sample.avif",
+            "category_title": "Neckpieces",
+            "category_link": ""
+          }
+        },
+        "category_QrhREG": {
+          "type": "category",
+          "settings": {
+            "category_image": "shopify://shop_images/pearl.avif",
+            "category_title": "Bracelets",
+            "category_link": ""
+          }
+        },
+        "category_6HgMrg": {
+          "type": "category",
+          "settings": {
+            "category_image": "shopify://shop_images/sample.avif",
+            "category_title": "Earrings",
+            "category_link": ""
+          }
+        },
+        "category_W6CEDk": {
+          "type": "category",
+          "settings": {
+            "category_image": "shopify://shop_images/pearl.avif",
+            "category_title": "Pearls",
+            "category_link": ""
+          }
+        },
+        "category_xVDkC6": {
+          "type": "category",
+          "settings": {
+            "category_image": "shopify://shop_images/sample.avif",
+            "category_title": "Pendants",
+            "category_link": ""
+          }
+        },
+        "category_pChCYz": {
+          "type": "category",
+          "settings": {
+            "category_image": "shopify://shop_images/sample.avif",
+            "category_title": "Rings",
+            "category_link": ""
+          }
+        },
+        "category_infC9U": {
+          "type": "category",
+          "settings": {
+            "category_image": "shopify://shop_images/pearl.avif",
+            "category_title": "Chains",
+            "category_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "category_DzYmAG",
+        "category_QrhREG",
+        "category_6HgMrg",
+        "category_W6CEDk",
+        "category_xVDkC6",
+        "category_pChCYz",
+        "category_infC9U"
+      ],
+      "settings": {
+        "expand_on_hover": true
+      }
+    },
+    "product-gallery": {
+      "type": "product-gallery",
+      "settings": {
+        "gallery_collection": "sale",
+        "section_heading": "New Arrivals",
+        "products_limit": 8,
+        "slides_per_view": 5,
+        "autoplay": true,
+        "show_navigation": false
+      }
+    },
+    "sicarchive": {
+      "type": "sicarchive",
+      "settings": {
+        "archive_collection": "sicarchive",
+        "section_heading": "SIC Archive",
+        "products_limit": 8
+      }
+    },
+    "product_gallery_Pech8Q": {
+      "type": "product-gallery",
+      "settings": {
+        "gallery_collection": "sale",
+        "section_heading": "Best Sellers",
+        "products_limit": 8,
+        "slides_per_view": 5,
+        "autoplay": true,
+        "show_navigation": false
+      }
+    },
+    "quiz": {
+      "type": "quiz",
+      "settings": {
+        "main_heading": "Discover Your Style DNA",
+        "sub_heading": "Unlock Your Personal Style Code",
+        "description": "Every individual has a unique style signature. Our interactive quiz analyzes your preferences and lifestyle to reveal your distinct SicSense aesthetic. Ready to decode what makes you, you?",
+        "button_text": "Start Quiz",
+        "button_link": "",
+        "hero_image": "shopify://shop_images/take-a-quiz.png",
+        "background_color": "#f8fafc",
+        "text_color": "#1f2937",
+        "button_bg_color": "#1f2937",
+        "button_text_color": "#ffffff"
+      }
+    },
+    "reviews": {
+      "type": "reviews",
+      "blocks": {
+        "review_zFrWDF": {
+          "type": "review",
+          "settings": {
+            "reviewer_name": "Jane Doe",
+            "review_rating": "5",
+            "review_text": "This is an example review. Products are excellent and the service is outstanding!"
+          }
+        },
+        "review_VmL8Mi": {
+          "type": "review",
+          "settings": {
+            "reviewer_name": "Jane Doe",
+            "review_rating": "5",
+            "review_text": "This is an example review. Products are excellent and the service is outstanding!"
+          }
+        },
+        "review_JtTQ7d": {
+          "type": "review",
+          "settings": {
+            "reviewer_name": "Jane Doe",
+            "review_rating": "5",
+            "review_text": "This is an example review. Products are excellent and the service is outstanding!"
+          }
+        }
+      },
+      "block_order": [
+        "review_zFrWDF",
+        "review_VmL8Mi",
+        "review_JtTQ7d"
+      ],
+      "settings": {
+        "section_heading": "Customer Reviews",
+        "section_subtext": "Read what our customers have to say or leave a review yourself!"
+      }
+    }
+  },
+  "order": [
+    "banner",
+    "categories",
+    "product-gallery",
+    "sicarchive",
+    "product_gallery_Pech8Q",
+    "quiz",
+    "reviews"
+  ]
+}

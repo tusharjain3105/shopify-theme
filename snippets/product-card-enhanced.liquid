@@ -1,0 +1,107 @@
+{% comment %}
+  Enhanced Product Card for Collection Page - Monochromatic Design
+  Usage: {% render 'product-card-enhanced', product: product %}
+{% endcomment %}
+
+<div
+  class="product-card-enhanced"
+  data-price="{{ product.price | divided_by: 100.0 }}"
+  data-available="{{ product.available }}"
+  data-type="{{ product.type | handleize }}"
+  data-vendor="{{ product.vendor | handleize }}">
+
+  <a href="{{ product.url }}" class="block group bg-white rounded-lg shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden border border-gray-100">
+
+    <!-- Product Image -->
+    <div class="relative overflow-hidden aspect-square">
+      {% if product.featured_image %}
+        <img
+          src="{{ product.featured_image | img_url: '400x400' }}"
+          alt="{{ product.title | escape }}"
+          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          loading="lazy" />
+      {% else %}
+        <div class="w-full h-full bg-gray-50 flex items-center justify-center">
+          <svg
+            class="w-12 h-12 text-gray-300"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.5"
+              d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+        </div>
+      {% endif %}
+
+      <!-- Product Badges -->
+      <div class="absolute top-2 left-2 flex flex-col gap-1">
+        {% if product.compare_at_price > product.price %}
+          {% assign discount_percent = product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price %}
+          <span class="bg-gray-900 text-white text-xs font-medium px-2 py-1 rounded">
+            -{{ discount_percent }}%
+          </span>
+        {% endif %}
+
+        {% unless product.available %}
+          <span class="bg-gray-600 text-white text-xs font-medium px-2 py-1 rounded">
+            Sold Out
+          </span>
+        {% endunless %}
+      </div>
+
+      <!-- Quick View Button -->
+      <div class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+        <button class="bg-white rounded-full p-2 shadow-md hover:shadow-lg transition-shadow border border-gray-200">
+          <svg
+            class="w-4 h-4 text-gray-600"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Product Info -->
+    <div class="p-4">
+      <h3 class="text-sm font-medium text-gray-900 group-hover:text-gray-700 transition-colors mb-1 line-clamp-2 h-[2lh]">
+        {{ product.title | truncate: 60 }}
+      </h3>
+
+      {% if product.vendor != blank %}
+        <p class="text-xs text-gray-500 mb-2">{{ product.vendor }}</p>
+      {% endif %}
+
+      <div class="flex items-center justify-between">
+        <div class="price-container">
+          {% if product.compare_at_price > product.price %}
+            <span class="text-sm font-semibold text-gray-900">{{ product.price | money }}</span>
+            <span class="text-xs text-gray-400 line-through ml-1">{{ product.compare_at_price | money_without_currency }}</span>
+          {% else %}
+            <span class="text-sm font-semibold text-gray-900">{{ product.price | money }}</span>
+          {% endif %}
+        </div>
+
+        <!-- Add to Cart Button (for available products) -->
+        {% if product.available %}
+          <button class="opacity-0 group-hover:opacity-100 bg-gray-800 text-white text-xs px-3 py-1 rounded hover:bg-gray-900 transition-all hidden">
+            Add to Cart
+          </button>
+        {% endif %}
+      </div>
+    </div>
+  </a>
+</div>
