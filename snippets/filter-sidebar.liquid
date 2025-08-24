@@ -3,8 +3,8 @@
   Usage: {% render 'filter-sidebar', collection: collection %}
 {% endcomment %}
 
-<aside id="filter-sidebar" class="hidden lg:block w-64 flex-shrink-0">
-  <div class="bg-gray-50 rounded-lg p-6">
+<aside id="filter-sidebar" class="hidden lg:block w-64 flex-shrink-0 overflow-auto max-h-[calc(100vh-12rem)] rounded-lg scrollbar-hide">
+  <div class="bg-gray-50 p-6">
     <h3 class="text-lg font-semibold text-gray-900 mb-4">Sort & Filters</h3>
 
     <div class="sort-controls mb-6">

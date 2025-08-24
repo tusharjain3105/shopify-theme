@@ -454,6 +454,18 @@
   .h-full {
     height: 100%;
   }
+  .max-h-\[calc\(100vh-4rem\)\] {
+    max-height: calc(100vh - 4rem);
+  }
+  .max-h-\[calc\(100vh-8rem\)\] {
+    max-height: calc(100vh - 8rem);
+  }
+  .max-h-\[calc\(100vh-10rem\)\] {
+    max-height: calc(100vh - 10rem);
+  }
+  .max-h-\[calc\(100vh-12rem\)\] {
+    max-height: calc(100vh - 12rem);
+  }
   .max-h-fit {
     max-height: fit-content;
   }
@@ -649,6 +661,9 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+  .overflow-auto {
+    overflow: auto;
   }
   .overflow-hidden {
     overflow: hidden;
@@ -959,6 +974,9 @@
   .tracking-wider {
     --tw-tracking: var(--tracking-wider);
     letter-spacing: var(--tracking-wider);
+  }
+  .text-wrap {
+    text-wrap: wrap;
   }
   .text-gray-200 {
     color: var(--color-gray-200);
