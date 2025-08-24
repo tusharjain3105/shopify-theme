@@ -52,7 +52,7 @@
   </div>
 
   <!-- Navigation -->
-  <nav class="hidden md:flex items-center gap-2 md:gap-4 py-4 justify-center-safe">
+  <nav class="hidden md:flex items-center gap-2 md:gap-4 py-2 justify-center-safe">
     {% for link in linklists.main-menu.links %}
       <a href="{{ link.url }}" class="text-gray-700 hover:text-gray-900 transition-colors nth-last-[2]:text-red-500 last:text-red-500">
         {{ link.title }}
@@ -67,7 +67,7 @@
     const navLogo = document.querySelector('.nav-logo');
     const scrollTop = document.scrollingElement.scrollTop
 
-    const OPACITY_HEIGHT_RATIO = 100;
+    const OPACITY_HEIGHT_RATIO = 50;
     if(scrollTop < OPACITY_HEIGHT_RATIO) {
       navLogoTitle.style.opacity = 100;
       navLogo.style.opacity = 0;

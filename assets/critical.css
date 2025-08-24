@@ -110,12 +110,18 @@ body {
 }
 
 .shopify-policy__container {
+  margin: auto;
   max-width: 100vw !important;
   width: 70vw !important;
   margin-block: 2rem !important;
 
   .shopify-policy__title {
     display: none;
+  }
+
+  section {
+    scroll-margin-top: 115px;
+    scroll-behavior: smooth;
   }
 
   h1, h2 {
