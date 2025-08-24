@@ -1,11 +1,16 @@
 {% comment %}
   Filter Sidebar Component
   Usage: {% render 'filter-sidebar', collection: collection %}
+
+  Props:
+  - show-in-mobile: boolean (optional) — default false
 {% endcomment %}
 
-<aside id="filter-sidebar" class="hidden lg:block w-64 flex-shrink-0 overflow-auto max-h-[calc(100vh-12rem)] rounded-lg scrollbar-hide">
+{% assign show_in_mobile = show_in_mobile | default: false %}
+
+<aside id="filter-sidebar" class="{% if show_in_mobile %}block{% else %}hidden{% endif %} lg:block md:w-64 w-full flex-shrink-0 overflow-auto md:max-h-[calc(100vh-12rem)] max-h-[calc(100vh-10rem)] rounded-lg scrollbar-hide">
   <div class="bg-gray-50 p-6">
-    <h3 class="text-lg font-semibold text-gray-900 mb-4">Sort & Filters</h3>
+    <h3 class="text-lg font-semibold text-gray-900 mb-4 text-center md:text-left">Sort & Filters</h3>
 
     <div class="sort-controls mb-6">
       <label for="sort-select" class="text-sm font-medium text-gray-700 mb-3">Sort by</label>

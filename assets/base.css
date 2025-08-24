@@ -267,6 +267,9 @@
   .top-3 {
     top: calc(var(--spacing) * 3);
   }
+  .top-6 {
+    top: calc(var(--spacing) * 6);
+  }
   .top-8 {
     top: calc(var(--spacing) * 8);
   }
@@ -288,8 +291,14 @@
   .right-3 {
     right: calc(var(--spacing) * 3);
   }
+  .right-4 {
+    right: calc(var(--spacing) * 4);
+  }
   .bottom-0 {
     bottom: calc(var(--spacing) * 0);
+  }
+  .bottom-2 {
+    bottom: calc(var(--spacing) * 2);
   }
   .left-0 {
     left: calc(var(--spacing) * 0);
@@ -305,6 +314,9 @@
   }
   .z-10 {
     z-index: 10;
+  }
+  .z-20 {
+    z-index: 20;
   }
   .z-50 {
     z-index: 50;
@@ -460,6 +472,9 @@
   .h-\[2lh\] {
     height: 2lh;
   }
+  .h-\[calc\(100vh-12rem\)\] {
+    height: calc(100vh - 12rem);
+  }
   .h-auto {
     height: auto;
   }
@@ -471,6 +486,9 @@
   }
   .max-h-\[calc\(100vh-4rem\)\] {
     max-height: calc(100vh - 4rem);
+  }
+  .max-h-\[calc\(100vh-5rem\)\] {
+    max-height: calc(100vh - 5rem);
   }
   .max-h-\[calc\(100vh-8rem\)\] {
     max-height: calc(100vh - 8rem);
@@ -715,6 +733,18 @@
   }
   .rounded-xl {
     border-radius: var(--radius-xl);
+  }
+  .rounded-t-2xl {
+    border-top-left-radius: var(--radius-2xl);
+    border-top-right-radius: var(--radius-2xl);
+  }
+  .rounded-t-md {
+    border-top-left-radius: var(--radius-md);
+    border-top-right-radius: var(--radius-md);
+  }
+  .rounded-t-xl {
+    border-top-left-radius: var(--radius-xl);
+    border-top-right-radius: var(--radius-xl);
   }
   .border {
     border-style: var(--tw-border-style);
@@ -1275,6 +1305,31 @@
       }
     }
   }
+  .group-has-checked\:hidden {
+    &:is(:where(.group):has(*:checked) *) {
+      display: none;
+    }
+  }
+  .group-has-\[input\:checked\]\:hidden {
+    &:is(:where(.group):has(*:is(input:checked)) *) {
+      display: none;
+    }
+  }
+  .group-has-\[input\:checked\]\:grid-rows-\[1fr\] {
+    &:is(:where(.group):has(*:is(input:checked)) *) {
+      grid-template-rows: 1fr;
+    }
+  }
+  .group-\[\&_input\:checked\]\:hidden {
+    &:is(:where(.group) input:checked *) {
+      display: none;
+    }
+  }
+  .group-\[input\:checked\]\:hidden {
+    &:is(:where(.group):is(input:checked) *) {
+      display: none;
+    }
+  }
   .after\:content-\[\'\'\] {
     &::after {
       content: var(--tw-content);
@@ -1370,6 +1425,13 @@
     &:hover {
       @media (hover: hover) {
         background-color: var(--color-zinc-300);
+      }
+    }
+  }
+  .hover\:text-gray-700 {
+    &:hover {
+      @media (hover: hover) {
+        color: var(--color-gray-700);
       }
     }
   }
@@ -1543,6 +1605,21 @@
       display: flex;
     }
   }
+  .md\:hidden {
+    @media (width >= 48rem) {
+      display: none;
+    }
+  }
+  .md\:max-h-\[calc\(100vh-12rem\)\] {
+    @media (width >= 48rem) {
+      max-height: calc(100vh - 12rem);
+    }
+  }
+  .md\:w-64 {
+    @media (width >= 48rem) {
+      width: calc(var(--spacing) * 64);
+    }
+  }
   .md\:w-md {
     @media (width >= 48rem) {
       width: var(--container-md);
@@ -1563,6 +1640,11 @@
       gap: calc(var(--spacing) * 4);
     }
   }
+  .md\:gap-8 {
+    @media (width >= 48rem) {
+      gap: calc(var(--spacing) * 8);
+    }
+  }
   .md\:p-10 {
     @media (width >= 48rem) {
       padding: calc(var(--spacing) * 10);
@@ -1576,6 +1658,11 @@
   .md\:py-16 {
     @media (width >= 48rem) {
       padding-block: calc(var(--spacing) * 16);
+    }
+  }
+  .md\:text-left {
+    @media (width >= 48rem) {
+      text-align: left;
     }
   }
   .md\:text-3xl {
