@@ -130,6 +130,11 @@
   (function() {
   const init = () => {
   const root = document;
+  const CURRENCY = '{{ shop.currency }}';
+  const formatMoney = (cents) => {
+    try { return new Intl.NumberFormat(undefined, { style: 'currency', currency: CURRENCY }).format((cents||0)/100); } catch { return `₹${((cents||0)/100).toFixed(2)}`; }
+  };
+  const plural = (n, s, p) => (n === 1 ? s : p);
   // Quantity controls
   const quantityInput = document.getElementById('quantity');
   const minusBtn = document.querySelector('.quantity-btn[data-action="minus"]');
@@ -244,16 +249,16 @@
     }
 
     const formData = new FormData(formEl);
-    fetch('/cart/add.js', {
+    const prom = fetch('/cart/add.js', {
       method: 'POST',
       body: formData,
       headers: { 'Accept': 'application/json' }
     })
     .then(res => {
-      if (!res.ok) throw new Error('Add to cart failed');
+      if (!res.ok) return res.json().then(err => { throw err; });
       return res.json();
     })
-    .then(() => {
+    .then((data) => {
       // Update header badge and open drawer
       updateCartCount();
       if (window.CartDrawer && typeof window.CartDrawer.open === 'function') {
@@ -262,16 +267,26 @@
         // Fallback to /cart
         window.location.href = '{{ routes.cart_url }}';
       }
-    })
-    .catch(() => {
-      // Fallback: submit normally
-      formEl.submit();
+      // Fetch latest cart for subtotal/count to show in toast
+      return fetch('{{ routes.cart_url }}.js').then(r=>r.json()).then(cart => ({ data, cart }));
     })
     .finally(() => {
       if (addBtn) {
         addBtn.disabled = false;
         addBtn.textContent = 'Add to Cart';
       }
+    });
+
+    // Toast promise with detailed messages
+    const qty = parseInt((formEl.querySelector('#quantity')?.value)||'1')||1;
+    const variantTitle = formEl.querySelector('#variant-select option:checked')?.textContent?.trim() || '{{ product.title | escape }}';
+    window.Toast?.promise(prom, {
+      loading: { title: `Adding ${qty} × ${variantTitle}…` },
+      success: (res) => ({
+        title: `Added ${qty} × ${variantTitle}`,
+        description: res?.cart ? `Subtotal: ${formatMoney(res.cart.total_price)} · ${res.cart.item_count} ${plural(res.cart.item_count,'item','items')}` : ''
+      }),
+      error: (err) => ({ title: 'Failed to add to cart', description: (err && (err.description || err.message)) ? (err.description || err.message) : '' })
     });
   };
 
