@@ -119,6 +119,7 @@
     
     function updateWishlistBadge() {
       try {
+        console.log('Updating wishlist badge...');
         const wishlist = getWishlist();
         const badge = document.querySelector('.wishlist-badge');
         const count = wishlist.length;

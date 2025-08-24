@@ -6,24 +6,31 @@
 {% assign is_mobile = mobile | default: false %}
 {% assign carousel_id = 'product-carousel-' | append: product.id %}
 
-<div class="product-image-carousel relative" data-product-id="{{ product.id }}" data-product-handle="{{ product.handle }}" data-product-title="{{ product.title | escape }}" data-product-price="{{ product.price }}" data-product-url="{{ product.url }}" data-product-image="{{ product.featured_image | img_url: '400x400' }}">
+<div
+  class="product-image-carousel relative"
+  data-product-id="{{ product.id }}"
+  data-product-handle="{{ product.handle }}"
+  data-product-title="{{ product.title | escape }}"
+  data-product-price="{{ product.price }}"
+  data-product-url="{{ product.url }}"
+  data-product-image="{{ product.featured_image | img_url: '400x400' }}">
   {% if product.images.size > 0 %}
     <div class="swiper {{ carousel_id }} relative">
       <!-- Wishlist button at carousel level -->
       <button
         type="button"
-        class="wishlist-toggle absolute top-2 right-2 z-20 rounded-full bg-white/90 hover:bg-white shadow p-2 text-gray-700 hover:text-red-600 transition-colors"
+        class="wishlist-toggle absolute top-2 right-2 z-20 rounded-full bg-white/90 hover:bg-white shadow p-2 text-gray-700 data-active:fill-red-600 data-active:text-red-600 transition-colors"
         aria-label="Add to wishlist"
         data-wishlist-toggle
         data-product-title="{{ product.title | escape }}"
         data-product-price="{{ product.price }}"
         data-product-url="{{ product.url }}"
         data-product-image="{{ product.featured_image | img_url: '400x400' }}"
-        style="z-index: 20;"
-        >
-        {% render 'icon', icon: 'wishlist' %}
+        style="z-index: 20;">
+        {% render 'icon'
+          , icon: 'wishlist' %}
       </button>
-      
+
       <div class="swiper-wrapper">
         {% for image in product.images %}
           <div class="swiper-slide">
@@ -115,144 +122,149 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-  console.log('Initializing carousel for product {{ product.id }}');
-  console.log('Images count: {{ product.images.size }}');
+    console.log('Initializing carousel for product {{ product.id }}');
+    console.log('Images count: {{ product.images.size }}');
   
-  {% if product.images.size > 0 %}
-    // Add hover effect for navigation arrows
-    const carouselContainer = document.querySelector('.{{ carousel_id }}').closest('.product-image-carousel');
-    if (carouselContainer) {
-      carouselContainer.classList.add('group');
-    }
+    {% if product.images.size > 0 %}
+      // Add hover effect for navigation arrows
+      const carouselContainer = document.querySelector('.{{ carousel_id }}').closest('.product-image-carousel');
+      if (carouselContainer) {
+        carouselContainer.classList.add('group');
+      }
 
-    {% assign should_loop = false %}
-    {% if product.images.size > 1 %}
-      {% assign should_loop = true %}
-    {% endif %}
-
-    const carousel{{ product.id }} = new Swiper('.{{ carousel_id }}', {
-      slidesPerView: 1,
-      spaceBetween: 0,
-      loop: {{ should_loop }},
-      grabCursor: true,
-      
+      {% assign should_loop = false %}
       {% if product.images.size > 1 %}
-      navigation: {
-        nextEl: '.{{ carousel_id }} .swiper-button-next',
-        prevEl: '.{{ carousel_id }} .swiper-button-prev',
-      },
-      
-      pagination: {
-        el: '.{{ carousel_id }} .swiper-pagination',
-        clickable: true,
-        dynamicBullets: true,
-      },
+        {% assign should_loop = true %}
       {% endif %}
 
-      // Accessibility
-      a11y: {
-        prevSlideMessage: 'Previous image',
-        nextSlideMessage: 'Next image',
-      },
-
-      // Lazy loading
-      lazy: {
-        loadPrevNext: true,
-      },
-
-      // Events
-      on: {
-        init: function () {
-          console.log('Carousel initialized successfully');
+      const carousel{{ product.id }} = new Swiper('.{{ carousel_id }}', {
+        slidesPerView: 1,
+        spaceBetween: 0,
+        loop: {{ should_loop }},
+        grabCursor: true,
+        
+        {% if product.images.size > 1 %}
+        navigation: {
+          nextEl: '.{{ carousel_id }} .swiper-button-next',
+          prevEl: '.{{ carousel_id }} .swiper-button-prev',
         },
-        slideChange: function () {
-          console.log('Slide changed to: ' + this.realIndex);
-          {% unless is_mobile %}
-          // Update active thumbnail
-          const activeIndex = this.realIndex;
-          document.querySelectorAll('.thumbnail-btn').forEach((btn, index) => {
-            if (index === activeIndex) {
-              btn.classList.remove('border-transparent');
-              btn.classList.add('border-gray-800');
+        pagination: {
+          el: '.{{ carousel_id }} .swiper-pagination',
+          clickable: true,
+          dynamicBullets: true,
+        },
+        {% endif %}
+
+        a11y: {
+          prevSlideMessage: 'Previous image',
+          nextSlideMessage: 'Next image',
+        },
+        lazy: { loadPrevNext: true },
+        on: {
+          init: function () {
+            console.log('Carousel initialized successfully');
+          },
+          slideChange: function () {
+            console.log('Slide changed to: ' + this.realIndex);
+            {% unless is_mobile %}
+            const activeIndex = this.realIndex;
+            document.querySelectorAll('.thumbnail-btn').forEach((btn, index) => {
+              if (index === activeIndex) {
+                btn.classList.remove('border-transparent');
+                btn.classList.add('border-gray-800');
+              } else {
+                btn.classList.remove('border-gray-800');
+                btn.classList.add('border-transparent');
+              }
+            });
+            {% endunless %}
+          }
+        }
+      });
+
+      // Wishlist toggle
+      (function() {
+        const container = document.querySelector('.{{ carousel_id }}').closest('.product-image-carousel');
+        if (!container) return;
+        const getBtns = () => document.querySelectorAll('[data-wishlist-toggle]');
+        const pid = container.dataset.productId;
+        const pdata = {
+          id: pid,
+          handle: container.dataset.productHandle,
+          title: container.dataset.productTitle,
+          price: parseInt(container.dataset.productPrice||'0')||0,
+          url: container.dataset.productUrl,
+          image: container.dataset.productImage
+        };
+
+        function getWishlist() { try { return JSON.parse(localStorage.getItem('wishlistItems')||'[]'); } catch(e){ return [] } }
+        function saveWishlist(list){ localStorage.setItem('wishlistItems', JSON.stringify(list)); window.dispatchEvent(new CustomEvent('wishlist:updated')); }
+        function isInWishlist(id){ return getWishlist().some(it=>String(it.id)===String(id)); }
+
+        function setActive(active) {
+          const btns = getBtns();
+          console.log('Buttons:', btns)
+          btns.forEach(btn => {
+            console.log('Setting active state:', active, btn);
+            if (!btn) return;
+            if (active) {
+              btn.setAttribute('data-active', true);
             } else {
-              btn.classList.remove('border-gray-800');
-              btn.classList.add('border-transparent');
+              btn.removeAttribute('data-active');
+            }
+            btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+            btn.title = active ? 'Remove from wishlist' : 'Add to wishlist';
+          });
+        }  
+
+        console.log('Product ID:', pid);
+        console.log('Wishlist:', getWishlist());
+        console.log('Is in wishlist:', isInWishlist(pid));
+        setActive(isInWishlist(pid));
+
+        getBtns().forEach(btn => {
+          btn.addEventListener('click', function(){
+            const list = getWishlist();
+            if (isInWishlist(pid)) {
+              const next = list.filter(it => String(it.id) !== String(pid));
+              saveWishlist(next);
+              setActive(false);
+              window.Toast && window.Toast.success && window.Toast.success({ title: 'Removed from wishlist' });
+            } else {
+              list.unshift(pdata);
+              saveWishlist(list);
+              setActive(true);
+              window.Toast && window.Toast.success && window.Toast.success({ title: 'Added to wishlist' });
             }
           });
-          {% endunless %}
-        }
-      }
-    });
+        });
+      })();
 
-    // Wishlist toggle
-    (function(){
-      const container = document.querySelector('.{{ carousel_id }}').closest('.product-image-carousel');
-      if(!container) return;
-      const btn = container.querySelector('[data-wishlist-toggle]');
-      const pid = container.dataset.productId;
-      const pdata = {
-        id: pid,
-        handle: container.dataset.productHandle,
-        title: container.dataset.productTitle,
-        price: parseInt(container.dataset.productPrice||'0')||0,
-        url: container.dataset.productUrl,
-        image: container.dataset.productImage
-      };
-      function getWishlist(){ try { return JSON.parse(localStorage.getItem('wishlistItems')||'[]'); } catch(e){ return [] } }
-      function saveWishlist(list){ localStorage.setItem('wishlistItems', JSON.stringify(list)); window.dispatchEvent(new CustomEvent('wishlist:updated')); }
-      function isInWishlist(id){ return getWishlist().some(it=>String(it.id)===String(id)); }
-      function setActive(active){
-        if(!btn) return;
-        btn.classList.toggle('text-red-600', !!active);
-        btn.classList.toggle('text-gray-700', !active);
-        btn.setAttribute('aria-pressed', active? 'true':'false');
-        btn.title = active ? 'Remove from wishlist' : 'Add to wishlist';
-      }
-      setActive(isInWishlist(pid));
-      btn && btn.addEventListener('click', function(){
-        const list = getWishlist();
-        if(isInWishlist(pid)){
-          const next = list.filter(it=>String(it.id)!==String(pid));
-          saveWishlist(next);
-          setActive(false);
-          window.Toast && window.Toast.success && window.Toast.success({ title: 'Removed from wishlist' });
-        } else {
-          list.unshift(pdata);
-          saveWishlist(list);
-          setActive(true);
-          window.Toast && window.Toast.success && window.Toast.success({ title: 'Added to wishlist' });
-        }
-      });
-    })();
-
-    {% unless is_mobile %}
-    // Thumbnail navigation click handlers
-    document.querySelectorAll('.thumbnail-btn').forEach((btn, index) => {
-      btn.addEventListener('click', function() {
-        console.log('Thumbnail clicked: ' + index);
-        const slideIndex = parseInt(this.dataset.slide);
-        const swipers = [carousel{{ product.id }}].flat();
-        swipers.forEach((swiper) => {
-          swiper.slideTo(slideIndex);
+      {% unless is_mobile %}
+      document.querySelectorAll('.thumbnail-btn').forEach((btn, index) => {
+        btn.addEventListener('click', function() {
+          console.log('Thumbnail clicked: ' + index);
+          const slideIndex = parseInt(this.dataset.slide);
+          const swipers = [carousel{{ product.id }}].flat();
+          swipers.forEach(swiper => swiper.slideTo(slideIndex));
         });
       });
-    });
-    {% endunless %}
+      {% endunless %}
 
-    // Keyboard navigation
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'ArrowLeft') {
-        carousel{{ product.id }}.slidePrev();
-      } else if (e.key === 'ArrowRight') {
-        carousel{{ product.id }}.slideNext();
-      }
-    });
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'ArrowLeft') {
+          carousel{{ product.id }}.slidePrev();
+        } else if (e.key === 'ArrowRight') {
+          carousel{{ product.id }}.slideNext();
+        }
+      });
 
-  {% else %}
-    console.log('No images found for product {{ product.id }}');
-  {% endif %}
+    {% else %}
+      console.log('No images found for product {{ product.id }}');
+    {% endif %}
   });
 </script>
+
 
 <style>
   .{{ carousel_id }} .swiper-button-next

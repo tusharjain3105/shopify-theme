@@ -147,6 +147,7 @@
     // Save to localStorage
     localStorage.setItem('wishlistItems', JSON.stringify(wishlist));
     
+    console.log('Wishlist updated:', wishlist);
     // Dispatch event to update header badge and other listeners
     const event = new CustomEvent('wishlist:updated', { detail: { count: wishlist.length } });
     document.dispatchEvent(event);
