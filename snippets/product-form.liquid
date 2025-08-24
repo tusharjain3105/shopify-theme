@@ -248,14 +248,8 @@
       return res.json();
     })
     .then((data) => {
-      // Update header badge and open drawer
+      // Update header badge only; drawer/redirect will happen after toast success
       updateCartCount();
-      if (window.CartDrawer && typeof window.CartDrawer.open === 'function') {
-        window.CartDrawer.open();
-      } else {
-        // Fallback to /cart
-        window.location.href = '{{ routes.cart_url }}';
-      }
       // Fetch latest cart for subtotal/count to show in toast
       return fetch('{{ routes.cart_url }}.js').then(r=>r.json()).then(cart => ({ data, cart }));
     })
@@ -273,10 +267,20 @@
     const variantTitle = formEl.querySelector('#variant-select option:checked')?.textContent?.trim() || '{{ product.title | escape }}';
     window.Toast?.promise(prom, {
       loading: { title: `Adding ${qty} × ${variantTitle}…` },
-      success: (res) => ({
-        title: `Added ${qty} × ${variantTitle}`,
-        description: res?.cart ? `Subtotal: ${formatMoney(res.cart.total_price)} · ${res.cart.item_count} ${plural(res.cart.item_count,'item','items')}` : ''
-      }),
+      success: (res) => {
+        // After showing success content, open drawer or redirect shortly after to avoid racing UI
+        setTimeout(() => {
+          if (window.CartDrawer && typeof window.CartDrawer.open === 'function') {
+            window.CartDrawer.open();
+          } else {
+            window.location.href = '{{ routes.cart_url }}';
+          }
+        }, 120);
+        return {
+          title: `Added ${qty} × ${variantTitle}`,
+          description: res?.cart ? `Subtotal: ${formatMoney(res.cart.total_price)} · ${res.cart.item_count} ${plural(res.cart.item_count,'item','items')}` : ''
+        };
+      },
       error: (err) => ({ title: 'Failed to add to cart', description: (err && (err.description || err.message)) ? (err.description || err.message) : '' })
     });
   };
