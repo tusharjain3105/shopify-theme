@@ -5,7 +5,8 @@
   "private": true,
   "scripts": {
     "dev": "shopify theme dev --theme-editor-sync",
-    "tailwind": "npx tailwindcss -i ./assets/base-tailwind.css -o ./assets/base.css --watch"
+    "tailwind": "npx tailwindcss -i ./assets/base-tailwind.css -o ./assets/base.css --watch",
+    "push": "shopify theme push"
   },
   "devDependencies": {
     "@types/bun": "latest",
