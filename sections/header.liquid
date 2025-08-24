@@ -34,7 +34,7 @@
           {% render 'icon'
             , icon: 'wishlist' %}
         </a>
-        <a href="{{ routes.cart_url }}" class="relative text-gray-700 hover:text-gray-900">
+        <button type="button" data-cart-open class="relative text-gray-700 hover:text-gray-900">
           {% render 'icon'
             , icon: 'cart' %}
           {% if cart.item_count > 0 %}
@@ -42,7 +42,7 @@
               {{ cart.item_count }}
             </span>
           {% endif %}
-        </a>
+        </button>
         <a href="{{ routes.account_url }}" class="text-gray-700 hover:text-gray-900">
           {% render 'icon'
             , icon: 'account' %}
@@ -73,6 +73,8 @@
     {% endfor %}
   </nav>
 </header>
+
+{% render 'cart-drawer' %}
 
 <script defer async>
   const onScroll = function() {
