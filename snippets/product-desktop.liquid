@@ -33,22 +33,14 @@
         {% render 'product-form', product: product %}
       </div>
 
-      <!-- Product Description -->
       {% if product.description != blank %}
-      <div class="product-description mb-10">
-        <h3 class="text-xl font-semibold mb-4">Description</h3>
-        <div class="text-gray-700 prose">
-          {{ product.description }}
-        </div>
-      </div>
-      {% endif %}
-
-      <!-- Specifications -->
-      {% if section.settings.show_specs %}
-      <div class="product-specs">
-        {% render 'product-specs', product: product, title: section.settings.specs_title %}
-      </div>
-      {% endif %}
+      {% render 'accordion', trigger: 'Description', body: product.description, show_specs: section.settings.show_specs, open: true %}
+    {% endif %}
+    
+    {% render 'accordion', trigger: 'Care Instructions', body: product.description %}
+    {% render 'accordion', trigger: 'Shipping', body: product.description %}
+    {% render 'accordion', trigger: 'Return & Exchanges', body: product.description %}
+    
     </div>
   </div>
 </div>
