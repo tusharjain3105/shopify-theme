@@ -538,6 +538,9 @@
   .max-w-7xl {
     max-width: var(--container-7xl);
   }
+  .max-w-\[100vw\] {
+    max-width: 100vw;
+  }
   .max-w-fit {
     max-width: fit-content;
   }

@@ -5,13 +5,16 @@
 
 <div class="product-desktop max-w-7xl mx-auto px-4 py-12">
   <div class="grid grid-cols-2 gap-12">
-    
+
     <!-- Left Column: Sticky Image Carousel -->
     <div class="sticky top-8 h-fit">
       <div class="product-badges mb-4">
-        {% render 'product-badges', product: product %}
+        {% render 'product-badges'
+          , product: product %}
       </div>
-      {% render 'product-image-carousel', product: product, mobile: false %}
+      {% render 'product-image-carousel'
+        , product: product
+        , mobile: false %}
     </div>
 
     <!-- Right Column: Product Details -->
@@ -25,22 +28,34 @@
 
       <!-- Pricing -->
       <div class="pricing mb-8">
-        {% render 'product-pricing', product: product %}
+        {% render 'product-pricing'
+          , product: product %}
       </div>
 
       <!-- CTA Form -->
       <div class="product-form mb-10">
-        {% render 'product-form', product: product %}
+        {% render 'product-form'
+          , product: product %}
       </div>
 
       {% if product.description != blank %}
-      {% render 'accordion', trigger: 'Description', body: product.description, show_specs: section.settings.show_specs, open: true %}
-    {% endif %}
-    
-    {% render 'accordion', trigger: 'Care Instructions', body: product.description %}
-    {% render 'accordion', trigger: 'Shipping', body: product.description %}
-    {% render 'accordion', trigger: 'Return & Exchanges', body: product.description %}
-    
+        {% render 'accordion'
+          , trigger: 'Description'
+          , body: product.description
+          , show_specs: section.settings.show_specs
+          , open: true %}
+      {% endif %}
+
+      {% render 'accordion'
+        , trigger: 'Care Instructions'
+        , body: product.description %}
+      {% render 'accordion'
+        , trigger: 'Shipping'
+        , body: product.description %}
+      {% render 'accordion'
+        , trigger: 'Return & Exchanges'
+        , body: product.description %}
+
     </div>
   </div>
 </div>
