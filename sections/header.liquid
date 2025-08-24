@@ -54,9 +54,22 @@
   <!-- Navigation -->
   <nav class="hidden md:flex items-center gap-2 md:gap-4 py-2 justify-center-safe">
     {% for link in linklists.main-menu.links %}
-      <a href="{{ link.url }}" class="text-gray-700 hover:text-gray-900 transition-colors nth-last-[2]:text-red-500 last:text-red-500">
-        {{ link.title }}
-      </a>
+      <div class="relative text-gray-700 nth-last-[2]:text-red-500 last:text-red-500 group">
+        <a href="{{ link.url }}" class="hover:text-gray-900 transition-colors">
+          {{ link.title }}
+        </a>
+        {% if link.links != blank %}
+          <div class="absolute top-full left-1/2 -translate-x-1/2 py-2">
+            <div class="bg-neutral-200/70 border border-neutral-200 w-48 group-hover:block hidden">
+              {% for link in link.links %}
+                <a href="{{ link.url }}" class="text-neutral-700 hover:text-neutral-900 transition-colors p-2 block hover:bg-neutral-300">
+                  {{ link.title }}
+                </a>
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+      </div>
     {% endfor %}
   </nav>
 </header>
