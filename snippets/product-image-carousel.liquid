@@ -8,7 +8,22 @@
 
 <div class="product-image-carousel relative" data-product-id="{{ product.id }}" data-product-handle="{{ product.handle }}" data-product-title="{{ product.title | escape }}" data-product-price="{{ product.price }}" data-product-url="{{ product.url }}" data-product-image="{{ product.featured_image | img_url: '400x400' }}">
   {% if product.images.size > 0 %}
-    <div class="swiper {{ carousel_id }}">
+    <div class="swiper {{ carousel_id }} relative">
+      <!-- Wishlist button at carousel level -->
+      <button
+        type="button"
+        class="wishlist-toggle absolute top-2 right-2 z-20 rounded-full bg-white/90 hover:bg-white shadow p-2 text-gray-700 hover:text-red-600 transition-colors"
+        aria-label="Add to wishlist"
+        data-wishlist-toggle
+        data-product-title="{{ product.title | escape }}"
+        data-product-price="{{ product.price }}"
+        data-product-url="{{ product.url }}"
+        data-product-image="{{ product.featured_image | img_url: '400x400' }}"
+        style="z-index: 20;"
+        >
+        {% render 'icon', icon: 'wishlist' %}
+      </button>
+      
       <div class="swiper-wrapper">
         {% for image in product.images %}
           <div class="swiper-slide">
@@ -22,21 +37,6 @@
                 loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
                 onerror="this.src='image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0yNCAyNEg1NlY1Nkg0NFY0NEgyNFYyNFoiIGZpbGw9IiM5Q0E0QUYiLz4KPHBhdGggZD0iTTQ0IDQ0TDUyIDM2TDU2IDQwVjU2SDI0VjQ0SDQ0WiIgZmlsbD0iIzlDQTRBRiIvPgo8L3N2Zz4K'" />
             </div>
-
-    <!-- Wishlist heart overlay (single per carousel) -->
-    <button
-      type="button"
-      class="wishlist-toggle absolute top-2 right-2 z-10 rounded-full bg-white/90 hover:bg-white shadow p-2 text-gray-700 hover:text-red-600 transition-colors"
-      aria-label="Add to wishlist"
-      data-wishlist-toggle
-      data-product-title="{{ product.title | escape }}"
-      data-product-price="{{ product.price }}"
-      data-product-url="{{ product.url }}"
-      data-product-image="{{ product.featured_image | img_url: '400x400' }}"
-      >
-      {% render 'icon', icon: 'wishlist' %}
-    </button>
-
           </div>
         {% endfor %}
       </div>
