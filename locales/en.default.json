@@ -47,6 +47,11 @@
     "placeholder": "Search articles, pages, or products",
     "submit": "Search",
     "no_results_html": "No results found for {{ terms }}",
-    "results_for_html": "{{ count }} results found for {{ terms }}"
+    "results_for_html": "{{ count }} results found for {{ terms }}",
+    "products_found": "{{ count }} products matching '{{ terms }}'",
+    "other_results": "Other results ({{ count }})",
+    "loading_products": "Loading products...",
+    "read_more": "Read more",
+    "browse_all_products": "Browse all products"
   }
 }
