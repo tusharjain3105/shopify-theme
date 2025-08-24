@@ -3,6 +3,19 @@
   Usage: {% render 'product-form', product: product %}
 {% endcomment %}
 
+<style>
+  /* Hide number input spinners for quantity field within product form only */
+  .product-form input[type=number]::-webkit-outer-spin-button,
+  .product-form input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  .product-form input[type=number] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+</style>
+
 <div class="product-form">
   {% form 'product'
     , product
