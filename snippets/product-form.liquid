@@ -53,7 +53,7 @@
           class="quantity-btn minus px-3 py-2 text-gray-600 hover:text-gray-800"
           data-action="minus">
           <svg
-            class="w-4 h-4"
+            class="w-16 h-16"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24">
@@ -76,7 +76,7 @@
           class="quantity-btn plus px-3 py-2 text-gray-600 hover:text-gray-800"
           data-action="plus">
           <svg
-            class="w-4 h-4"
+            class="w-16 h-16"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24">
@@ -286,6 +286,9 @@
   };
 
   forms.forEach((formEl) => {
+    // Avoid double-binding if init runs more than once
+    if (formEl.dataset.listenersBound === '1') return;
+    formEl.dataset.listenersBound = '1';
     const addBtn = formEl.querySelector('.add-to-cart-btn');
     // Wire quantity controls per form
     const quantityInput = formEl.querySelector('#quantity');
