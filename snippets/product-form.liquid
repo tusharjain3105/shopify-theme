@@ -127,7 +127,9 @@
 </div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
+  (function() {
+  const init = () => {
+  const root = document;
   // Quantity controls
   const quantityInput = document.getElementById('quantity');
   const minusBtn = document.querySelector('.quantity-btn[data-action="minus"]');
@@ -174,15 +176,15 @@
   };
 
   // Variant change handling
-  const variantSelect = document.getElementById('variant-select');
+  const variantSelect = root.querySelector('#variant-select');
   variantSelect?.addEventListener('change', function() {
     const selectedOption = this.options[this.selectedIndex];
     const price = selectedOption.dataset.price;
     const comparePrice = selectedOption.dataset.comparePrice;
     
     // Update price display
-    const currentPriceElement = document.querySelector('.current-price');
-    const comparePriceElement = document.querySelector('.compare-price');
+    const currentPriceElement = root.querySelector('.current-price');
+    const comparePriceElement = root.querySelector('.compare-price');
     
     if (currentPriceElement && price) {
       currentPriceElement.textContent = price;
@@ -196,9 +198,9 @@
     }
 
     // Update button states
-    const addToCartBtn = document.querySelector('.add-to-cart-btn');
-    const buyNowBtn = document.querySelector('.buy-now-btn');
-    const buyNowWrapper = document.querySelector('.buy-now-wrapper');
+    const addToCartBtn = root.querySelector('.add-to-cart-btn');
+    const buyNowBtn = root.querySelector('.buy-now-btn');
+    const buyNowWrapper = root.querySelector('.buy-now-wrapper');
     
     if (selectedOption.disabled) {
       addToCartBtn.disabled = true;
@@ -214,5 +216,82 @@
       }
     }
   });
+
+  // Intercept add-to-cart submit to open cart drawer (support multiple forms on page)
+  const forms = document.querySelectorAll('.product-form-inner');
+  const updateCartCount = () => {
+    fetch('{{ routes.cart_url }}.js')
+      .then(r => r.json())
+      .then(cart => {
+        const badge = document.querySelector('[data-cart-open] .absolute');
+        if (badge) {
+          if (cart.item_count > 0) {
+            badge.textContent = cart.item_count;
+            badge.style.display = '';
+          } else {
+            badge.style.display = 'none';
+          }
+        }
+      })
+      .catch(() => {});
+  };
+
+  const addToCart = (formEl, addBtn, e) => {
+    if (e) e.preventDefault();
+    if (addBtn) {
+      addBtn.disabled = true;
+      addBtn.textContent = 'Adding...';
+    }
+
+    const formData = new FormData(formEl);
+    fetch('/cart/add.js', {
+      method: 'POST',
+      body: formData,
+      headers: { 'Accept': 'application/json' }
+    })
+    .then(res => {
+      if (!res.ok) throw new Error('Add to cart failed');
+      return res.json();
+    })
+    .then(() => {
+      // Update header badge and open drawer
+      updateCartCount();
+      if (window.CartDrawer && typeof window.CartDrawer.open === 'function') {
+        window.CartDrawer.open();
+      } else {
+        // Fallback to /cart
+        window.location.href = '{{ routes.cart_url }}';
+      }
+    })
+    .catch(() => {
+      // Fallback: submit normally
+      formEl.submit();
+    })
+    .finally(() => {
+      if (addBtn) {
+        addBtn.disabled = false;
+        addBtn.textContent = 'Add to Cart';
+      }
+    });
+  };
+
+  forms.forEach((formEl) => {
+    const addBtn = formEl.querySelector('.add-to-cart-btn');
+    // Intercept submit
+    formEl.addEventListener('submit', function(e) {
+      addToCart(formEl, addBtn, e);
+    });
+    // Intercept button click (extra safety on browsers firing native submit early)
+    addBtn?.addEventListener('click', function(e) {
+      addToCart(formEl, addBtn, e);
+    });
   });
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+  })();
 </script>
