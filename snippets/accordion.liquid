@@ -16,14 +16,15 @@
 {%- assign _id = id | default: nil -%}
 {%- assign _show_specs = show_specs | default: false -%}
 
-<details
+  <details
   class="accordion group border-b border-zinc-200 py-3"
   {% if _open %}
   open{% endif %}
   {% if _id %}
   id="{{ _id }}"
   {% endif %}>
-  <summary class="flex items-center justify-between cursor-pointer select-none text-zinc-800 hover:text-zinc-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-black/30">
+  <summary>
+  <div class="flex items-center justify-between cursor-pointer select-none text-zinc-800 hover:text-zinc-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-black/30">
     <span class="pr-4">
       {{- trigger -}}
     </span>
@@ -43,18 +44,19 @@
           stroke-linejoin="round" />
       </svg>
     </span>
-  </summary>
-
-  <div class="mt-3 text-sm leading-relaxed text-zinc-700">
-    {{- body -}}
-    {% if _show_specs %}
-      {% render 'product-specs'
-        , product: product
-      %}
-    {% endif %}
   </div>
+  <div data-acc-body class="overflow-hidden grid min-h-0 grid-rows-[0fr] group-open:grid-rows-[1fr] transition-[grid-template-rows] duration-300 ease-in-out">
+    <div class="text-sm leading-relaxed text-zinc-700 overflow-hidden">
+      <div class="mt-3">{{- body -}}</div>
+      {% if _show_specs %}
+        {% render 'product-specs'
+          , product: product
+        %}
+      {% endif %}
+    </div>
+  </div>
+  </summary>
 </details>
-
 <style>
   /* Optional: improve summary tap target and remove default marker */
   details.accordion > summary {
