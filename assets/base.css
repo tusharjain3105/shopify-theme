@@ -24,6 +24,10 @@
     --color-gray-700: oklch(37.3% 0.034 259.733);
     --color-gray-800: oklch(27.8% 0.033 256.848);
     --color-gray-900: oklch(21% 0.034 264.665);
+    --color-zinc-200: oklch(92% 0.004 286.32);
+    --color-zinc-300: oklch(87.1% 0.006 286.286);
+    --color-zinc-700: oklch(37% 0.013 285.805);
+    --color-zinc-900: oklch(21% 0.006 285.885);
     --color-neutral-200: oklch(92.2% 0 0);
     --color-neutral-300: oklch(87% 0 0);
     --color-neutral-700: oklch(37.1% 0 0);
@@ -730,6 +734,9 @@
   .border-transparent {
     border-color: transparent;
   }
+  .border-zinc-200 {
+    border-color: var(--color-zinc-200);
+  }
   .bg-black {
     background-color: var(--color-black);
   }
@@ -809,6 +816,12 @@
     background-color: color-mix(in srgb, #fff 80%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
       background-color: color-mix(in oklab, var(--color-white) 80%, transparent);
+    }
+  }
+  .bg-zinc-200\/70 {
+    background-color: color-mix(in srgb, oklch(92% 0.004 286.32) 70%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--color-zinc-200) 70%, transparent);
     }
   }
   .bg-gradient-to-b {
@@ -1016,6 +1029,9 @@
   }
   .text-yellow-400 {
     color: var(--color-yellow-400);
+  }
+  .text-zinc-700 {
+    color: var(--color-zinc-700);
   }
   .uppercase {
     text-transform: uppercase;
@@ -1283,6 +1299,13 @@
       }
     }
   }
+  .hover\:bg-zinc-300 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--color-zinc-300);
+      }
+    }
+  }
   .hover\:text-gray-800 {
     &:hover {
       @media (hover: hover) {
@@ -1308,6 +1331,13 @@
     &:hover {
       @media (hover: hover) {
         color: var(--color-neutral-900);
+      }
+    }
+  }
+  .hover\:text-zinc-900 {
+    &:hover {
+      @media (hover: hover) {
+        color: var(--color-zinc-900);
       }
     }
   }
