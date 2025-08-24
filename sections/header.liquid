@@ -30,10 +30,12 @@
 
       <!-- Right side icons -->
       <div class="flex items-center gap-2 md:gap-4 lg:gap-6 justify-end-safe">
-        <a href="{{ routes.cart_url }}" class="relative text-gray-700 hover:text-gray-900">
-          {% render 'icon'
-            , icon: 'wishlist' %}
-        </a>
+        <button type="button" data-wishlist-open class="relative text-gray-700 hover:text-gray-900">
+          {% render 'icon', icon: 'wishlist' %}
+          <div class="wishlist-badge absolute -top-1 -right-1 hidden h-4 w-4 items-center justify-center rounded-full bg-red-600 text-xs font-medium text-white">
+            <span id="wishlist-count-badge" class="wishlist-count">0</span>
+          </div>
+        </button>
         <button type="button" data-cart-open class="relative text-gray-700 hover:text-gray-900">
           {% render 'icon'
             , icon: 'cart' %}
@@ -75,6 +77,7 @@
 </header>
 
 {% render 'cart-drawer' %}
+{% render 'wishlist-drawer' %}
 
 <script defer async>
   const onScroll = function() {
@@ -99,6 +102,106 @@
   }
   document.addEventListener('DOMContentLoaded', onScroll);
   document.addEventListener('scroll', onScroll);
+</script>
+
+<script>
+  // Wishlist header badge and open handler
+  document.addEventListener('DOMContentLoaded', function() {
+    function getWishlist() {
+      try { 
+        const items = JSON.parse(localStorage.getItem('wishlistItems') || '[]');
+        return Array.isArray(items) ? items : [];
+      } catch(e) { 
+        console.error('Error reading wishlist:', e);
+        return [];
+      }
+    }
+    
+    function updateWishlistBadge() {
+      try {
+        const wishlist = getWishlist();
+        const badge = document.querySelector('.wishlist-badge');
+        const count = wishlist.length;
+        
+        if (badge) {
+          const countEl = badge.querySelector('.wishlist-count');
+          if (countEl) countEl.textContent = count;
+          
+          badge.classList.toggle('hidden', count === 0);
+          badge.classList.toggle('inline-flex', count > 0);
+        }
+      } catch (e) {
+        console.error('Error updating wishlist badge:', e);
+      }
+    }
+
+    // Handle wishlist open button
+    function initWishlistButton() {
+      const wishlistButton = document.querySelector('[data-wishlist-open]');
+      if (!wishlistButton) {
+        console.log('Wishlist button not found in the DOM');
+        return;
+      }
+      
+      console.log('Initializing wishlist button...');
+      
+      wishlistButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        console.log('Wishlist button clicked');
+        console.log('Window.WishlistDrawer:', window.WishlistDrawer);
+        
+        if (window.WishlistDrawer && typeof window.WishlistDrawer.open === 'function') {
+          console.log('Opening wishlist drawer directly');
+          window.WishlistDrawer.open();
+        } else {
+          console.log('WishlistDrawer not available yet, waiting for ready event...');
+          
+          // If drawer not ready, wait for it
+          const onWishlistReady = () => {
+            console.log('wishlist:ready event received');
+            console.log('Window.WishlistDrawer after event:', window.WishlistDrawer);
+            
+            if (window.WishlistDrawer && typeof window.WishlistDrawer.open === 'function') {
+              console.log('Opening wishlist drawer after ready event');
+              window.WishlistDrawer.open();
+              document.removeEventListener('wishlist:ready', onWishlistReady);
+            } else {
+              console.error('WishlistDrawer still not available after ready event');
+            }
+          };
+          
+          document.addEventListener('wishlist:ready', onWishlistReady);
+          
+          // Also try to open after a short delay in case the event was missed
+          setTimeout(() => {
+            if (window.WishlistDrawer && typeof window.WishlistDrawer.open === 'function') {
+              console.log('Opening wishlist drawer after timeout');
+              window.WishlistDrawer.open();
+              document.removeEventListener('wishlist:ready', onWishlistReady);
+            }
+          }, 500);
+        }
+      });
+    }
+
+    // Initial setup
+    updateWishlistBadge();
+    initWishlistButton();
+    
+    // Listen for wishlist updates
+    window.addEventListener('wishlist:updated', updateWishlistBadge);
+    
+    // Also update when the page becomes visible again (in case changes were made in another tab)
+    document.addEventListener('visibilitychange', function() {
+      if (!document.hidden) {
+        updateWishlistBadge();
+      }
+    });
+    
+    console.log('Wishlist header initialized');
+  });
 </script>
 
 {% schema %}

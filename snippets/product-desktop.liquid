@@ -23,7 +23,7 @@
         {% if product.vendor != blank and section.settings.show_vendor %}
           <p class="text-sm text-gray-500 mb-3">{{ product.vendor }}</p>
         {% endif %}
-        <h1 class="text-4xl font-bold text-gray-900 mb-4">{{ product.title }}</h1>
+        <h1 data-product-title class="text-4xl font-bold text-gray-900 mb-4">{{ product.title }}</h1>
       </div>
 
       <!-- Pricing -->

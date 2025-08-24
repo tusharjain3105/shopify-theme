@@ -33,6 +33,49 @@
         </div>
       {% endif %}
 
+      <!-- Wishlist button -->
+      <button type="button" 
+              class="absolute top-3 right-3 w-9 h-9 flex items-center justify-center rounded-full bg-white/90 hover:bg-white shadow-md hover:shadow-lg transition-all duration-200 wishlist-toggle"
+              data-product-handle="{{ product.handle }}"
+              data-product-id="{{ product.id }}"
+              data-product-title="{{ product.title | escape }}"
+              data-product-price="{{ product.price }}"
+              data-product-formatted-price="{{ product.price | money }}"
+              data-product-url="{{ product.url | within: collections.all }}"
+              data-product-image="{{ product.featured_image | img_url: '400x400' }}"
+              aria-label="Add to wishlist"
+              title="Add to wishlist">
+        <span class="sr-only">Add to wishlist</span>
+        <svg class="w-5 h-5 text-gray-400 group-has-[.wishlist-toggle:hover]:text-red-500 group-has-[.wishlist-toggle.text-red-600]:text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+        </svg>
+      </button>
+      
+      <script>
+        // Initialize wishlist button state for this product
+        document.addEventListener('DOMContentLoaded', function() {
+          const wishlistButton = document.querySelector('.wishlist-toggle[data-product-id="{{ product.id }}"]');
+          if (wishlistButton) {
+            try {
+              const wishlist = JSON.parse(localStorage.getItem('wishlistItems') || '[]');
+              const isInWishlist = wishlist.some(item => String(item.id) === '{{ product.id }}');
+              
+              if (isInWishlist) {
+                wishlistButton.classList.add('text-red-600');
+                wishlistButton.setAttribute('aria-label', 'Remove from wishlist');
+                wishlistButton.title = 'Remove from wishlist';
+              } else {
+                wishlistButton.classList.add('text-gray-400');
+                wishlistButton.setAttribute('aria-label', 'Add to wishlist');
+                wishlistButton.title = 'Add to wishlist';
+              }
+            } catch (e) {
+              console.error('Error initializing wishlist button:', e);
+            }
+          }
+        });
+      </script>
+
       <!-- Product badges -->
       {% if product.compare_at_price > product.price %}
         <div class="absolute top-3 left-3 bg-gray-500 text-white px-2 py-1 rounded-md text-sm font-semibold">
@@ -41,7 +84,7 @@
       {% endif %}
 
       {% unless product.available %}
-        <div class="absolute top-3 right-3 bg-gray-800 text-white px-2 py-1 rounded-md text-sm font-semibold">
+        <div class="absolute top-3 right-12 bg-gray-800 text-white px-2 py-1 rounded-md text-sm font-semibold">
           Sold Out
         </div>
       {% endunless %}

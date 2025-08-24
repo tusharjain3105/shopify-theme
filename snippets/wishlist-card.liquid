@@ -1,0 +1,172 @@
+<script>
+  // Wishlist functionality for product cards
+  document.addEventListener('DOMContentLoaded', function() {
+  // Ensure wishlist exists in localStorage
+  if (!localStorage.getItem('wishlistItems')) {
+    localStorage.setItem('wishlistItems', JSON.stringify([]));
+  }
+
+  // Handle wishlist toggle from any product card
+  document.addEventListener('click', function(e) {
+    const btn = e.target.closest('.wishlist-toggle');
+    if (!btn) return;
+    
+    e.preventDefault();
+    e.stopPropagation();
+    
+    try {
+      // Get the product card that contains this button
+      const productCard = btn.closest('.product-card, [data-product-handle]');
+      
+      // Get product data from the button's data attributes first, then fall back to the product card
+      const productId = btn.getAttribute('data-product-id') || 
+                       (productCard && productCard.getAttribute('data-product-id'));
+      
+      const productHandle = btn.getAttribute('data-product-handle') || 
+                          (productCard && productCard.getAttribute('data-product-handle')) ||
+                          '';
+      
+      // Get the product title from the card if available
+      let productTitle = 'Product';
+      const titleElement = productCard && productCard.querySelector('[data-product-title], .product-title, h3');
+
+      console.log('Product title element:', titleElement);
+      if (titleElement) {
+        productTitle = btn.getAttribute('data-product-title') || titleElement.textContent.trim();
+      }
+      productTitle ??= btn.getAttribute('data-product-title') || 'Product';
+      
+      // Get price information
+      let productPrice = '0';
+      let formattedPrice = '0';
+      
+      // Try to get price from price element if available
+      const priceElement = productCard && productCard.querySelector('[data-product-price], .price, .product-price');
+      if (priceElement) {
+        const priceText = priceElement.getAttribute('data-product-price') || priceElement.textContent.trim();
+        formattedPrice = parseFloat(priceText)
+        // Extract numeric value from price text (remove currency symbols and commas)
+        const numericValue = priceText.replace(/[^0-9.,]+/g, '').replace(',', '.');
+        productPrice = parseFloat(numericValue) || 0;
+      } else {
+        // Fall back to button data attributes
+        productPrice = btn.getAttribute('data-product-price') || '0';
+        formattedPrice = btn.getAttribute('data-product-formatted-price') || '0';
+      }
+      
+      // Get product URL and image
+      let productUrl = btn.getAttribute('data-product-url') || 
+                      (productCard && productCard.getAttribute('data-product-url')) ||
+                      `/products/${productHandle}`;
+                      
+      let productImage = btn.getAttribute('data-product-image') || '';
+      
+      // If no image URL in button, try to get from product card
+      if (!productImage && productCard) {
+        const imgElement = productCard.querySelector('img[src*="shopify"], [data-product-image]');
+        if (imgElement) {
+          productImage = imgElement.src || imgElement.getAttribute('data-src') || '';
+        }
+      }
+      
+      // Ensure URL is absolute
+      if (productUrl && !productUrl.startsWith('http') && !productUrl.startsWith('/')) {
+        productUrl = `/${productUrl.replace(/^\/+/, '')}`;
+      }
+      
+      // Ensure image URL is valid
+      if (productImage && !productImage.startsWith('http') && !productImage.startsWith('//')) {
+        productImage = `/${productImage.replace(/^\/+/, '')}`;
+      }
+      
+      // Create a clean product data object
+      const productData = {
+        id: productId,
+        handle: productHandle,
+        title: productTitle,
+        price: productPrice, // Raw price (numeric)
+        formatted_price: formattedPrice, // Formatted price (with currency)
+        url: productUrl,
+        image: productImage,
+        variant_id: productId // For compatibility
+      };
+      
+      console.log('Toggling wishlist item:', productData);
+      toggleWishlistItem(btn, productData);
+    } catch (error) {
+      console.error('Error handling wishlist toggle:', error);
+      showToast('Error updating wishlist', 'error');
+    }
+  });
+  
+  // Initialize wishlist buttons state
+  function initWishlistButtons() {
+    const wishlist = getWishlist();
+    document.querySelectorAll('.wishlist-toggle').forEach(btn => {
+      const productId = btn.dataset.productId;
+      const isInWishlist = wishlist.some(item => item.id === productId);
+      
+      btn.classList.toggle('text-red-600', isInWishlist);
+      btn.classList.toggle('text-gray-400', !isInWishlist);
+      
+      // Update aria-label
+      btn.setAttribute('aria-label', isInWishlist ? 'Remove from wishlist' : 'Add to wishlist');
+    });
+  }
+  
+  // Get current wishlist from localStorage
+  function getWishlist() {
+    try {
+      return JSON.parse(localStorage.getItem('wishlistItems') || '[]');
+    } catch (e) {
+      return [];
+    }
+  }
+  
+  // Toggle item in wishlist
+  function toggleWishlistItem(button, productData) {
+    const wishlist = getWishlist();
+    const existingIndex = wishlist.findIndex(item => item.id === productData.id);
+    
+    if (existingIndex >= 0) {
+      // Remove from wishlist
+      wishlist.splice(existingIndex, 1);
+      button.classList.remove('text-red-600');
+      button.classList.add('text-gray-400');
+      button.setAttribute('aria-label', 'Add to wishlist');
+      showToast('Removed from wishlist');
+    } else {
+      // Add to wishlist
+      wishlist.push(productData);
+      button.classList.remove('text-gray-400');
+      button.classList.add('text-red-600');
+      button.setAttribute('aria-label', 'Remove from wishlist');
+      showToast('Added to wishlist');
+    }
+    
+    // Save to localStorage
+    localStorage.setItem('wishlistItems', JSON.stringify(wishlist));
+    
+    // Dispatch event to update header badge and other listeners
+    const event = new CustomEvent('wishlist:updated', { detail: { count: wishlist.length } });
+    document.dispatchEvent(event);
+  }
+  
+  // Show toast notification if available
+  function showToast(message) {
+    if (typeof window.Toast === 'object' && window.Toast.show) {
+      window.Toast.show(message);
+    } else if (window.Toast && typeof window.Toast === 'function') {
+      window.Toast(message);
+    } else {
+      console.log('Toast:', message);
+    }
+  }
+  
+  // Initialize on load
+  initWishlistButtons();
+  
+  // Re-initialize when dynamic content loads (e.g., infinite scroll)
+  document.addEventListener('shopify:section:load', initWishlistButtons);
+  });
+</script>

@@ -24,7 +24,11 @@
     {{ content_for_layout }}
 
     {%- render 'toast' -%}
-
+    
+    {% comment %} Wishlist drawer and functionality {% endcomment %}
+    {% render 'wishlist-drawer' %}
+    {% render 'wishlist-card' %}
+    
     {% sections 'footer-group' %}
   </body>
 </html>
