@@ -135,22 +135,7 @@
     try { return new Intl.NumberFormat(undefined, { style: 'currency', currency: CURRENCY }).format((cents||0)/100); } catch { return `₹${((cents||0)/100).toFixed(2)}`; }
   };
   const plural = (n, s, p) => (n === 1 ? s : p);
-  // Quantity controls
-  const quantityInput = document.getElementById('quantity');
-  const minusBtn = document.querySelector('.quantity-btn[data-action="minus"]');
-  const plusBtn = document.querySelector('.quantity-btn[data-action="plus"]');
-
-  minusBtn?.addEventListener('click', function() {
-    const currentValue = parseInt(quantityInput.value);
-    if (currentValue > 1) {
-      quantityInput.value = currentValue - 1;
-    }
-  });
-
-  plusBtn?.addEventListener('click', function() {
-    const currentValue = parseInt(quantityInput.value);
-    quantityInput.value = currentValue + 1;
-  });
+  // Quantity controls are wired per-form below
 
   // Buy Now functionality
   window.handleBuyNow = function() {
@@ -243,6 +228,10 @@
 
   const addToCart = (formEl, addBtn, e) => {
     if (e) e.preventDefault();
+    // Prevent double-submits/toasts
+    if (formEl.dataset.busy === '1' || (addBtn && addBtn.dataset.busy === '1')) return;
+    formEl.dataset.busy = '1';
+    if (addBtn) addBtn.dataset.busy = '1';
     if (addBtn) {
       addBtn.disabled = true;
       addBtn.textContent = 'Adding...';
@@ -274,7 +263,9 @@
       if (addBtn) {
         addBtn.disabled = false;
         addBtn.textContent = 'Add to Cart';
+        addBtn.dataset.busy = '0';
       }
+      formEl.dataset.busy = '0';
     });
 
     // Toast promise with detailed messages
@@ -292,12 +283,26 @@
 
   forms.forEach((formEl) => {
     const addBtn = formEl.querySelector('.add-to-cart-btn');
-    // Intercept submit
-    formEl.addEventListener('submit', function(e) {
-      addToCart(formEl, addBtn, e);
+    // Wire quantity controls per form
+    const quantityInput = formEl.querySelector('#quantity');
+    const minusBtn = formEl.querySelector('.quantity-btn[data-action="minus"]');
+    const plusBtn = formEl.querySelector('.quantity-btn[data-action="plus"]');
+    const clampQty = () => {
+      const val = parseInt(quantityInput.value || '1') || 1;
+      quantityInput.value = Math.max(1, val);
+    };
+    minusBtn?.addEventListener('click', function() {
+      const currentValue = parseInt(quantityInput.value || '1') || 1;
+      quantityInput.value = Math.max(1, currentValue - 1);
     });
-    // Intercept button click (extra safety on browsers firing native submit early)
-    addBtn?.addEventListener('click', function(e) {
+    plusBtn?.addEventListener('click', function() {
+      const currentValue = parseInt(quantityInput.value || '1') || 1;
+      quantityInput.value = Math.max(1, currentValue + 1);
+    });
+    quantityInput?.addEventListener('change', clampQty);
+
+    // Intercept submit only (avoid duplicate click+submit)
+    formEl.addEventListener('submit', function(e) {
       addToCart(formEl, addBtn, e);
     });
   });
