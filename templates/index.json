@@ -13,7 +13,7 @@
       "type": "banner",
       "settings": {
         "media_type": "image",
-        "banner_image": "shopify://shop_images/Screenshot_2025-07-27_at_12.23.35_PM.png",
+        "banner_image": "shopify://shop_images/depositphotos_241849930-stock-photo-jewelry-business-advertising-poster-background.webp",
         "autoplay_video": true,
         "loop_video": true,
         "mute_video": true,
@@ -30,7 +30,7 @@
         "category_DzYmAG": {
           "type": "category",
           "settings": {
-            "category_image": "shopify://shop_images/sample.avif",
+            "category_image": "shopify://shop_images/Screenshot_2025-08-31_at_10.03.32_PM.png",
             "category_title": "Neckpieces",
             "category_link": ""
           }
@@ -38,7 +38,7 @@
         "category_QrhREG": {
           "type": "category",
           "settings": {
-            "category_image": "shopify://shop_images/pearl.avif",
+            "category_image": "shopify://shop_images/Screenshot_2025-08-31_at_10.03.13_PM.png",
             "category_title": "Bracelets",
             "category_link": ""
           }
@@ -46,7 +46,7 @@
         "category_6HgMrg": {
           "type": "category",
           "settings": {
-            "category_image": "shopify://shop_images/sample.avif",
+            "category_image": "shopify://shop_images/Screenshot_2025-08-31_at_10.03.07_PM.png",
             "category_title": "Earrings",
             "category_link": ""
           }
@@ -54,7 +54,7 @@
         "category_W6CEDk": {
           "type": "category",
           "settings": {
-            "category_image": "shopify://shop_images/pearl.avif",
+            "category_image": "shopify://shop_images/Screenshot_2025-08-31_at_10.03.26_PM.png",
             "category_title": "Pearls",
             "category_link": ""
           }
@@ -62,7 +62,7 @@
         "category_xVDkC6": {
           "type": "category",
           "settings": {
-            "category_image": "shopify://shop_images/sample.avif",
+            "category_image": "shopify://shop_images/Screenshot_2025-08-31_at_10.03.20_PM.png",
             "category_title": "Pendants",
             "category_link": ""
           }
@@ -70,7 +70,7 @@
         "category_pChCYz": {
           "type": "category",
           "settings": {
-            "category_image": "shopify://shop_images/sample.avif",
+            "category_image": "shopify://shop_images/Screenshot_2025-08-31_at_10.02.44_PM.png",
             "category_title": "Rings",
             "category_link": ""
           }
@@ -78,7 +78,7 @@
         "category_infC9U": {
           "type": "category",
           "settings": {
-            "category_image": "shopify://shop_images/pearl.avif",
+            "category_image": "shopify://shop_images/Screenshot_2025-08-31_at_10.03.07_PM.png",
             "category_title": "Chains",
             "category_link": ""
           }
@@ -142,46 +142,25 @@
         "button_text_color": "#ffffff"
       }
     },
-    "reviews": {
-      "type": "reviews",
+    "featured": {
+      "type": "featured",
       "blocks": {
-        "review_zFrWDF": {
-          "type": "review",
+        "image_HnekbB": {
+          "type": "image",
           "settings": {
-            "reviewer_name": "Jane Doe",
-            "review_rating": "5",
-            "review_text": "This is an example review. Products are excellent and the service is outstanding!"
-          }
-        },
-        "review_VmL8Mi": {
-          "type": "review",
-          "settings": {
-            "reviewer_name": "Jane Doe",
-            "review_rating": "5",
-            "review_text": "This is an example review. Products are excellent and the service is outstanding!"
-          }
-        },
-        "review_JtTQ7d": {
-          "type": "review",
-          "settings": {
-            "reviewer_name": "Jane Doe",
-            "review_rating": "5",
-            "review_text": "This is an example review. Products are excellent and the service is outstanding!"
+            "image": "shopify://shop_images/2_5_880fdb24-50be-490d-b503-4e29ee028bdf.png",
+            "alt": ""
           }
         }
       },
       "block_order": [
-        "review_zFrWDF",
-        "review_VmL8Mi",
-        "review_JtTQ7d"
+        "image_HnekbB"
       ],
       "settings": {
-        "section_heading": "Customer Reviews",
-        "section_subtext": "Read what our customers have to say or leave a review yourself!"
+        "speed": 10,
+        "height": 32,
+        "gap": 0
       }
-    },
-    "featured": {
-      "type": "featured"
     }
   },
   "order": [
@@ -191,7 +170,6 @@
     "sicarchive",
     "product_gallery_Pech8Q",
     "quiz",
-    "reviews",
     "featured"
   ]
 }

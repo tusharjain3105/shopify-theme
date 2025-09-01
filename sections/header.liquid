@@ -1,29 +1,97 @@
-<header id="main-header" class="shadow transition-all duration-150 ease-in-out z-50 backdrop-blur-md bg-white">
+<header class="sticky top-0 w-full h-0 overflow-visible z-10">
+  <div class="py-4 px-4">
+    <div
+      class="mx-auto main-header-2 backdrop-blur-md w-full px-4 py-2 rounded-md text-white transition-[background-color]">
+      <div class="flex justify-between items-center">
+
+        {% comment %} Logo {% endcomment %}
+        <div>
+          <a href="{{ routes.home_url }}" class="text-2xl font-medium">{{ shop.name }}</a>
+        </div>
+
+        {% comment %} Right side icons {% endcomment %}
+        <div class="shrink-0 flex items-center gap-2">
+
+          <!-- Navigation -->
+          <nav class="hidden md:flex items-center gap-2 md:gap-4 lg:gap-6 py-2 justify-center-safe uppercase">
+            {% for link in linklists.main-menu.links %}
+            <div class="relative nth-last-[2]:text-red-500 last:text-shadow-lg last:text-red-500 group">
+              <a href="{{ link.url }}" class="hover:opacity-80 transition-colors">
+                {{ link.title }}
+              </a>
+              {% if link.links != blank %}
+              <div class="absolute top-full left-1/2 -translate-x-1/2 py-2">
+                <div class="bg-zinc-200/70 border border-zinc-200 w-48 group-hover:block hidden">
+                  {% for link in link.links %}
+                  <a href="{{ link.url }}" class="transition-colors p-2 block hover:opacity-80 text-sm">
+                    {{ link.title }}
+                  </a>
+                  {% endfor %}
+                </div>
+              </div>
+              {% endif %}
+            </div>
+            {% endfor %}
+          </nav>
+
+          <a href="{{ routes.search_url }}" class="border border-transparent hover:border-white p-2">
+            {% render 'icon'
+            , icon: 'search' %}
+          </a>
+          <button type="button" data-wishlist-open class="relative border border-transparent hover:border-white p-2">
+            {% render 'icon'
+            , icon: 'wishlist' %}
+            <div
+              class="wishlist-badge absolute -top-1 -right-1 hidden h-4 w-4 items-center justify-center rounded-full bg-red-600 text-xs font-medium text-white">
+              <span id="wishlist-count-badge" class="wishlist-count">0</span>
+            </div>
+          </button>
+          <button type="button" data-cart-open class="relative border border-transparent hover:border-white p-2">
+            {% render 'icon'
+            , icon: 'cart' %}
+            {% if cart.item_count > 0 %}
+            <span
+              class="absolute -top-2 -right-2 bg-black text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+              {{ cart.item_count }}
+            </span>
+            {% endif %}
+          </button>
+          <div class="border border-transparent hover:border-white p-2">
+            <a href="{{ routes.account_url }}">
+              {% render 'icon'
+              , icon: 'account' %}
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<header id="main-header" class="shadow transition-all duration-150 ease-in-out z-50 backdrop-blur-md bg-white" hidden>
   <div class="mx-auto">
     <div class="grid grid-cols-[1fr_1fr_1fr] gap-4 py-4 px-4 md:px-8 lg:px-10">
 
       <div class="flex items-center justify-left-safe">
         <a href="{{ routes.search_url }}" class="text-gray-700 hover:text-gray-900">
           {% render 'icon'
-            , icon: 'search' %}
+          , icon: 'search' %}
         </a>
       </div>
 
       <!-- Logo -->
       <div class="flex-shrink-0 relative h-10 w-full flex justify-center-safe">
         {% if section.settings.logo != blank %}
-          <a href="{{ routes.home_url }}" class="absolute grid place-items-center text-2xl font-bold uppercase tracking-wider nav-logo-title left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2">{{ shop.name }}</a>
-          <a href="/" class="nav-logo opacity-0 absolute grid place-items-center size-16 left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2">
-            <img
-              src="{{ section.settings.logo | image_url: width: 180 }}"
-              alt="{{ shop.name }}"
-              class="size-16 object-contain"
-              loading="eager"
-              width="180"
-              height="auto">
-          </a>
+        <a href="{{ routes.home_url }}"
+          class="absolute grid place-items-center text-2xl font-bold uppercase tracking-wider nav-logo-title left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2">{{
+          shop.name }}</a>
+        <a href="/"
+          class="nav-logo opacity-0 absolute grid place-items-center size-16 left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2">
+          <img src="{{ section.settings.logo | image_url: width: 180 }}" alt="{{ shop.name }}"
+            class="size-16 object-contain" loading="eager" width="180" height="auto">
+        </a>
         {% else %}
-          <a href="{{ routes.home_url }}" class="text-2xl font-bold">{{ shop.name }}</a>
+        <a href="{{ routes.home_url }}" class="text-2xl font-bold">{{ shop.name }}</a>
         {% endif %}
       </div>
 
@@ -32,22 +100,24 @@
       <div class="flex items-center gap-2 md:gap-4 lg:gap-6 justify-end-safe">
         <button type="button" data-wishlist-open class="relative text-gray-700 hover:text-gray-900">
           {% render 'icon', icon: 'wishlist' %}
-          <div class="wishlist-badge absolute -top-1 -right-1 hidden h-4 w-4 items-center justify-center rounded-full bg-red-600 text-xs font-medium text-white">
+          <div
+            class="wishlist-badge absolute -top-1 -right-1 hidden h-4 w-4 items-center justify-center rounded-full bg-red-600 text-xs font-medium text-white">
             <span id="wishlist-count-badge" class="wishlist-count">0</span>
           </div>
         </button>
         <button type="button" data-cart-open class="relative text-gray-700 hover:text-gray-900">
           {% render 'icon'
-            , icon: 'cart' %}
+          , icon: 'cart' %}
           {% if cart.item_count > 0 %}
-            <span class="absolute -top-2 -right-2 bg-black text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-              {{ cart.item_count }}
-            </span>
+          <span
+            class="absolute -top-2 -right-2 bg-black text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+            {{ cart.item_count }}
+          </span>
           {% endif %}
         </button>
         <a href="{{ routes.account_url }}" class="text-gray-700 hover:text-gray-900">
           {% render 'icon'
-            , icon: 'account' %}
+          , icon: 'account' %}
         </a>
       </div>
     </div>
@@ -56,22 +126,23 @@
   <!-- Navigation -->
   <nav class="hidden md:flex items-center gap-2 md:gap-4 py-2 justify-center-safe">
     {% for link in linklists.main-menu.links %}
-      <div class="relative text-gray-700 nth-last-[2]:text-red-500 last:text-red-500 group">
-        <a href="{{ link.url }}" class="hover:text-gray-900 transition-colors">
-          {{ link.title }}
-        </a>
-        {% if link.links != blank %}
-          <div class="absolute top-full left-1/2 -translate-x-1/2 py-2">
-            <div class="bg-zinc-200/70 border border-zinc-200 w-48 group-hover:block hidden">
-              {% for link in link.links %}
-                <a href="{{ link.url }}" class="text-zinc-700 hover:text-zinc-900 transition-colors p-2 block hover:bg-zinc-300 text-sm">
-                  {{ link.title }}
-                </a>
-              {% endfor %}
-            </div>
-          </div>
-        {% endif %}
+    <div class="relative text-gray-700 nth-last-[2]:text-red-500 last:text-red-500 group">
+      <a href="{{ link.url }}" class="hover:text-gray-900 transition-colors">
+        {{ link.title }}
+      </a>
+      {% if link.links != blank %}
+      <div class="absolute top-full left-1/2 -translate-x-1/2 py-2">
+        <div class="bg-zinc-200/70 border border-zinc-200 w-48 group-hover:block hidden">
+          {% for link in link.links %}
+          <a href="{{ link.url }}"
+            class="text-zinc-700 hover:text-zinc-900 transition-colors p-2 block hover:bg-zinc-300 text-sm">
+            {{ link.title }}
+          </a>
+          {% endfor %}
+        </div>
       </div>
+      {% endif %}
+    </div>
     {% endfor %}
   </nav>
 </header>
@@ -80,24 +151,33 @@
 {% render 'wishlist-drawer' %}
 
 <script defer async>
-  const onScroll = function() {
+  const onScroll = function () {
     const navLogoTitle = document.querySelector('.nav-logo-title');
     const navLogo = document.querySelector('.nav-logo');
-    const scrollTop = document.scrollingElement.scrollTop
+    const scrollTop = document.scrollingElement.scrollTop;
+    const header = document.querySelector(".main-header-2")
 
     const OPACITY_HEIGHT_RATIO = 50;
-    if(scrollTop < OPACITY_HEIGHT_RATIO) {
+    if (scrollTop < OPACITY_HEIGHT_RATIO) {
       navLogoTitle.style.opacity = 100;
       navLogo.style.opacity = 0;
+      header.style.background = "rgba(0, 0, 0, 0.5)";
+      header.style.color = 'white';
     } else if (scrollTop < OPACITY_HEIGHT_RATIO * 2) {
       navLogoTitle.style.opacity = (OPACITY_HEIGHT_RATIO * 2 - scrollTop) / OPACITY_HEIGHT_RATIO;
       navLogo.style.opacity = 0;
+      header.style.background = "rgba(100, 100, 100, 0.5)";
+      header.style.color = 'white';
     } else if (scrollTop < OPACITY_HEIGHT_RATIO * 3) {
       navLogoTitle.style.opacity = 0;
       navLogo.style.opacity = (scrollTop - OPACITY_HEIGHT_RATIO * 2) / OPACITY_HEIGHT_RATIO;
+      header.style.background = "rgba(200, 200, 200, 0.5)";
+      header.style.color = 'black';
     } else {
       navLogoTitle.style.opacity = 0;
       navLogo.style.opacity = 100;
+      header.style.background = "rgba(255, 255, 255, 0.5)";
+      header.style.color = 'black';
     }
   }
   document.addEventListener('DOMContentLoaded', onScroll);
@@ -106,28 +186,28 @@
 
 <script>
   // Wishlist header badge and open handler
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function () {
     function getWishlist() {
-      try { 
+      try {
         const items = JSON.parse(localStorage.getItem('wishlistItems') || '[]');
         return Array.isArray(items) ? items : [];
-      } catch(e) { 
+      } catch (e) {
         console.error('Error reading wishlist:', e);
         return [];
       }
     }
-    
+
     function updateWishlistBadge() {
       try {
         console.log('Updating wishlist badge...');
         const wishlist = getWishlist();
         const badge = document.querySelector('.wishlist-badge');
         const count = wishlist.length;
-        
+
         if (badge) {
           const countEl = badge.querySelector('.wishlist-count');
           if (countEl) countEl.textContent = count;
-          
+
           badge.classList.toggle('hidden', count === 0);
           badge.classList.toggle('inline-flex', count > 0);
         }
@@ -143,27 +223,27 @@
         console.log('Wishlist button not found in the DOM');
         return;
       }
-      
+
       console.log('Initializing wishlist button...');
-      
-      wishlistButton.addEventListener('click', function(e) {
+
+      wishlistButton.addEventListener('click', function (e) {
         e.preventDefault();
         e.stopPropagation();
-        
+
         console.log('Wishlist button clicked');
         console.log('Window.WishlistDrawer:', window.WishlistDrawer);
-        
+
         if (window.WishlistDrawer && typeof window.WishlistDrawer.open === 'function') {
           console.log('Opening wishlist drawer directly');
           window.WishlistDrawer.open();
         } else {
           console.log('WishlistDrawer not available yet, waiting for ready event...');
-          
+
           // If drawer not ready, wait for it
           const onWishlistReady = () => {
             console.log('wishlist:ready event received');
             console.log('Window.WishlistDrawer after event:', window.WishlistDrawer);
-            
+
             if (window.WishlistDrawer && typeof window.WishlistDrawer.open === 'function') {
               console.log('Opening wishlist drawer after ready event');
               window.WishlistDrawer.open();
@@ -172,9 +252,9 @@
               console.error('WishlistDrawer still not available after ready event');
             }
           };
-          
+
           document.addEventListener('wishlist:ready', onWishlistReady);
-          
+
           // Also try to open after a short delay in case the event was missed
           setTimeout(() => {
             if (window.WishlistDrawer && typeof window.WishlistDrawer.open === 'function') {
@@ -190,38 +270,38 @@
     // Initial setup
     updateWishlistBadge();
     initWishlistButton();
-    
+
     // Listen for wishlist updates
     window.addEventListener('wishlist:updated', updateWishlistBadge);
-    
+
     // Also update when the page becomes visible again (in case changes were made in another tab)
-    document.addEventListener('visibilitychange', function() {
+    document.addEventListener('visibilitychange', function () {
       if (!document.hidden) {
         updateWishlistBadge();
       }
     });
-    
+
     console.log('Wishlist header initialized');
   });
 </script>
 
 {% schema %}
-  {
-    "name": "Header",
-    "class": "sticky top-0 z-10",
-    "settings": [
-      {
-        "type": "image_picker",
-        "id": "logo",
-        "label": "Logo",
-        "info": "Recommended size: 180x40px"
-      }
-    ],
-    "presets": [
-      {
-        "name": "Header",
-        "category": "Header"
-      }
-    ]
-  }
+{
+"name": "Header",
+"class": "sticky top-0 z-10",
+"settings": [
+{
+"type": "image_picker",
+"id": "logo",
+"label": "Logo",
+"info": "Recommended size: 180x40px"
+}
+],
+"presets": [
+{
+"name": "Header",
+"category": "Header"
+}
+]
+}
 {% endschema %}
