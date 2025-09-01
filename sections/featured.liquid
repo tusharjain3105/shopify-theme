@@ -1,0 +1,112 @@
+<section class="my-8" id="featured-section-{{ section.id }}">
+    <div class="text-3xl font-bold mb-4 text-center">Featured</div>
+
+    <div class="featured-carousel">
+        <div class="featured-track">
+            {% assign images = section.blocks | where: 'type', 'image' %}
+            {% if images.size > 0 %}
+            {% for block in images %}
+            <img src="{{ block.settings.image | image_url: width: 264 }}"
+                alt="{{ block.settings.alt | default: 'Featured image' }}" class="featured-image">
+            {% endfor %}
+            {% for block in images %}
+            <img src="{{ block.settings.image | image_url: width: 264 }}"
+                alt="{{ block.settings.alt | default: 'Featured image' }}" class="featured-image">
+            {% endfor %}
+            {% else %}
+            {% for _ in (1..12) %}
+            <img src="https://static.wixstatic.com/media/7ae4c4_a5111e6a0c1c4a77a25a6ea7111f671b~mv2.jpg/v1/fill/w_264,h_411,fp_0.4_0.31,q_90,enc_avif,quality_auto/7ae4c4_a5111e6a0c1c4a77a25a6ea7111f671b~mv2.jpg"
+                alt="Featured image" class="featured-image">
+            {% endfor %}
+            {% for _ in (1..12) %}
+            <img src="https://static.wixstatic.com/media/7ae4c4_a5111e6a0c1c4a77a25a6ea7111f671b~mv2.jpg/v1/fill/w_264,h_411,fp_0.4_0.31,q_90,enc_avif,quality_auto/7ae4c4_a5111e6a0c1c4a77a25a6ea7111f671b~mv2.jpg"
+                alt="Featured image" class="featured-image">
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const style = document.createElement('style');
+        style.textContent = `
+    @keyframes scroll{{ section.id }} {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    #featured-section-{{ section.id }} .featured-carousel {
+      overflow: hidden;
+      width: 100%;
+    }
+    #featured-section-{{ section.id }} .featured-track {
+      display: flex;
+      animation: scroll{{ section.id }} {{ section.settings.speed | default: 20 }}s linear infinite;
+      width: fit-content;
+    }
+    #featured-section-{{ section.id }} .featured-image {
+      height: {{ section.settings.height | default: 16 }}rem;
+      width: auto;
+      object-fit: cover;
+      flex-shrink: 0;
+      margin-right: {{ section.settings.gap | default: 0 | divided_by: 10.0 }}rem;
+    }
+  `;
+        document.head.appendChild(style);
+    });
+</script>
+
+{% schema %}
+{
+"name": "Featured Images",
+"settings": [
+{
+"type": "range",
+"id": "speed",
+"label": "Animation Speed (seconds)",
+"min": 10,
+"max": 60,
+"step": 5,
+"default": 10
+}, {
+"type": "range",
+"id": "height",
+"label": "Image Height (rem)",
+"min": 8,
+"max": 50,
+"step": 1,
+"default": 32
+}, {
+"type": "range",
+"id": "gap",
+"label": "Gap between images (rem)",
+"min": 0,
+"max": 30,
+"step": 1,
+"default": 0
+}
+],
+"blocks": [
+{
+"type": "image",
+"name": "Image",
+"settings": [
+{
+"type": "image_picker",
+"id": "image",
+"label": "Image"
+}, {
+"type": "text",
+"id": "alt",
+"label": "Alt text"
+}
+]
+}
+],
+"presets": [
+{
+"name": "Featured Images"
+}
+]
+}
+{% endschema %}

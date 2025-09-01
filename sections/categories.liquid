@@ -49,9 +49,9 @@
     class="grid transition-all duration-150 group"
     style="grid-template-columns: repeat({{ section.blocks.size }}, 1fr)">
     {% for block in section.blocks %}
-      <div class="h-55 relative grid-item cursor-pointer transition-all duration-150 grid place-items-center gap-4 group/card">
+      <div class="h-80 relative grid-item cursor-pointer transition-all duration-150 grid place-items-center gap-4 group/card">
         <img
-          class="h-55 object-cover w-full transition-all duration-150"
+          class="h-80 object-contain w-full transition-all duration-150"
           src="{{ block.settings.category_image | image_url }}"
           alt="{{ block.settings.category_title }}">
         <h3 class="absolute bottom-0 left-0 right-0 text-center text-white bg-gradient-to-b from-transparent to-black p-2 group-hover/card:pt-20 transition-all duration-150">{{ block.settings.category_title }}</h3>

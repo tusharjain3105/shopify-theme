@@ -1,15 +1,19 @@
 {
   "name": "tushar-x-sicsense",
   "module": "index.ts",
-  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest",
+    "tailwindcss": "^4.1.12"
+  },
   "private": true,
   "scripts": {
-    "dev": "shopify theme dev --theme-editor-sync",
+    "dev": "shopify theme dev --theme-editor-sync --store=0srnet-ks",
+    "dev-local": "shopify theme dev --store=0srnet-ks",
     "tailwind": "npx tailwindcss -i ./assets/base-tailwind.css -o ./assets/base.css --watch",
     "push": "shopify theme push"
   },
-  "devDependencies": {
-    "@types/bun": "latest",
-    "tailwindcss": "^4.1.11"
+  "type": "module",
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.12"
   }
 }

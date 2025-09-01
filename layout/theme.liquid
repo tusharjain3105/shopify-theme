@@ -1,34 +1,42 @@
 <!doctype html>
 <html lang="{{ request.locale.iso_code }}">
-  <head>
-    {% # Inlined CSS Variables %}
-    {% render 'css-variables' %}
 
-    {% # Load and preload the critical CSS %}
-    {{ 'critical.css' | asset_url | stylesheet_tag: preload: true }}
-{{ 'base.css' | asset_url | stylesheet_tag: preload: true }}
+<head>
+  {% # Inlined CSS Variables %}
+  {% render 'css-variables' %}
 
-    {% # Social, title, etc. %}
-    {% render 'meta-tags' %}
+  {% # Load and preload the critical CSS %}
+  {{ 'critical.css' | asset_url | stylesheet_tag: preload: true }}
+  {{ 'base.css' | asset_url | stylesheet_tag: preload: true }}
 
-    {{ content_for_header }}
+  {% # Social, title, etc. %}
+  {% render 'meta-tags' %}
 
-    {% if settings.favicon_image %}
-    <link rel="icon" href="{{ settings.favicon_image | image_url }}" type="image/x-icon"/>
-    {% endif %}
-  </head>
+  {{ content_for_header }}
 
-  <body>
-    {% sections 'header-group' %}
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
-    {{ content_for_layout }}
+  {% if settings.favicon_image %}
+  <link rel="icon" href="{{ settings.favicon_image | image_url }}" type="image/x-icon" />
+  {% endif %}
+</head>
 
-    {%- render 'toast' -%}
-    
-    {% comment %} Wishlist drawer and functionality {% endcomment %}
-    {% render 'wishlist-drawer' %}
-    {% render 'wishlist-card' %}
-    
-    {% sections 'footer-group' %}
-  </body>
+<body>
+  {% sections 'header-group' %}
+
+  {{ content_for_layout }}
+
+  {%- render 'toast' -%}
+
+  {% comment %} Wishlist drawer and functionality {% endcomment %}
+  {% render 'wishlist-drawer' %}
+  {% render 'wishlist-card' %}
+
+  {% sections 'footer-group' %}
+
+  <!-- Swiper JS -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+</body>
+
 </html>

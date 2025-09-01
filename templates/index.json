@@ -179,6 +179,9 @@
         "section_heading": "Customer Reviews",
         "section_subtext": "Read what our customers have to say or leave a review yourself!"
       }
+    },
+    "featured": {
+      "type": "featured"
     }
   },
   "order": [
@@ -188,6 +191,7 @@
     "sicarchive",
     "product_gallery_Pech8Q",
     "quiz",
-    "reviews"
+    "reviews",
+    "featured"
   ]
 }
