@@ -108,12 +108,20 @@
         "show_navigation": false
       }
     },
-    "sicarchive": {
-      "type": "sicarchive",
+    "banner_FfHwgK": {
+      "type": "banner",
+      "name": "Banner",
       "settings": {
-        "archive_collection": "sicarchive",
-        "section_heading": "SIC Archive",
-        "products_limit": 8
+        "media_type": "image",
+        "banner_image": "shopify://shop_images/generate-a-named-banner-for-sicarchive-its-a-curated-selection-of-jwellery-products.png",
+        "autoplay_video": true,
+        "loop_video": true,
+        "mute_video": true,
+        "show_card": false,
+        "heading": "Welcome to Our Store",
+        "subtext": "Discover the latest collections and exclusive offers.",
+        "button_link": "shopify://collections/sicarchive",
+        "button_text": "Shop Now"
       }
     },
     "product_gallery_Pech8Q": {
@@ -199,7 +207,7 @@
     "banner",
     "categories",
     "product-gallery",
-    "sicarchive",
+    "banner_FfHwgK",
     "product_gallery_Pech8Q",
     "quiz",
     "featured"
