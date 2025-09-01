@@ -1,14 +1,15 @@
 {% comment %}
-  Filter Sidebar Component
-  Usage: {% render 'filter-sidebar', collection: collection %}
+Filter Sidebar Component
+Usage: {% render 'filter-sidebar', collection: collection %}
 
-  Props:
-  - show-in-mobile: boolean (optional) — default false
+Props:
+- show-in-mobile: boolean (optional) — default false
 {% endcomment %}
 
 {% assign show_in_mobile = show_in_mobile | default: false %}
 
-<aside id="filter-sidebar" class="{% if show_in_mobile %}block{% else %}hidden{% endif %} lg:block md:w-64 w-full flex-shrink-0 overflow-auto md:max-h-[calc(100vh-12rem)] max-h-[calc(100vh-10rem)] rounded-lg scrollbar-hide">
+<aside id="filter-sidebar"
+  class="{% if show_in_mobile %}block{% else %}hidden{% endif %} lg:block md:w-64 w-full flex-shrink-0 overflow-auto md:max-h-[calc(100vh-12rem)] max-h-[calc(100vh-10rem)] rounded-lg scrollbar-hide">
   <div class="bg-gray-50 p-6">
     <h3 class="text-lg font-semibold text-gray-900 mb-4 text-center md:text-left">Sort & Filters</h3>
 
@@ -33,43 +34,23 @@
       <h4 class="text-sm font-medium text-gray-700 mb-3">Price Range</h4>
       <div class="space-y-2">
         <label class="flex items-center">
-          <input
-            type="checkbox"
-            class="price-filter mr-2"
-            data-min="0"
-            data-max="500">
+          <input type="checkbox" class="price-filter mr-2" data-min="0" data-max="500">
           <span class="text-sm">Under ₹500</span>
         </label>
         <label class="flex items-center">
-          <input
-            type="checkbox"
-            class="price-filter mr-2"
-            data-min="500"
-            data-max="1000">
+          <input type="checkbox" class="price-filter mr-2" data-min="500" data-max="1000">
           <span class="text-sm">₹500 - ₹1,000</span>
         </label>
         <label class="flex items-center">
-          <input
-            type="checkbox"
-            class="price-filter mr-2"
-            data-min="1000"
-            data-max="2500">
+          <input type="checkbox" class="price-filter mr-2" data-min="1000" data-max="2500">
           <span class="text-sm">₹1,000 - ₹2,500</span>
         </label>
         <label class="flex items-center">
-          <input
-            type="checkbox"
-            class="price-filter mr-2"
-            data-min="2500"
-            data-max="5000">
+          <input type="checkbox" class="price-filter mr-2" data-min="2500" data-max="5000">
           <span class="text-sm">₹2,500 - ₹5,000</span>
         </label>
         <label class="flex items-center">
-          <input
-            type="checkbox"
-            class="price-filter mr-2"
-            data-min="5000"
-            data-max="999999">
+          <input type="checkbox" class="price-filter mr-2" data-min="5000" data-max="999999">
           <span class="text-sm">Over ₹5,000</span>
         </label>
       </div>
@@ -80,17 +61,11 @@
       <h4 class="text-sm font-medium text-gray-700 mb-3">Availability</h4>
       <div class="space-y-2">
         <label class="flex items-center">
-          <input
-            type="checkbox"
-            class="availability-filter mr-2"
-            data-value="in-stock">
+          <input type="checkbox" class="availability-filter mr-2" data-value="in-stock">
           <span class="text-sm">In Stock</span>
         </label>
         <label class="flex items-center">
-          <input
-            type="checkbox"
-            class="availability-filter mr-2"
-            data-value="out-of-stock">
+          <input type="checkbox" class="availability-filter mr-2" data-value="out-of-stock">
           <span class="text-sm">Out of Stock</span>
         </label>
       </div>
@@ -98,51 +73,46 @@
 
     <!-- Product Type Filter -->
     {% if collection.all_types.size > 0 %}
-      <div class="filter-group mb-6">
-        <h4 class="text-sm font-medium text-gray-700 mb-3">Product Type</h4>
-        <div class="space-y-2">
-          {% for product_type in collection.all_types %}
-            {% if product_type != blank %}
-              <label class="flex items-center">
-                <input
-                  type="checkbox"
-                  class="type-filter mr-2"
-                  data-value="{{ product_type | handleize }}">
-                <span class="text-sm">{{ product_type }}</span>
-              </label>
-            {% endif %}
-          {% endfor %}
-        </div>
+    <div class="filter-group mb-6">
+      <h4 class="text-sm font-medium text-gray-700 mb-3">Product Type</h4>
+      <div class="space-y-2">
+        {% for product_type in collection.all_types %}
+        {% if product_type != blank %}
+        <label class="flex items-center">
+          <input type="checkbox" class="type-filter mr-2" data-value="{{ product_type | handleize }}">
+          <span class="text-sm">{{ product_type }}</span>
+        </label>
+        {% endif %}
+        {% endfor %}
       </div>
+    </div>
     {% endif %}
 
     <!-- Vendor Filter -->
     {% if collection.all_vendors.size > 1 %}
-      <div class="filter-group mb-6">
-        <h4 class="text-sm font-medium text-gray-700 mb-3">Brand</h4>
-        <div class="space-y-2">
-          {% for vendor in collection.all_vendors %}
-            <label class="flex items-center">
-              <input
-                type="checkbox"
-                class="vendor-filter mr-2"
-                data-value="{{ vendor | handleize }}">
-              <span class="text-sm">{{ vendor }}</span>
-            </label>
-          {% endfor %}
-        </div>
+    <div class="filter-group mb-6">
+      <h4 class="text-sm font-medium text-gray-700 mb-3">Brand</h4>
+      <div class="space-y-2">
+        {% for vendor in collection.all_vendors %}
+        <label class="flex items-center">
+          <input type="checkbox" class="vendor-filter mr-2" data-value="{{ vendor | handleize }}">
+          <span class="text-sm">{{ vendor }}</span>
+        </label>
+        {% endfor %}
       </div>
+    </div>
     {% endif %}
 
     <!-- Clear Filters -->
-    <button id="clear-filters" class="w-full bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300 transition-colors">
+    <button onclick="location.reload()"
+      class="w-full bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300 transition-colors">
       Clear All Filters
     </button>
   </div>
 </aside>
 
 <script defer async>
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function () {
     const select = document.getElementById('sort-select');
 
     const selectedOption = new URL(location).searchParams.get('sort_by') || 'manual';
