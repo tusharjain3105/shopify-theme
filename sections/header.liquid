@@ -1,12 +1,17 @@
 <header class="sticky top-0 w-full h-0 overflow-visible z-10">
   <div class="py-4 px-4">
     <div
-      class="mx-auto main-header-2 backdrop-blur-md w-full px-4 py-2 rounded-md text-white transition-[background-color]">
+      class="mx-auto main-header-2 backdrop-blur-md w-full px-2 md:px-4 py-2 rounded-md text-white transition-[background-color]">
       <div class="flex justify-between items-center">
+
+        <a href="{{ routes.search_url }}" class="border border-transparent hover:border-white p-2 block md:hidden w-24">
+          {% render 'icon'
+          , icon: 'search' %}
+        </a>
 
         {% comment %} Logo {% endcomment %}
         <div>
-          <a href="{{ routes.home_url }}" class="text-2xl font-medium">{{ shop.name }}</a>
+          <a href="/" class="text-2xl font-medium">{{ shop.name }}</a>
         </div>
 
         {% comment %} Right side icons {% endcomment %}
@@ -34,7 +39,7 @@
             {% endfor %}
           </nav>
 
-          <a href="{{ routes.search_url }}" class="border border-transparent hover:border-white p-2">
+          <a href="{{ routes.search_url }}" class="border border-transparent hover:border-white p-2 md:block hidden">
             {% render 'icon'
             , icon: 'search' %}
           </a>
@@ -56,7 +61,7 @@
             </span>
             {% endif %}
           </button>
-          <div class="border border-transparent hover:border-white p-2">
+          <div class="border border-transparent hover:border-white p-2 hidden md:block">
             <a href="{{ routes.account_url }}">
               {% render 'icon'
               , icon: 'account' %}
