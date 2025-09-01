@@ -1,23 +1,22 @@
 {% comment %}
-  Reusable Wishlist Drawer
-  Shows locally stored wishlist items. Trigger with [data-wishlist-open] and include with {% render 'wishlist-drawer' %}.
+Reusable Wishlist Drawer
+Shows locally stored wishlist items. Trigger with [data-wishlist-open] and include with {% render 'wishlist-drawer' %}.
 {% endcomment %}
 
 <div id="wishlist-drawer" class="fixed inset-0 z-[60] pointer-events-none">
   <!-- Overlay -->
-  <div data-wishlist-overlay class="hidden absolute inset-0 bg-black/40 opacity-0 transition-opacity duration-200"></div>
+  <div data-wishlist-overlay class="hidden absolute inset-0 bg-black/40 opacity-0 transition-opacity duration-200">
+  </div>
 
   <!-- Panel -->
-  <aside data-wishlist-panel class="absolute right-0 top-0 h-full w-[90%] max-w-md bg-white shadow-xl translate-x-full transition-transform duration-300 flex flex-col">
+  <aside data-wishlist-panel
+    class="absolute right-0 top-0 h-full w-[90%] max-w-md bg-white shadow-xl translate-x-full transition-transform duration-300 flex flex-col">
     <div class="flex items-center justify-between p-4 border-b">
       <h3 class="text-lg font-semibold">Your Wishlist</h3>
-      <button
-        type="button"
-        data-wishlist-close
-        class="p-2 text-gray-500 hover:text-gray-800"
+      <button type="button" data-wishlist-close class="p-2 text-gray-500 hover:text-gray-800"
         aria-label="Close wishlist">
         {% render 'icon'
-          , icon: 'x' %}
+        , icon: 'x' %}
       </button>
     </div>
 
@@ -35,7 +34,7 @@
 
 <script>
   // Initialize when DOM is ready
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function () {
     console.log('DOMContentLoaded for wishlist-drawer');
     // Skip if already initialized
     if (window.WishlistDrawer && window.WishlistDrawer.initialized) {
@@ -87,33 +86,33 @@
     };
 
     const getWishlist = () => {
-      try { 
+      try {
         const items = JSON.parse(localStorage.getItem('wishlistItems') || '[]');
         return Array.isArray(items) ? items : [];
-      } catch(e) { 
+      } catch (e) {
         console.error('Error reading wishlist:', e);
         return [];
       }
     };
-    
+
     const saveWishlist = (list) => {
       try {
         localStorage.setItem('wishlistItems', JSON.stringify(list));
         window.dispatchEvent(new CustomEvent('wishlist:updated'));
-      } catch(e) {
+      } catch (e) {
         console.error('Error saving wishlist:', e);
       }
     };
-    
+
     const formatMoney = (cents) => {
       try {
-        return new Intl.NumberFormat('{{ shop.locale | default: "en-US" }}', { 
-          style: 'currency', 
-          currency: '{{ shop.currency | default: "USD" }}' 
+        return new Intl.NumberFormat('{{ shop.locale | default: "en-US" }}', {
+          style: 'currency',
+          currency: '{{ shop.currency | default: "USD" }}'
         }).format((cents || 0) / 100);
-      } catch(e) { 
+      } catch (e) {
         console.error('Error formatting money:', e);
-        return ((cents || 0) / 100).toFixed(2); 
+        return ((cents || 0) / 100).toFixed(2);
       }
     };
 
@@ -125,7 +124,7 @@
         if (window.Toast && window.Toast.success) {
           window.Toast.success({ title: 'Removed from wishlist' });
         }
-      } catch(e) {
+      } catch (e) {
         console.error('Error removing from wishlist:', e);
       }
     };
@@ -134,7 +133,7 @@
       try {
         const items = getWishlist();
         console.log('Rendering wishlist items:', items);
-        
+
         if (!items || !items.length) {
           content.innerHTML = `
             <div class="flex flex-col items-center justify-center py-12 px-4 text-center">
@@ -143,13 +142,13 @@
               </svg>
               <h3 class="text-lg font-medium text-gray-900 mb-1">Your wishlist is empty</h3>
               <p class="text-sm text-gray-500 mb-6">Add items to your wishlist and they'll appear here</p>
-              <button type="button" data-wishlist-close class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              <button type="button" data-wishlist-close class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-black hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black">
                 Continue Shopping
               </button>
             </div>`;
           return;
         }
-        
+
         content.innerHTML = items.map(item => {
           if (!item) return '';
 
@@ -165,14 +164,14 @@
             if (item.formatted_price) {
               priceDisplay = item.formatted_price;
             } else if (item.price) {
-              const priceValue = typeof item.price === 'string' ? 
-                parseFloat(item.price.replace(/[^0-9.]/g, '')) : 
+              const priceValue = typeof item.price === 'string' ?
+                parseFloat(item.price.replace(/[^0-9.]/g, '')) :
                 parseFloat(item.price);
               if (!isNaN(priceValue)) {
                 priceDisplay = formatMoney(priceValue * 100);
               }
             }
-          } catch(e) {
+          } catch (e) {
             console.error('Error formatting price:', e);
           }
 
@@ -224,28 +223,28 @@
           </div>
         `;
         }).join('');
-      } catch(e) {
+      } catch (e) {
         console.error('Error rendering wishlist:', e);
         content.innerHTML = '<div class="text-sm text-red-600">Error loading wishlist. Please refresh the page.</div>';
       }
     };
-  
+
     // Initialize event listeners
     const initEventListeners = () => {
       document.addEventListener('click', (e) => {
         const openTrigger = e.target.closest('[data-wishlist-open]');
-        if (openTrigger) { 
-          e.preventDefault(); 
+        if (openTrigger) {
+          e.preventDefault();
           e.stopPropagation();
-          open(); 
-          return; 
+          open();
+          return;
         }
-        
-        if (e.target.closest('[data-wishlist-close]') || e.target === overlay) { 
-          e.preventDefault(); 
+
+        if (e.target.closest('[data-wishlist-close]') || e.target === overlay) {
+          e.preventDefault();
           e.stopPropagation();
-          close(); 
-          return; 
+          close();
+          return;
         }
 
         const removeBtn = e.target.closest('[data-wishlist-remove]');
@@ -269,7 +268,7 @@
 
     // Initialize
     initEventListeners();
-    
+
     // Initial render
     render();
 
@@ -281,9 +280,9 @@
       render: render,
       getCount: () => getWishlist().length
     };
-    
+
     console.log('WishlistDrawer initialized successfully', window.WishlistDrawer);
-    
+
     // Dispatch event that wishlist is ready
     document.dispatchEvent(new CustomEvent('wishlist:ready'));
   });
