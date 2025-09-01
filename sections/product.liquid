@@ -1,10 +1,10 @@
 {% comment %}
-  Modern Product Page with Responsive Design
-  Mobile: Vertical layout with image carousel, pricing, CTA, specs, badges, recommended
-  Desktop: Grid layout with sticky image carousel + product details
+Modern Product Page with Responsive Design
+Mobile: Vertical layout with image carousel, pricing, CTA, specs, badges, recommended
+Desktop: Grid layout with sticky image carousel + product details
 {% endcomment %}
 
-<section class="product-page">
+<section class="product-page mt-14">
   <!-- Mobile Layout -->
   <div class="lg:hidden">
     {% render 'product-mobile', product: product %}
@@ -23,29 +23,29 @@
 
 {% schema %}
 {
-  "name": "Product Page",
-  "settings": [
-    {
-      "type": "checkbox",
-      "id": "show_vendor",
-      "label": "Show vendor",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "show_specs",
-      "label": "Show specifications",
-      "default": true
-    },
-    {
-      "type": "text",
-      "id": "specs_title",
-      "label": "Specifications title",
-      "default": "Specifications"
-    }
-  ],
-  "disabled_on": {
-    "groups": ["header", "footer"]
-  }
+"name": "Product Page",
+"settings": [
+{
+"type": "checkbox",
+"id": "show_vendor",
+"label": "Show vendor",
+"default": true
+},
+{
+"type": "checkbox",
+"id": "show_specs",
+"label": "Show specifications",
+"default": true
+},
+{
+"type": "text",
+"id": "specs_title",
+"label": "Specifications title",
+"default": "Specifications"
+}
+],
+"disabled_on": {
+"groups": ["header", "footer"]
+}
 }
 {% endschema %}

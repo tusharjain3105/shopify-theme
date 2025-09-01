@@ -1,18 +1,18 @@
 {% comment %}
-  Enhanced Collection Page with Modular Components
-  https://shopify.dev/docs/storefronts/themes/architecture/templates/collection
+Enhanced Collection Page with Modular Components
+https://shopify.dev/docs/storefronts/themes/architecture/templates/collection
 {% endcomment %}
 
-<section class="collection-page py-8">
+<section class="collection-page py-8 mt-14">
   <div class="mx-auto px-4 md:px-8 lg:px-10">
 
     <!-- Collection Header -->
     <div class="collection-header text-center mb-8 hidden">
       <h1 data-product-title class="text-4xl font-bold text-gray-900 mb-4">{{ collection.title }}</h1>
       {% if collection.description != blank %}
-        <div class="text-lg text-gray-600 max-w-3xl mx-auto">
-          {{ collection.description }}
-        </div>
+      <div class="text-lg text-gray-600 max-w-3xl mx-auto">
+        {{ collection.description }}
+      </div>
       {% endif %}
       <p class="text-sm text-gray-500 mt-4">{{ collection.products_count }} products</p>
     </div>
@@ -20,25 +20,24 @@
     <div class="group md:hidden">
       <div class="flex items-center justify-between fixed right-2 bottom-2 z-10">
         <label class="bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300 transition-colors">
-          <input
-            type="checkbox"
-            id="filter-toggle"
-            class="hidden">
+          <input type="checkbox" id="filter-toggle" class="hidden">
           {% render 'icon'
-            , icon: 'filter' %}
+          , icon: 'filter' %}
         </label>
       </div>
-      <div class="fixed bottom-0 left-0 z-20 bg-white border border-gray-200 rounded-t-2xl w-full group-has-[input:checked]:grid-rows-[1fr] grid-rows-[0fr] grid transition-[grid-template-rows] duration-300">
+      <div
+        class="fixed bottom-0 left-0 z-20 bg-white border border-gray-200 rounded-t-2xl w-full group-has-[input:checked]:grid-rows-[1fr] grid-rows-[0fr] grid transition-[grid-template-rows] duration-300">
         <div class="overflow-hidden">
           <div class="flex items-center justify-between overflow-auto">
-            <label for="filter-toggle" class="text-gray-500 hover:text-gray-700 transition-colors absolute top-6 right-4">
+            <label for="filter-toggle"
+              class="text-gray-500 hover:text-gray-700 transition-colors absolute top-6 right-4">
               {% render 'icon'
-                , icon: 'x' %}
+              , icon: 'x' %}
             </label>
           </div>
           {% render 'filter-sidebar'
-            , collection: collection
-            , show_in_mobile: true
+          , collection: collection
+          , show_in_mobile: true
           %}
         </div>
       </div>
@@ -49,50 +48,44 @@
       <!-- Filter Sidebar -->
       <div class="sticky top-36 max-h-fit">
         {% render 'filter-sidebar'
-          , collection: collection %}
+        , collection: collection %}
       </div>
 
       <!-- Products Grid -->
       <main class="flex-1">
         {% paginate collection.products by 24 %}
 
-          <!-- Active Filters Display -->
-          <div id="active-filters" class="mb-4 flex-wrap gap-2 hidden"></div>
+        <!-- Active Filters Display -->
+        <div id="active-filters" class="mb-4 flex-wrap gap-2 hidden"></div>
 
-          <!-- Products Container -->
-          <div id="products-container" class="products-grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {% for product in collection.products %}
-              {% render 'product-card-enhanced'
-                , product: product %}
-            {% endfor %}
-          </div>
+        <!-- Products Container -->
+        <div id="products-container" class="products-grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {% for product in collection.products %}
+          {% render 'product-card-enhanced'
+          , product: product %}
+          {% endfor %}
+        </div>
 
-          <!-- No Products Message -->
-          <div id="no-products" class="hidden text-center py-16">
-            <svg
-              class="w-16 h-16 text-gray-300 mx-auto mb-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="1.5"
-                d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-            </svg>
-            <p class="text-xl text-gray-500">No products match your filters</p>
-            <button onclick="clearAllFilters()" class="mt-4 bg-gray-800 text-white px-6 py-2 rounded-md hover:bg-gray-900 transition-colors">
-              Clear Filters
-            </button>
-          </div>
+        <!-- No Products Message -->
+        <div id="no-products" class="hidden text-center py-16">
+          <svg class="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+              d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+          </svg>
+          <p class="text-xl text-gray-500">No products match your filters</p>
+          <button onclick="clearAllFilters()"
+            class="mt-4 bg-gray-800 text-white px-6 py-2 rounded-md hover:bg-gray-900 transition-colors">
+            Clear Filters
+          </button>
+        </div>
 
-          <!-- Pagination -->
-          {% if paginate.pages > 1 %}
-            <div class="pagination-wrapper mt-12 m-auto max-w-fit">
-              {% render 'pagination'
-                , paginate: paginate %}
-            </div>
-          {% endif %}
+        <!-- Pagination -->
+        {% if paginate.pages > 1 %}
+        <div class="pagination-wrapper mt-12 m-auto max-w-fit">
+          {% render 'pagination'
+          , paginate: paginate %}
+        </div>
+        {% endif %}
 
         {% endpaginate %}
       </main>
@@ -102,7 +95,7 @@
 
 <!-- Mobile Filter Overlay -->
 {% render 'mobile-filter-overlay'
-  , collection: collection %}
+, collection: collection %}
 
 <!-- Collection Scripts -->
 {% render 'collection-scripts' %}

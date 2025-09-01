@@ -45,17 +45,22 @@
 
 <section>
   <div id="categoryGrid"
-    class="flex flex-overflow gap-4 items-center md:grid transition-all duration-150 group overflow-auto scrollbar-hide p-4 md:my-0"
+    class="flex flex-overflow md:gap-0 gap-4 items-center md:grid transition-all duration-150 group overflow-auto scrollbar-hide p-4 md:p-0"
     style="grid-template-columns: repeat({{ section.blocks.size }}, 1fr)">
     {% for block in section.blocks %}
-    <a href="{{ block.settings.category_link }}"
-      class="h-24 md:h-80 rounded-full md:rounded-none overflow-clip aspect-square md:aspect-auto relative grid-item cursor-pointer transition-all duration-150 grid place-items-center gap-4 group/card shrink-0 scrollbar-hide shadow-lg">
-      <img class="h-24 md:h-80 object-contain w-full transition-all duration-150"
-        src="{{ block.settings.category_image | image_url }}" alt="{{ block.settings.category_title }}">
-      <h3
-        class="absolute bottom-0 left-0 right-0 text-center text-white bg-gradient-to-b from-transparent to-black p-2 group-hover/card:pt-20 transition-all duration-150 hidden md:block">
-        {{ block.settings.category_title }}</h3>
-    </a>
+    <div>
+      <a href="{{ block.settings.category_link | default: '/collections/all' }}"
+        class="h-24 md:h-80 rounded-full md:rounded-none overflow-clip aspect-square md:aspect-auto relative grid-item cursor-pointer transition-all duration-150 grid place-items-center gap-4 group/card shrink-0 scrollbar-hide shadow-lg">
+        <img class="h-24 md:h-80 object-contain w-full transition-all duration-150"
+          src="{{ block.settings.category_image | image_url }}" alt="{{ block.settings.category_title }}">
+        <h3
+          class="absolute bottom-0 left-0 right-0 text-center text-white bg-gradient-to-b from-transparent to-black p-2 group-hover/card:pt-20 transition-all duration-150 hidden md:block">
+          {{ block.settings.category_title }}</h3>
+      </a>
+      <div class="md:hidden text-center mt-2 text-xs font-medium">
+        <h3>{{ block.settings.category_title }}</h3>
+      </div>
+    </div>
     {% endfor %}
   </div>
 </section>

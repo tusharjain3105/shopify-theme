@@ -4,21 +4,21 @@
       class="mx-auto main-header-2 backdrop-blur-md w-full px-2 md:px-4 py-2 rounded-md text-white transition-[background-color]">
       <div class="flex justify-between items-center">
 
-        <a href="{{ routes.search_url }}" class="border border-transparent hover:border-white p-2 block md:hidden w-24">
+        <a href="{{ routes.search_url }}" class="border border-transparent hover:border-white p-2 block md:hidden w-20">
           {% render 'icon'
-          , icon: 'search' %}
-        </a>
+          , icon: 'search'
+          , size: 16 %} </a>
 
         {% comment %} Logo {% endcomment %}
         <div>
-          <a href="/" class="text-2xl font-medium">{{ shop.name }}</a>
+          <a href="/" class="text-xl md:text-2xl font-medium">{{ shop.name }}</a>
         </div>
 
         {% comment %} Right side icons {% endcomment %}
-        <div class="shrink-0 flex items-center gap-2">
+        <div class="shrink-0 flex items-center gap-0 md:gap-2">
 
           <!-- Navigation -->
-          <nav class="hidden md:flex items-center gap-2 md:gap-4 lg:gap-6 py-2 justify-center-safe uppercase">
+          <nav class="hidden md:flex items-center gap-4 lg:gap-6 py-2 justify-center-safe uppercase">
             {% for link in linklists.main-menu.links %}
             <div class="relative nth-last-[2]:text-red-500 last:text-shadow-lg last:text-red-500 group">
               <a href="{{ link.url }}" class="hover:opacity-80 transition-colors">
@@ -41,11 +41,11 @@
 
           <a href="{{ routes.search_url }}" class="border border-transparent hover:border-white p-2 md:block hidden">
             {% render 'icon'
-            , icon: 'search' %}
+            , icon: 'search', size: 16 %}
           </a>
           <button type="button" data-wishlist-open class="relative border border-transparent hover:border-white p-2">
             {% render 'icon'
-            , icon: 'wishlist' %}
+            , icon: 'wishlist', size: 16 %}
             <div
               class="wishlist-badge absolute -top-1 -right-1 hidden h-4 w-4 items-center justify-center rounded-full bg-red-600 text-xs font-medium text-white">
               <span id="wishlist-count-badge" class="wishlist-count">0</span>
@@ -53,7 +53,7 @@
           </button>
           <button type="button" data-cart-open class="relative border border-transparent hover:border-white p-2">
             {% render 'icon'
-            , icon: 'cart' %}
+            , icon: 'cart', size: 16 %}
             {% if cart.item_count > 0 %}
             <span
               class="absolute -top-2 -right-2 bg-black text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
@@ -64,7 +64,7 @@
           <div class="border border-transparent hover:border-white p-2 hidden md:block">
             <a href="{{ routes.account_url }}">
               {% render 'icon'
-              , icon: 'account' %}
+              , icon: 'account', size: 16 %}
             </a>
           </div>
         </div>
