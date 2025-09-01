@@ -145,16 +145,48 @@
     "featured": {
       "type": "featured",
       "blocks": {
-        "image_HnekbB": {
+        "image_VDF8VQ": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/2_5_880fdb24-50be-490d-b503-4e29ee028bdf.png",
+            "image": "shopify://shop_images/05_cc907fb0-deb2-4afe-bc93-2dec24b8bbe5.jpg",
+            "alt": ""
+          }
+        },
+        "image_CQE8nC": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/mm6.jpg",
+            "alt": ""
+          }
+        },
+        "image_fB6cyQ": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/image_fa58dc10-e1f4-4e0b-9b74-58226e83b962.jpg",
+            "alt": ""
+          }
+        },
+        "image_bw4Wpc": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/image_91f50201-906c-4275-8e04-7cc275295889.jpg",
+            "alt": ""
+          }
+        },
+        "image_bJBeB4": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/purplelights.png",
             "alt": ""
           }
         }
       },
       "block_order": [
-        "image_HnekbB"
+        "image_VDF8VQ",
+        "image_CQE8nC",
+        "image_fB6cyQ",
+        "image_bw4Wpc",
+        "image_bJBeB4"
       ],
       "settings": {
         "speed": 10,
