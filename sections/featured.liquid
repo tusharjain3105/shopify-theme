@@ -6,11 +6,11 @@
             {% assign images = section.blocks | where: 'type', 'image' %}
             {% if images.size > 0 %}
             {% for block in images %}
-            <img src="{{ block.settings.image | image_url: width: 264 }}"
+            <img src="{{ block.settings.image | image_url: height: 264 }}"
                 alt="{{ block.settings.alt | default: 'Featured image' }}" class="featured-image">
             {% endfor %}
             {% for block in images %}
-            <img src="{{ block.settings.image | image_url: width: 264 }}"
+            <img src="{{ block.settings.image | image_url: height: 264 }}"
                 alt="{{ block.settings.alt | default: 'Featured image' }}" class="featured-image">
             {% endfor %}
             {% else %}
@@ -51,6 +51,11 @@
       flex-shrink: 0;
       margin-right: {{ section.settings.gap | default: 0 | divided_by: 10.0 }}rem;
     }
+    @media (max-width: 768px) {
+      #featured-section-{{ section.id }} .featured-image {
+        height: {{ section.settings.mobile_height | default: 10 }}rem;
+      }
+    }
   `;
         document.head.appendChild(style);
     });
@@ -76,6 +81,14 @@
 "max": 50,
 "step": 1,
 "default": 32
+}, {
+"type": "range",
+"id": "mobile_height",
+"label": "Mobile Image Height (rem)",
+"min": 8,
+"max": 50,
+"step": 1,
+"default": 10
 }, {
 "type": "range",
 "id": "gap",
