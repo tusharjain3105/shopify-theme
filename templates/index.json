@@ -9,11 +9,21 @@
  */
 {
   "sections": {
+    "splash_4gYCcP": {
+      "type": "splash",
+      "name": "Splash",
+      "settings": {
+        "background_color": "#000000",
+        "video": "shopify://files/videos/splash.webm",
+        "autoplay_duration": 2000,
+        "announcement_duration": 1000
+      }
+    },
     "banner": {
       "type": "banner",
       "settings": {
         "media_type": "image",
-        "banner_image": "shopify://shop_images/depositphotos_241849930-stock-photo-jewelry-business-advertising-poster-background.webp",
+        "banner_image": "shopify://shop_images/Screenshot_2025-09-06_at_6.47.29_PM.png",
         "autoplay_video": true,
         "loop_video": true,
         "mute_video": true,
@@ -204,6 +214,7 @@
     }
   },
   "order": [
+    "splash_4gYCcP",
     "banner",
     "categories",
     "product-gallery",

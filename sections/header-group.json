@@ -48,27 +48,10 @@
       "settings": {
         "logo": "shopify://shop_images/logo.png"
       }
-    },
-    "banner_xpQnTw": {
-      "type": "banner",
-      "name": "Banner",
-      "settings": {
-        "media_type": "image",
-        "banner_image": "shopify://shop_images/generate-a-named-banner-for-sicarchive-its-a-curated-selection-of-jwellery-products.png",
-        "autoplay_video": true,
-        "loop_video": true,
-        "mute_video": true,
-        "show_card": false,
-        "heading": "Welcome to Our Store",
-        "subtext": "Discover the latest collections and exclusive offers.",
-        "button_link": "",
-        "button_text": "Shop Now"
-      }
     }
   },
   "order": [
     "promobar",
-    "header",
-    "banner_xpQnTw"
+    "header"
   ]
 }

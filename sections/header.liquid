@@ -1,7 +1,7 @@
 <header class="sticky top-0 w-full h-0 overflow-visible z-10">
   <div class="py-4 px-4">
     <div
-      class="mx-auto main-header-2 backdrop-blur-md w-full px-2 md:px-4 py-2 rounded-md text-white transition-[background-color]">
+      class="mx-auto main-header-2 backdrop-blur-[2px] w-full px-2 md:px-4 py-2 rounded-md text-white transition-[background-color] hover:bg-[rgba(241,241,241,0.6)]! hover:text-black!">
       <div class="flex justify-between items-center">
 
         <a href="{{ routes.search_url }}" class="border border-transparent hover:border-white p-2 block md:hidden w-20">
@@ -11,7 +11,7 @@
 
         {% comment %} Logo {% endcomment %}
         <div>
-          <a href="/" class="text-xl md:text-2xl font-medium">{{ shop.name }}</a>
+          <a href="/" class="text-xl md:text-2xl font-medium uppercase">{{ shop.name }}</a>
         </div>
 
         {% comment %} Right side icons {% endcomment %}
@@ -162,26 +162,32 @@
     const scrollTop = document.scrollingElement.scrollTop;
     const header = document.querySelector(".main-header-2")
 
+    if (location.pathname !== '/') {
+      header.style.background = "#dddddd50";
+      header.style.color = 'black';
+      return
+    }
     const OPACITY_HEIGHT_RATIO = 50;
     if (scrollTop < OPACITY_HEIGHT_RATIO) {
       navLogoTitle.style.opacity = 100;
       navLogo.style.opacity = 0;
-      header.style.background = "rgba(0, 0, 0, 0.5)";
+      // header.style.background = "rgba(0, 0, 0, 0.5)";
+      header.style.background = "transparent";
       header.style.color = 'white';
     } else if (scrollTop < OPACITY_HEIGHT_RATIO * 2) {
       navLogoTitle.style.opacity = (OPACITY_HEIGHT_RATIO * 2 - scrollTop) / OPACITY_HEIGHT_RATIO;
       navLogo.style.opacity = 0;
-      header.style.background = "rgba(100, 100, 100, 0.5)";
+      header.style.background = "rgba(100, 100, 100, 0.6)";
       header.style.color = 'white';
     } else if (scrollTop < OPACITY_HEIGHT_RATIO * 3) {
       navLogoTitle.style.opacity = 0;
       navLogo.style.opacity = (scrollTop - OPACITY_HEIGHT_RATIO * 2) / OPACITY_HEIGHT_RATIO;
-      header.style.background = "rgba(200, 200, 200, 0.5)";
+      header.style.background = "rgba(200, 200, 200, 0.6)";
       header.style.color = 'black';
     } else {
       navLogoTitle.style.opacity = 0;
       navLogo.style.opacity = 100;
-      header.style.background = "rgba(255, 255, 255, 0.5)";
+      header.style.background = "rgba(241, 241, 241, 0.6)";
       header.style.color = 'black';
     }
   }

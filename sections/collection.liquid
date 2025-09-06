@@ -4,7 +4,7 @@ https://shopify.dev/docs/storefronts/themes/architecture/templates/collection
 {% endcomment %}
 
 <section class="collection-page py-8 mt-14">
-  <div class="mx-auto px-4 md:px-8 lg:px-10">
+  <div class="mx-auto">
 
     <!-- Collection Header -->
     <div class="collection-header text-center mb-8 hidden">
@@ -46,7 +46,7 @@ https://shopify.dev/docs/storefronts/themes/architecture/templates/collection
     <div class="collection-content flex md:gap-8">
 
       <!-- Filter Sidebar -->
-      <div class="sticky top-36 max-h-fit">
+      <div class="sticky top-24 max-h-fit">
         {% render 'filter-sidebar'
         , collection: collection %}
       </div>
@@ -59,7 +59,7 @@ https://shopify.dev/docs/storefronts/themes/architecture/templates/collection
         <div id="active-filters" class="mb-4 flex-wrap gap-2 hidden"></div>
 
         <!-- Products Container -->
-        <div id="products-container" class="products-grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div id="products-container" class="products-grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {% for product in collection.products %}
           {% render 'product-card-enhanced'
           , product: product %}
