@@ -24,6 +24,12 @@
 "label": "Banner image"
 },
 {
+"type": "text",
+"id": "banner_image_height",
+"label": "Banner image height",
+"default": "100vh"
+},
+{
 "type": "video",
 "id": "banner_video",
 "label": "Banner video"
@@ -81,7 +87,8 @@
 {% endschema %}
 
 <a href="{{ section.settings.button_link }}">
-  <section class="relative flex items-center justify-center w-full bg-gray-400 overflow-hidden h-screen">
+  <section class="relative flex items-center justify-center w-full bg-gray-400 overflow-hidden h-screen"
+    style="height: {{ section.settings.banner_image_height | default: '100vh' }}">
 
     {% if section.settings.media_type == 'video' and section.settings.banner_video != blank %}
     <video class="w-full h-full object-cover absolute inset-0" {% if section.settings.autoplay_video %} autoplay{% endif
@@ -94,7 +101,8 @@
     </video>
     {% elsif section.settings.media_type == 'image' and section.settings.banner_image != blank %}
     <img src="{{ section.settings.banner_image | img_url: '1600x' }}" alt="{{ section.settings.heading | escape }}"
-      class="w-full h-screen object-cover absolute inset-0">
+      class="w-full h-screen object-cover absolute inset-0"
+      style="height: {{ section.settings.banner_image_height | default: '100vh' }}">
     {% endif %}
 
     {% if section.settings.show_card %}
