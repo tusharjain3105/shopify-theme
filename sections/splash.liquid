@@ -1,0 +1,150 @@
+<div id="splash-screen"
+    class="fixed z-[9999] transition-opacity duration-500 ease-in-out hidden justify-center items-center h-screen w-screen inset-0"
+    style="background-color: {{ section.settings.background_color | default: '#ffffff' }};">
+    <div class="w-full h-full flex flex-col justify-center items-center p-4">
+        {% if section.settings.video != blank %}
+        {{ section.settings.video | video_tag: autoplay: true, loop: true, muted: true, playsinline: true, controls:
+        false, id: "splash-video" }}
+        {% else %}
+        <video autoplay muted playsinline class="max-w-full max-h-[70%] object-contain" id="splash-video">
+            <source src="{{ 'splash.webm' | asset_url }}" type="video/webm">
+            Your browser does not support the video tag.
+        </video>
+        {% endif %}
+
+        {% if section.blocks.size > 0 %}
+        <div class="mt-8 text-center text-white">
+            {% for block in section.blocks %}
+            <div class="announcement-text text-2xl font-bold mb-4"
+                style="display: {% if forloop.first %}block{% else %}none{% endif %};">
+                {{ block.settings.text }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+
+    const showSplash = function () {
+        if (!sessionStorage.getItem('splashShown')) {
+            document.body.style.pointerEvents = 'none';
+            document.body.style.overflow = 'hidden';
+            const splashScreen = document.getElementById('splash-screen');
+            const video = document.getElementById('splash-video');
+            const announcementTexts = document.querySelectorAll('.announcement-text');
+
+            // Show splash screen
+            splashScreen.classList.remove('hidden');
+            splashScreen.classList.add('flex');
+
+            // Set session flag
+            sessionStorage.setItem('splashShown', 'true');
+
+            // Handle announcement rotation if multiple exist
+            let currentAnnouncement = 0;
+            const rotateAnnouncements = () => {
+                return
+                if (announcementTexts.length > 1) {
+                    setInterval(() => {
+                        announcementTexts[currentAnnouncement].style.display = 'none';
+                        currentAnnouncement = (currentAnnouncement + 1) % announcementTexts.length;
+                        announcementTexts[currentAnnouncement].style.display = 'block';
+                    }, {{ section.settings.announcement_duration | default: 2000 }});
+            }
+        };
+
+        // Start announcement rotation
+        rotateAnnouncements();
+
+        // Hide splash screen after configured duration
+        setTimeout(() => {
+            splashScreen.style.opacity = '0';
+            setTimeout(() => {
+                splashScreen.style.display = 'none';
+                document.body.style.pointerEvents = 'auto';
+                document.body.style.overflow = 'auto';
+            }, 500);
+        }, {{ section.settings.autoplay_duration | default: 3000 }});
+
+    } else {
+        document.getElementById('splash-screen').style.display = 'none';
+        document.body.style.pointerEvents = 'auto';
+        document.body.style.overflow = 'auto';
+    }
+    }
+
+    document.addEventListener('DOMContentLoaded', showSplash);
+    showSplash()
+</script>
+
+{% schema %}
+{
+"name": "Splash",
+"settings": [
+{
+"type": "color",
+"id": "background_color",
+"label": "Background Color",
+"default": "#ffffff"
+}, {
+"type": "video",
+"id": "video",
+"label": "Splash Video",
+"info": "Upload a video (recommended: .webm format for best performance)"
+}, {
+"id": "autoplay_duration",
+"type": "range",
+"label": "Splash Screen Duration (ms)",
+"default": 3000,
+"min": 1000,
+"max": 9500,
+"step": 500,
+"unit": "ms"
+}, {
+"id": "announcement_duration",
+"type": "range",
+"label": "Announcement Rotation Speed (ms)",
+"default": 2000,
+"min": 1000,
+"max": 5000,
+"step": 500,
+"unit": "ms"
+}
+],
+"blocks": [
+{
+"type": "announcement",
+"name": "Announcement",
+"settings": [
+{
+"id": "text",
+"type": "text",
+"label": "Announcement Text",
+"default": "Welcome to our store"
+}
+]
+}
+],
+"presets": [
+{
+"name": "Splash",
+"category": "Media",
+"blocks": [
+{
+"type": "announcement",
+"settings": {
+"text": "Welcome to our store"
+}
+}, {
+"type": "announcement",
+"settings": {
+"text": "Free shipping on all orders"
+}
+}
+]
+}
+]
+}
+{% endschema %}
