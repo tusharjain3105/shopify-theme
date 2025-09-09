@@ -111,7 +111,7 @@
     "product-gallery": {
       "type": "product-gallery",
       "settings": {
-        "gallery_collection": "sale",
+        "gallery_collection": "new-arrivals",
         "section_heading": "New Arrivals",
         "products_limit": 8,
         "slides_per_view": 5,
@@ -139,7 +139,7 @@
     "product_gallery_Pech8Q": {
       "type": "product-gallery",
       "settings": {
-        "gallery_collection": "sale",
+        "gallery_collection": "new-arrivals",
         "section_heading": "Best Sellers",
         "products_limit": 8,
         "slides_per_view": 5,

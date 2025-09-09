@@ -1,10 +1,10 @@
 {% comment %}
-  Mobile Product Layout - Vertical Stack
-  Usage: {% render 'product-mobile', product: product %}
+Mobile Product Layout - Vertical Stack
+Usage: {% render 'product-mobile', product: product %}
 {% endcomment %}
 
 <div class="product-mobile px-4 py-6">
-  
+
   <!-- Product Badges -->
   <div class="product-badges mb-4">
     {% render 'product-badges', product: product %}
@@ -18,10 +18,10 @@
   <!-- Product Info -->
   <div class="product-info-mobile">
     <div class="mb-4">
-      {% if product.vendor != blank and section.settings.show_vendor %}
-        <p class="text-sm text-gray-500 mb-2">{{ product.vendor }}</p>
-      {% endif %}
-      <h1 class="text-2xl font-bold text-gray-900 mb-3">{{ product.title }}</h1>
+      {% comment %} {% if product.vendor != blank and section.settings.show_vendor %}
+      <p class="text-sm text-gray-500 mb-2">{{ product.vendor }}</p>
+      {% endif %} {% endcomment %}
+      <h1 class="text-xl lg:text-2xl uppercase text-gray-900 mb-3">{{ product.title }}</h1>
     </div>
 
     <!-- Pricing -->
@@ -34,23 +34,23 @@
       {% render 'product-form', product: product %}
     </div>
 
-      {% if product.description != blank %}
-        {% render 'accordion'
-          , trigger: 'Description'
-          , body: product.description
-          , show_specs: section.settings.show_specs
-          , open: true %}
-      {% endif %}
+    {% if product.description != blank %}
+    {% render 'accordion'
+    , trigger: 'Description'
+    , body: product.description
+    , show_specs: section.settings.show_specs
+    , open: true %}
+    {% endif %}
 
-      {% render 'accordion'
-        , trigger: 'Care Instructions'
-        , body: product.description %}
-      {% render 'accordion'
-        , trigger: 'Shipping'
-        , body: product.description %}
-      {% render 'accordion'
-        , trigger: 'Return & Exchanges'
-        , body: product.description %}
+    {% render 'accordion'
+    , trigger: 'Care Instructions'
+    , body: product.description %}
+    {% render 'accordion'
+    , trigger: 'Shipping'
+    , body: product.description %}
+    {% render 'accordion'
+    , trigger: 'Return & Exchanges'
+    , body: product.description %}
 
   </div>
 </div>
