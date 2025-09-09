@@ -19,6 +19,34 @@
         "id": "type_primary_font",
         "default": "work_sans_n4",
         "label": "t:general.primary"
+      },
+      {
+        "type": "select",
+        "id": "google_font_family",
+        "label": "Google Font",
+        "options": [
+          {
+            "value": "none",
+            "label": "None"
+          },
+          {
+            "value": "Poppins",
+            "label": "Poppins"
+          },
+          {
+            "value": "Kanit",
+            "label": "Kanit"
+          },
+          {
+            "value": "Outfit",
+            "label": "Outfit"
+          },
+          {
+            "value": "Geologica",
+            "label": "Geologica"
+          }
+        ],
+        "default": "Poppins"
       }
     ]
   },

@@ -9,6 +9,7 @@
  */
 {
   "current": {
+    "google_font_family": "Poppins",
     "favicon_image": "shopify://shop_images/logo.png",
     "max_page_width": "100vw",
     "min_page_margin": 0,
