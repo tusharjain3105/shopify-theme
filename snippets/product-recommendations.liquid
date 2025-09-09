@@ -4,7 +4,7 @@
 {% endcomment %}
 
 <div class="product-recommendations max-w-7xl mx-auto px-4">
-  <h2 class="text-2xl font-bold text-center mb-8">You May Also Like</h2>
+  <h2 class="text-2xl font-bold text-center mb-8 uppercase">You May Also Like</h2>
   
   <!-- Use Shopify's product recommendations -->
   <div class="recommendations-container" data-product-id="{{ product.id }}">
@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
           html += `
             <div class="recommendation-item">
               <a href="${product.url}" class="block group">
-                <div class="aspect-square rounded-lg overflow-hidden bg-gray-50 mb-3">
+                <div class="aspect-square overflow-hidden bg-gray-50 mb-3">
                   <img 
                     src="${product.featured_image}" 
                     alt="${product.title}"
