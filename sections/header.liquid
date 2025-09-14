@@ -10,11 +10,12 @@
             , size: 16 %}
           </span>
 
-          <a href="{{ routes.search_url }}" class="border border-transparent hover:border-white p-2 block md:hidden">
+          <button type="button" class="border border-transparent hover:border-white p-2 block md:hidden"
+            searchbar-toggle>
             {% render 'icon'
             , icon: 'search'
             , size: 16 %}
-          </a>
+          </button>
         </div>
 
         {% comment %} Logo {% endcomment %}
@@ -47,10 +48,11 @@
             {% endfor %}
           </nav>
 
-          <a href="{{ routes.search_url }}" class="border border-transparent hover:border-white p-2 md:block hidden">
+          <button type="button" class="border border-transparent hover:border-white p-2 md:block hidden"
+            searchbar-toggle>
             {% render 'icon'
             , icon: 'search', size: 16 %}
-          </a>
+          </button>
           <button type="button" data-wishlist-open class="relative border border-transparent hover:border-white p-2">
             {% render 'icon'
             , icon: 'wishlist', size: 16 %}
@@ -79,6 +81,21 @@
       </div>
     </div>
   </div>
+  <!-- Collapsible Search Bar -->
+  <div
+    class="px-4 md:px-6 grid transition-[grid-template-rows] duration-300 grid-rows-[0fr] data-[state=expanded]:grid-rows-[1fr]"
+    data-searchbar data-state="collapsed">
+    <div class="overflow-hidden">
+      <form action="{{ routes.search_url }}" method="get" role="search">
+        <div class="flex items-center gap-2 bg-white border border-zinc-300 rounded-md px-3 py-2 shadow-sm">
+          <input type="search" name="q" placeholder="Search products..."
+            class="flex-1 bg-transparent outline-none text-sm text-black placeholder-zinc-500" aria-label="Search" />
+          <button type="submit" class="text-zinc-700 hover:text-black">{% render 'icon', icon: 'search', size: 16
+            %}</button>
+        </div>
+      </form>
+    </div>
+  </div>
 
   <!-- Mobile menu -->
   <div
@@ -97,10 +114,10 @@
     <div class="grid grid-cols-[1fr_1fr_1fr] gap-4 py-4 px-4 md:px-8 lg:px-10">
 
       <div class="flex items-center justify-left-safe">
-        <a href="{{ routes.search_url }}" class="text-gray-700 hover:text-gray-900">
+        <button type="button" class="text-gray-700 hover:text-gray-900" searchbar-toggle>
           {% render 'icon'
           , icon: 'search' %}
-        </a>
+        </button>
       </div>
 
       <!-- Logo -->
@@ -213,11 +230,42 @@
   document.addEventListener('DOMContentLoaded', onScroll);
   document.addEventListener('scroll', onScroll);
 
-  const sidebar = document.querySelector("[sidebar]")
-  document.querySelectorAll('[sidebar-toggle]').forEach(element => element.addEventListener('click', function (event) {
-    const current = sidebar.dataset.state;
-    sidebar.dataset.state = current === "expanded" ? "collapsed" : "expanded"
-  }))
+  // Initialize UI once DOM is ready to avoid async timing issues
+  document.addEventListener('DOMContentLoaded', function () {
+    const sidebar = document.querySelector('[sidebar]');
+    document.querySelectorAll('[sidebar-toggle]').forEach((element) =>
+      element.addEventListener('click', function () {
+        if (!sidebar) return;
+        const current = sidebar.dataset.state;
+        sidebar.dataset.state = current === 'expanded' ? 'collapsed' : 'expanded';
+      })
+    );
+
+    if (location.pathname !== '/search') {
+      const searchbar = document.querySelector('[data-searchbar]');
+      document.querySelectorAll('[searchbar-toggle]').forEach((el) => {
+        el.addEventListener('click', (e) => {
+          e.preventDefault();
+          if (!searchbar) return;
+          const current = searchbar.dataset.state;
+          searchbar.dataset.state = current === 'expanded' ? 'collapsed' : 'expanded';
+          if (searchbar.dataset.state === 'expanded') {
+            const input = searchbar.querySelector('input[name="q"]');
+            setTimeout(() => {
+              if (input) input.focus();
+            }, 50);
+          }
+        });
+      });
+    }
+
+    // Close searchbar with Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && searchbar && searchbar.dataset.state === 'expanded') {
+        searchbar.dataset.state = 'collapsed';
+      }
+    });
+  });
 
 </script>
 

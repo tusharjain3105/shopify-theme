@@ -8,118 +8,125 @@ For products, it uses the same UI as collection pages with filters.
 
     <!-- Search Header -->
     <div class="search-header text-center mb-8">
-      <h1 class="text-4xl font-bold text-gray-900 mb-4">Search Results</h1>
-      
+      {% comment %} <h1 class="text-4xl font-bold text-gray-900 mb-4">Search Results</h1> {% endcomment %}
+
+
       <form action="{{ routes.search_url }}" method="get" role="search" class="mb-6">
-        <div class="flex gap-2 w-full md:max-w-2xl mx-auto">
+        <div class="flex gap-2 w-full md:max-w-2xl mx-auto border border-gray-300 rounded-md">
           <input autofocus type="search" name="q" value="{{ search.terms | escape }}"
             placeholder="{{ 'search.placeholder' | t }}"
-            class="flex-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+            class="flex-1 pl-4 py-2 focus:outline-none focus:ring-0 focus:ring-primary-500 focus:border-transparent">
           <input type="hidden" name="type" value="product">
-          <button type="submit"
+          <button type="submit" class="text-zinc-700 hover:text-black pr-2">{% render 'icon', icon: 'search', size: 16
+            %}</button>
+          {% comment %} <button type="submit"
             class="px-6 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700 transition-colors">
             Search
-          </button>
+          </button> {% endcomment %}
         </div>
       </form>
 
       {% if search.performed and search.terms != blank %}
-        <p class="text-sm text-gray-500">{{ search.results_count }} results for "{{ search.terms }}"</p>
+      <p class="text-sm text-gray-500">{{ search.results_count }} results for "{{ search.terms }}"</p>
       {% endif %}
     </div>
 
     {% if search.performed and search.terms != blank %}
-      {% assign product_results = search.results | where: 'object_type', 'product' %}
-      
-      {% if product_results.size > 0 %}
-        <!-- Mobile Filter Toggle -->
-        <div class="group md:hidden">
-          <div class="flex items-center justify-between fixed right-2 bottom-2 z-10">
-            <label class="bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300 transition-colors">
-              <input type="checkbox" id="filter-toggle" class="hidden">
-              {% render 'icon', icon: 'filter' %}
+    {% assign product_results = search.results | where: 'object_type', 'product' %}
+
+    {% if product_results.size > 0 %}
+    <!-- Mobile Filter Toggle -->
+    <div class="group md:hidden">
+      <div class="flex items-center justify-between fixed right-2 bottom-2 z-10">
+        <label class="bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300 transition-colors">
+          <input type="checkbox" id="filter-toggle" class="hidden">
+          {% render 'icon', icon: 'filter' %}
+        </label>
+      </div>
+      <div
+        class="fixed bottom-0 left-0 z-20 bg-white border border-gray-200 rounded-t-2xl w-full group-has-[input:checked]:grid-rows-[1fr] grid-rows-[0fr] grid transition-[grid-template-rows] duration-300">
+        <div class="overflow-hidden">
+          <div class="flex items-center justify-between overflow-auto">
+            <label for="filter-toggle"
+              class="text-gray-500 hover:text-gray-700 transition-colors absolute top-6 right-4">
+              {% render 'icon', icon: 'x' %}
             </label>
           </div>
-          <div class="fixed bottom-0 left-0 z-20 bg-white border border-gray-200 rounded-t-2xl w-full group-has-[input:checked]:grid-rows-[1fr] grid-rows-[0fr] grid transition-[grid-template-rows] duration-300">
-            <div class="overflow-hidden">
-              <div class="flex items-center justify-between overflow-auto">
-                <label for="filter-toggle" class="text-gray-500 hover:text-gray-700 transition-colors absolute top-6 right-4">
-                  {% render 'icon', icon: 'x' %}
-                </label>
-              </div>
-              {% render 'filter-sidebar', collection: collections.all, search_mode: true, show_in_mobile: true %}
-            </div>
-          </div>
+          {% render 'filter-sidebar', collection: collections.all, search_mode: true, show_in_mobile: true %}
         </div>
-
-        <div class="search-content flex md:gap-8">
-          <!-- Filter Sidebar -->
-          <div class="sticky top-36 max-h-fit">
-            {% render 'filter-sidebar', collection: collections.all, search_mode: true %}
-          </div>
-
-          <!-- Products Grid -->
-          <main class="flex-1">
-            <!-- Active Filters Display -->
-            <div id="active-filters" class="mb-4 flex-wrap gap-2 hidden"></div>
-
-            <!-- Products Container -->
-            <div id="products-container" class="products-grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {% for product in product_results %}
-                {% render 'product-card-enhanced', product: product %}
-              {% endfor %}
-            </div>
-
-            <!-- No Products Message -->
-            <div id="no-products" class="hidden text-center py-16">
-              <svg class="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-              </svg>
-              <p class="text-xl text-gray-500">No products match your search and filters</p>
-              <button onclick="clearAllFilters()" class="mt-4 bg-gray-800 text-white px-6 py-2 rounded-md hover:bg-gray-900 transition-colors">
-                Clear Filters
-              </button>
-            </div>
-          </main>
-        </div>
-      {% else %}
-        <div class="text-center py-12">
-          <p class="text-xl text-gray-600">No products found for "{{ search.terms }}"</p>
-          <p class="mt-4">
-            <a href="{{ routes.all_products_collection_url }}" class="text-primary-600 hover:text-primary-800 font-medium">
-              Browse all products
-            </a>
-          </p>
-        </div>
-      {% endif %}
-    {% else %}
-      <div class="text-center py-12">
-        <p class="text-xl text-gray-600">Enter a search term to find products</p>
       </div>
+    </div>
+
+    <div class="search-content flex md:gap-8">
+      <!-- Filter Sidebar -->
+      <div class="sticky top-36 max-h-fit">
+        {% render 'filter-sidebar', collection: collections.all, search_mode: true %}
+      </div>
+
+      <!-- Products Grid -->
+      <main class="flex-1">
+        <!-- Active Filters Display -->
+        <div id="active-filters" class="mb-4 flex-wrap gap-2 hidden"></div>
+
+        <!-- Products Container -->
+        <div id="products-container" class="products-grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {% for product in product_results %}
+          {% render 'product-card-enhanced', product: product %}
+          {% endfor %}
+        </div>
+
+        <!-- No Products Message -->
+        <div id="no-products" class="hidden text-center py-16">
+          <svg class="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+              d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+          </svg>
+          <p class="text-xl text-gray-500">No products match your search and filters</p>
+          <button onclick="clearAllFilters()"
+            class="mt-4 bg-gray-800 text-white px-6 py-2 rounded-md hover:bg-gray-900 transition-colors">
+            Clear Filters
+          </button>
+        </div>
+      </main>
+    </div>
+    {% else %}
+    <div class="text-center py-12">
+      <p class="text-xl text-gray-600">No products found for "{{ search.terms }}"</p>
+      <p class="mt-4">
+        <a href="{{ routes.all_products_collection_url }}" class="text-primary-600 hover:text-primary-800 font-medium">
+          Browse all products
+        </a>
+      </p>
+    </div>
+    {% endif %}
+    {% else %}
+    <div class="text-center py-12">
+      <p class="text-xl text-gray-600">Enter a search term to find products</p>
+    </div>
     {% endif %}
   </div>
 </section>
 
 <script>
-function clearSearchFilters() {
-  // Clear all filter checkboxes
-  const filters = document.querySelectorAll('input[type="checkbox"]');
-  filters.forEach(filter => {
-    filter.checked = false;
-  });
-  
-  // Show all product cards
-  const products = document.querySelectorAll('.product-card-enhanced');
-  products.forEach(product => {
-    product.style.display = '';
-  });
-  
-  // Reset sort dropdown
-  const sortSelect = document.getElementById('sort-select');
-  if (sortSelect) {
-    sortSelect.value = 'manual';
+  function clearSearchFilters() {
+    // Clear all filter checkboxes
+    const filters = document.querySelectorAll('input[type="checkbox"]');
+    filters.forEach(filter => {
+      filter.checked = false;
+    });
+
+    // Show all product cards
+    const products = document.querySelectorAll('.product-card-enhanced');
+    products.forEach(product => {
+      product.style.display = '';
+    });
+
+    // Reset sort dropdown
+    const sortSelect = document.getElementById('sort-select');
+    if (sortSelect) {
+      sortSelect.value = 'manual';
+    }
   }
-}
 </script>
 
 {% render 'collection-scripts' %}
