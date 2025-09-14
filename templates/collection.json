@@ -12,9 +12,83 @@
     "main": {
       "type": "collection",
       "settings": {}
+    },
+    "categories": {
+      "type": "categories",
+      "blocks": {
+        "category_DzYmAG": {
+          "type": "category",
+          "settings": {
+            "category_image": "shopify://shop_images/Screenshot_2025-08-31_at_10.03.32_PM.png",
+            "category_title": "Neckpieces",
+            "category_link": ""
+          }
+        },
+        "category_QrhREG": {
+          "type": "category",
+          "settings": {
+            "category_image": "shopify://shop_images/Screenshot_2025-08-31_at_10.03.13_PM.png",
+            "category_title": "Bracelets",
+            "category_link": ""
+          }
+        },
+        "category_6HgMrg": {
+          "type": "category",
+          "settings": {
+            "category_image": "shopify://shop_images/Screenshot_2025-08-31_at_10.03.07_PM.png",
+            "category_title": "Earrings",
+            "category_link": ""
+          }
+        },
+        "category_W6CEDk": {
+          "type": "category",
+          "settings": {
+            "category_image": "shopify://shop_images/Screenshot_2025-08-31_at_10.03.26_PM.png",
+            "category_title": "Pearls",
+            "category_link": ""
+          }
+        },
+        "category_xVDkC6": {
+          "type": "category",
+          "settings": {
+            "category_image": "shopify://shop_images/Screenshot_2025-08-31_at_10.03.20_PM.png",
+            "category_title": "Pendants",
+            "category_link": ""
+          }
+        },
+        "category_pChCYz": {
+          "type": "category",
+          "settings": {
+            "category_image": "shopify://shop_images/Screenshot_2025-08-31_at_10.02.44_PM.png",
+            "category_title": "Rings",
+            "category_link": ""
+          }
+        },
+        "category_infC9U": {
+          "type": "category",
+          "settings": {
+            "category_image": "shopify://shop_images/Screenshot_2025-08-31_at_10.03.07_PM.png",
+            "category_title": "Chains",
+            "category_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "category_DzYmAG",
+        "category_QrhREG",
+        "category_6HgMrg",
+        "category_W6CEDk",
+        "category_xVDkC6",
+        "category_pChCYz",
+        "category_infC9U"
+      ],
+      "settings": {
+        "expand_on_hover": true
+      }
     }
   },
   "order": [
+    "categories",
     "main"
   ]
 }
