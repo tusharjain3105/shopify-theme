@@ -220,9 +220,9 @@ Usage: {% render 'product-image-carousel', product: product, mobile: true/false 
 
   document.addEventListener('keydown', function (e) {
     if (e.key === 'ArrowLeft') {
-          carousel{ { product.id } }.slidePrev();
+          carousel{{ product.id }}.slidePrev();
     } else if (e.key === 'ArrowRight') {
-          carousel{ { product.id } }.slideNext();
+          carousel{{ product.id }}.slideNext();
     }
   });
 

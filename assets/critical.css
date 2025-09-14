@@ -113,7 +113,8 @@ body {
   margin: auto;
   max-width: 100vw !important;
   width: 70vw !important;
-  margin-block: 2rem !important;
+  margin-block: 5rem !important;
+  text-align: justify;
 
   .shopify-policy__title {
     display: none;
@@ -137,6 +138,12 @@ body {
     font-size: 1.5rem;
     font-weight: bold;
     color: #333;
+  }
+}
+
+@media (max-width: 768px) {
+  .shopify-policy__container {
+    width: 90vw !important;
   }
 }
 

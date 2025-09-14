@@ -3,11 +3,19 @@
     <div
       class="mx-auto main-header-2 backdrop-blur-[2px] w-full px-2 md:px-4 py-2 rounded-md text-white transition-[background-color] hover:bg-[rgba(241,241,241,0.6)]! hover:text-black!">
       <div class="flex justify-between items-center">
+        <div class="flex items-center">
+          <span class="border border-transparent hover:border-white p-2 block md:hidden" sidebar-toggle>
+            {% render 'icon'
+            , icon: 'menu'
+            , size: 16 %}
+          </span>
 
-        <a href="{{ routes.search_url }}" class="border border-transparent hover:border-white p-2 block md:hidden w-20">
-          {% render 'icon'
-          , icon: 'search'
-          , size: 16 %} </a>
+          <a href="{{ routes.search_url }}" class="border border-transparent hover:border-white p-2 block md:hidden">
+            {% render 'icon'
+            , icon: 'search'
+            , size: 16 %}
+          </a>
+        </div>
 
         {% comment %} Logo {% endcomment %}
         <div>
@@ -70,6 +78,16 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- Mobile menu -->
+  <div
+    class="fixed top-0 left-0 bg-white z-10 w-[90vw] h-screen data-[state=collapsed]:-translate-x-full transition-all"
+    data-state="collapsed" sidebar>
+    <button type="button" sidebar-toggle class="absolute top-2 right-2">
+      {% render 'icon'
+      , icon: 'x', size: 24 %}
+    </button>
   </div>
 </header>
 
@@ -193,6 +211,13 @@
   }
   document.addEventListener('DOMContentLoaded', onScroll);
   document.addEventListener('scroll', onScroll);
+
+  const sidebar = document.querySelector("[sidebar]")
+  document.querySelectorAll('[sidebar-toggle]').forEach(element => element.addEventListener('click', function (event) {
+    const current = sidebar.dataset.state;
+    sidebar.dataset.state = current === "expanded" ? "collapsed" : "expanded"
+  }))
+
 </script>
 
 <script>
