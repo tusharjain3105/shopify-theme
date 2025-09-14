@@ -57,20 +57,20 @@ Usage: {% render 'product-image-carousel', product: product, mobile: true/false 
   </div>
 
   <!-- Thumbnail Navigation (Desktop Only) -->
-  {% unless is_mobile %}
+  {% comment %} {% unless is_mobile %} {% endcomment %}
   {% if product.images.size > 1 %}
   <div class="thumbnail-nav mt-4 grid grid-cols-5 gap-2">
     {% for image in product.images limit: 5 %}
     <button
-      class="thumbnail-btn aspect-square overflow-hidden border-2 {% if forloop.first %}border-gray-800{% else %}border-transparent{% endif %} hover:border-gray-400 transition-colors"
+      class="thumbnail-btn aspect-[2/3] overflow-hidden border-2 {% if forloop.first %}border-gray-800{% else %}border-transparent{% endif %} hover:border-gray-400 transition-colors"
       data-slide="{{ forloop.index0 }}">
       <img src="{{ image | img_url: '120x120' }}" alt="{{ image.alt | default: product.title | escape }}"
-        class="w-full h-full object-cover" loading="lazy" />
+        class="w-full aspect-[2/3] object-cover" loading="lazy" />
     </button>
     {% endfor %}
   </div>
   {% endif %}
-  {% endunless %}
+  {% comment %} {% endunless %} {% endcomment %}
   {% else %}
   <!-- Fallback when no images -->
   <div
