@@ -1,0 +1,60 @@
+{%- comment -%}
+  Sidebar component
+  - Mirrors main nav: linklists.main-menu
+  - Includes Login/Account links based on customer state
+{%- endcomment -%}
+
+<div class="h-full flex flex-col pt-14 pb-6">
+  <!-- Navigation: mirror of main menu -->
+  <nav class="flex-1 overflow-y-auto" role="navigation" aria-label="Mobile">
+    <ul class="px-2 py-2 divide-y divide-zinc-100">
+      {% for link in linklists.main-menu.links %}
+        <li class="first:pt-1">
+          {% if link.links != blank %}
+            <details class="group">
+              <summary class="flex items-center justify-between px-2 py-3 cursor-pointer select-none">
+                <a href="{{ link.url }}" class="uppercase tracking-wide text-sm hover:opacity-80">{{ link.title }}</a>
+                <span class="text-zinc-500 transition-transform duration-300 group-open:rotate-90">
+                  {% render 'icon', icon: 'chevron-right', size: 16 %}
+                </span>
+              </summary>
+              <div class="grid overflow-hidden transition-[grid-template-rows] duration-300 ease-in-out grid-rows-[0fr] group-open:grid-rows-[1fr]">
+                <ul class="pl-4 border-l border-zinc-200 mb-2 overflow-hidden">
+                  {% for child_link in link.links %}
+                    <li>
+                      <a href="{{ child_link.url }}" class="block px-2 py-2 text-sm hover:bg-zinc-100 rounded">{{ child_link.title }}</a>
+                      {% if child_link.links != blank %}
+                        <ul class="pl-4 border-l border-zinc-200 my-1">
+                          {% for grand_link in child_link.links %}
+                            <li>
+                              <a href="{{ grand_link.url }}" class="block px-2 py-2 text-sm hover:bg-zinc-100 rounded">{{ grand_link.title }}</a>
+                            </li>
+                          {% endfor %}
+                        </ul>
+                      {% endif %}
+                    </li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </details>
+          {% else %}
+            <a href="{{ link.url }}" class="block px-2 py-3 uppercase tracking-wide text-sm hover:opacity-80">{{ link.title }}</a>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  </nav>
+  <!-- Account/Login at bottom -->
+  <div class="px-4 pt-4 border-t border-zinc-200">
+    {% if customer %}
+      <div class="flex items-center justify-between">
+        <a href="{{ routes.account_url }}" class="text-sm font-medium hover:opacity-80">My account</a>
+        <a href="{{ routes.account_logout_url }}" class="text-sm text-zinc-700 hover:text-black">Log out</a>
+      </div>
+    {% else %}
+      <div class="flex items-center">
+        <a href="{{ routes.account_login_url }}" class="text-sm font-medium hover:opacity-80">Log in</a>
+      </div>
+    {% endif %}
+  </div>
+</div>
