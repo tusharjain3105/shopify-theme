@@ -361,6 +361,12 @@
   .left-3 {
     left: calc(var(--spacing) * 3);
   }
+  .z-5 {
+    z-index: 5;
+  }
+  .z-6 {
+    z-index: 6;
+  }
   .z-10 {
     z-index: 10;
   }
@@ -517,6 +523,9 @@
   .inline-flex {
     display: inline-flex;
   }
+  .aspect-\[2\/3\] {
+    aspect-ratio: 2/3;
+  }
   .aspect-\[3\/4\] {
     aspect-ratio: 3/4;
   }
@@ -574,6 +583,9 @@
   }
   .h-\[1lh\] {
     height: 1lh;
+  }
+  .h-\[2\/3\] {
+    height: 2/3;
   }
   .h-auto {
     height: auto;
@@ -1574,6 +1586,12 @@
   .group-has-\[input\:checked\]\:grid-rows-\[1fr\] {
     &:is(:where(.group):has(*:is(input:checked)) *) {
       grid-template-rows: 1fr;
+    }
+  }
+  .group-has-\[input\:checked\]\:border {
+    &:is(:where(.group):has(*:is(input:checked)) *) {
+      border-style: var(--tw-border-style);
+      border-width: 1px;
     }
   }
   .after\:content-\[\'\'\] {
