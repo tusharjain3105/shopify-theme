@@ -20,7 +20,8 @@
 
         {% comment %} Logo {% endcomment %}
         <div>
-          <a href="/" class="text-xl md:text-2xl font-medium uppercase">{{ shop.name }}</a>
+          <a href="/" class="text-xl md:text-2xl font-medium uppercase"
+            style="font-family: 'Coolvetica', sans-serif;">{{ shop.name }}</a>
         </div>
 
         {% comment %} Right side icons {% endcomment %}
@@ -34,7 +35,7 @@
                 {{ link.title }}
               </a>
               {% if link.links != blank %}
-              <div class="absolute top-full left-1/2 -translate-x-1/2 py-2">
+              <div class="absolute top-full left-1/2 -translate-x-1/2 py-2 uppercase">
                 <div class="bg-zinc-200/70 border border-zinc-200 w-48 group-hover:block hidden">
                   {% for link in link.links %}
                   <a href="{{ link.url }}" class="transition-colors p-2 block hover:opacity-80 text-sm">
@@ -172,11 +173,11 @@
         {{ link.title }}
       </a>
       {% if link.links != blank %}
-      <div class="absolute top-full left-1/2 -translate-x-1/2 py-2">
+      <div class="absolute top-full left-1/2 -translate-x-1/2 py-2 uppercase">
         <div class="bg-zinc-200/70 border border-zinc-200 w-48 group-hover:block hidden">
           {% for link in link.links %}
           <a href="{{ link.url }}"
-            class="text-zinc-700 hover:text-zinc-900 transition-colors p-2 block hover:bg-zinc-300 text-sm">
+            class="text-zinc-700 hover:text-zinc-900 transition-colors p-2 block hover:bg-zinc-300 text-sm uppercase">
             {{ link.title }}
           </a>
           {% endfor %}

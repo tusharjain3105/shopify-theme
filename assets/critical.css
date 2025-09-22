@@ -97,6 +97,8 @@ body {
   grid-template-columns: var(--content-grid);
   display: grid;
   width: 100%;
+
+  transition: padding-top 0.3s ease-in-out;
 }
 
 /* Child elements, by default, are constrained to the central column of the grid. */
@@ -150,4 +152,9 @@ body {
 .scrollbar-hide {
   scrollbar-width: none;
   --webkit-scrollbar: none;
+}
+
+@font-face {
+  font-family: 'Coolvetica';
+  src: url('/assets/Coolvetica Rg.otf') format('otf');
 }

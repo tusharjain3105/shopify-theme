@@ -3,7 +3,7 @@ Carousel Product Card Snippet - Clean and minimal
 Usage: {% render 'product-card-carousel', product: product %}
 {% endcomment %}
 
-<div class="swiper-slide w-[70vw]! md:w-[20vw]! px-1">
+<div class="swiper-slide w-[60vw]! md:w-[20vw]! px-1">
   <a href="{{ product.url }}" class="block group bg-white h-full">
     <div class="relative overflow-hidden">
       {% if product.featured_image %}
@@ -32,9 +32,9 @@ Usage: {% render 'product-card-carousel', product: product %}
       {% endunless %}
     </div>
 
-    <div class="p-3">
+    <div class="py-2">
       <h3
-        class="text-sm uppercase font-medium text-gray-900 group-hover:text-indigo-600 transition-colors duration-200 mb-2">
+        class="text-sm uppercase font-medium text-gray-900 group-hover:text-indigo-600 transition-colors duration-200 mb-0.5 line-clamp-1 h-[1lh]">
         {{ product.title | truncate: 50 }}
       </h3>
 
