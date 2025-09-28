@@ -3,7 +3,7 @@ Carousel Product Card Snippet - Clean and minimal
 Usage: {% render 'product-card-carousel', product: product %}
 {% endcomment %}
 
-<div class="swiper-slide w-[60vw]! md:w-[20vw]! px-1">
+<div class="swiper-slide w-[60vw]! md:w-[20vw]! px-1 first:pl-0 last:pr-0">
   <a href="{{ product.url }}" class="block group bg-white h-full">
     <div class="relative overflow-hidden">
       {% if product.featured_image %}

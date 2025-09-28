@@ -1,0 +1,31 @@
+.product-page-modular {
+  padding: 2rem 0;
+}
+
+.product-layout--grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.product-layout--single {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.product-layout--sidebar {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+}
+
+.product-block {
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .product-layout--grid,
+  .product-layout--sidebar {
+    grid-template-columns: 1fr;
+  }
+}

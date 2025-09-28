@@ -1,0 +1,36 @@
+/* Coolvetica Font Family */
+@font-face {
+  font-family: 'Coolvetica';
+  src: url('{{ "Coolvetica Rg.otf" | asset_url }}') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Coolvetica';
+  src: url('{{ "Coolvetica Rg It.otf" | asset_url }}') format('opentype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Coolvetica';
+  src: url('{{ "Coolvetica Hv Comp.otf" | asset_url }}') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Font Brand Class */
+.font-brand {
+  font-family: 'Coolvetica', Arial, sans-serif !important;
+}
+
+/* Test class to verify font loading */
+.test-coolvetica {
+  font-family: 'Coolvetica', Arial, sans-serif !important;
+  font-size: 24px;
+  font-weight: 400;
+}

@@ -7,7 +7,8 @@ Usage: {% render 'product-card-enhanced', product: product %}
   data-available="{{ product.available }}" data-type="{{ product.type | handleize }}"
   data-vendor="{{ product.vendor | handleize }}">
 
-  <a href="{{ product.url }}" class="block group bg-white transition-all duration-300 overflow-hidden">
+  <a href="{{ product.url }}"
+    class="block group bg-[var(--color-background)] transition-all duration-300 overflow-hidden">
 
     <!-- Product Image -->
     <div class="relative overflow-hidden aspect-[3/4]">

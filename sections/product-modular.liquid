@@ -1,0 +1,261 @@
+{% comment %} Modular Product Section {% endcomment %}
+<section class="product-page mt-14">
+  <!-- Mobile Layout -->
+  <div class="lg:hidden">
+    <div class="product-mobile px-4 py-6">
+      {% for block in section.blocks %}
+        <div {{ block.shopify_attributes }}>
+          {% case block.type %}
+            {% when 'product_images' %}
+              <div class="product-badges mb-4">
+                {% render 'product-badges', product: product %}
+              </div>
+              <div class="product-images-mobile mb-6">
+                {% render 'product-image-carousel', product: product, mobile: true %}
+              </div>
+            {% when 'product_info' %}
+              <div class="mb-4">
+                {% if block.settings.show_vendor and product.vendor != blank %}
+                  <p class="text-sm text-gray-500 mb-2">{{ product.vendor }}</p>
+                {% endif %}
+                <h1 class="text-xl lg:text-2xl uppercase text-gray-900 mb-3">{{ product.title }}</h1>
+              </div>
+              {% if block.settings.show_price %}
+                <div class="pricing mb-6">
+                  {% render 'product-pricing', product: product %}
+                </div>
+              {% endif %}
+            {% when 'buy_button' %}
+              <div class="product-form mb-8">
+                {% render 'product-form', product: product %}
+              </div>
+            {% when 'accordion' %}
+              {% case block.settings.accordion_type %}
+                {% when 'description' %}
+                  {% if product.description != blank %}
+                    {% render 'accordion', trigger: 'Description', body: product.description, open: block.settings.open_by_default %}
+                  {% endif %}
+                {% when 'care' %}
+                  {% render 'accordion', trigger: 'Care Instructions', body: block.settings.custom_content %}
+                {% when 'shipping' %}
+                  {% render 'accordion', trigger: 'Shipping', body: block.settings.custom_content %}
+                {% when 'returns' %}
+                  {% render 'accordion', trigger: 'Return & Exchanges', body: block.settings.custom_content %}
+                {% when 'custom' %}
+                  {% render 'accordion', trigger: block.settings.custom_title, body: block.settings.custom_content, open: block.settings.open_by_default %}
+              {% endcase %}
+            {% when 'custom_content' %}
+              <div class="product-custom-content {{ block.settings.css_class }}">
+                {% if block.settings.title != blank %}
+                  <h3>{{ block.settings.title }}</h3>
+                {% endif %}
+                {% if block.settings.content != blank %}
+                  <div class="custom-content">{{ block.settings.content }}</div>
+                {% endif %}
+                {% if block.settings.html_content != blank %}
+                  {{ block.settings.html_content }}
+                {% endif %}
+              </div>
+          {% endcase %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Desktop Layout -->
+  <div class="hidden lg:block">
+    <div class="product-desktop max-w-7xl mx-auto px-4 py-12">
+      <div class="grid grid-cols-2 gap-12">
+        <!-- Left Column: Images -->
+        <div class="sticky top-8 h-fit">
+          {% for block in section.blocks %}
+            {% if block.type == 'product_images' %}
+              <div {{ block.shopify_attributes }}>
+                <div class="product-badges mb-4">
+                  {% render 'product-badges', product: product %}
+                </div>
+                {% render 'product-image-carousel', product: product, mobile: false %}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+
+        <!-- Right Column: Product Details -->
+        <div class="product-details">
+          {% for block in section.blocks %}
+            {% unless block.type == 'product_images' %}
+              <div {{ block.shopify_attributes }}>
+                {% case block.type %}
+                  {% when 'product_info' %}
+                    <div class="mb-6">
+                      {% if block.settings.show_vendor and product.vendor != blank %}
+                        <p class="text-sm text-gray-500 mb-3">{{ product.vendor }}</p>
+                      {% endif %}
+                      <h1 data-product-title class="text-4xl text-gray-900 uppercase mb-4">{{ product.title }}</h1>
+                    </div>
+                    {% if block.settings.show_price %}
+                      <div class="pricing mb-8">
+                        {% render 'product-pricing', product: product %}
+                      </div>
+                    {% endif %}
+                  {% when 'buy_button' %}
+                    <div class="product-form mb-10">
+                      {% render 'product-form', product: product %}
+                    </div>
+                  {% when 'accordion' %}
+                    {% case block.settings.accordion_type %}
+                      {% when 'description' %}
+                        {% if product.description != blank %}
+                          {% render 'accordion', trigger: 'Description', body: product.description, open: block.settings.open_by_default %}
+                        {% endif %}
+                      {% when 'care' %}
+                        {% render 'accordion', trigger: 'Care Instructions', body: block.settings.custom_content %}
+                      {% when 'shipping' %}
+                        {% render 'accordion', trigger: 'Shipping', body: block.settings.custom_content %}
+                      {% when 'returns' %}
+                        {% render 'accordion', trigger: 'Return & Exchanges', body: block.settings.custom_content %}
+                      {% when 'custom' %}
+                        {% render 'accordion', trigger: block.settings.custom_title, body: block.settings.custom_content, open: block.settings.open_by_default %}
+                    {% endcase %}
+                  {% when 'custom_content' %}
+                    <div class="product-custom-content {{ block.settings.css_class }}">
+                      {% if block.settings.title != blank %}
+                        <h3>{{ block.settings.title }}</h3>
+                      {% endif %}
+                      {% if block.settings.content != blank %}
+                        <div class="custom-content">{{ block.settings.content }}</div>
+                      {% endif %}
+                      {% if block.settings.html_content != blank %}
+                        {{ block.settings.html_content }}
+                      {% endif %}
+                    </div>
+                {% endcase %}
+              </div>
+            {% endunless %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Product (Modular)",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "product_images",
+      "name": "Product Images",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "mobile_view",
+          "label": "Mobile view",
+          "default": false
+        }
+      ]
+    },
+    {
+      "type": "product_info",
+      "name": "Product Info",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_vendor",
+          "label": "Show vendor",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "show_price",
+          "label": "Show price",
+          "default": true
+        }
+      ]
+    },
+    {
+      "type": "buy_button",
+      "name": "Buy Button",
+      "settings": []
+    },
+    {
+      "type": "accordion",
+      "name": "Accordion",
+      "settings": [
+        {
+          "type": "select",
+          "id": "accordion_type",
+          "label": "Accordion Type",
+          "options": [
+            { "value": "description", "label": "Description" },
+            { "value": "care", "label": "Care Instructions" },
+            { "value": "shipping", "label": "Shipping" },
+            { "value": "returns", "label": "Return & Exchanges" },
+            { "value": "custom", "label": "Custom" }
+          ],
+          "default": "description"
+        },
+        {
+          "type": "text",
+          "id": "custom_title",
+          "label": "Custom Title"
+        },
+        {
+          "type": "richtext",
+          "id": "custom_content",
+          "label": "Content"
+        },
+        {
+          "type": "checkbox",
+          "id": "open_by_default",
+          "label": "Open by default",
+          "default": false
+        }
+      ]
+    },
+    {
+      "type": "custom_content",
+      "name": "Custom Content",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Content"
+        },
+        {
+          "type": "html",
+          "id": "html_content",
+          "label": "HTML Content"
+        },
+        {
+          "type": "text",
+          "id": "css_class",
+          "label": "CSS Class"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Modular Product",
+      "blocks": [
+        { "type": "product_images" },
+        { "type": "product_info" },
+        { "type": "buy_button" },
+        { "type": "accordion" },
+        { "type": "accordion" },
+        { "type": "accordion" },
+        { "type": "accordion" }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -8,6 +8,10 @@
   {% # Load and preload the critical CSS %}
   {{ 'critical.css' | asset_url | stylesheet_tag: preload: true }}
   {{ 'base.css' | asset_url | stylesheet_tag: preload: true }}
+  {{ 'coolvetica-fonts.css' | asset_url | stylesheet_tag }}
+  
+  {% # Preload Coolvetica font %}
+  <link rel="preload" href="{{ 'Coolvetica Rg.otf' | asset_url }}" as="font" type="font/otf" crossorigin>
 
   {% # Social, title, etc. %}
   {% render 'meta-tags' %}
