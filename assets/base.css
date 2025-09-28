@@ -566,12 +566,6 @@
   .h-21 {
     height: calc(var(--spacing) * 21);
   }
-  .h-22 {
-    height: calc(var(--spacing) * 22);
-  }
-  .h-24 {
-    height: calc(var(--spacing) * 24);
-  }
   .h-28 {
     height: calc(var(--spacing) * 28);
   }
@@ -583,6 +577,9 @@
   }
   .h-\[1lh\] {
     height: 1lh;
+  }
+  .h-\[var\(--banner-height\)\] {
+    height: var(--banner-height);
   }
   .h-auto {
     height: auto;
@@ -1579,13 +1576,6 @@
       border-width: 1px;
     }
   }
-  .after\:content-\[\'\'\] {
-    &::after {
-      content: var(--tw-content);
-      --tw-content: '';
-      content: var(--tw-content);
-    }
-  }
   .first\:pt-1 {
     &:first-child {
       padding-top: calc(var(--spacing) * 1);
@@ -2008,6 +1998,11 @@
   .md\:h-80 {
     @media (width >= 48rem) {
       height: calc(var(--spacing) * 80);
+    }
+  }
+  .md\:h-\[var\(--banner-height-desktop\)\] {
+    @media (width >= 48rem) {
+      height: var(--banner-height-desktop);
     }
   }
   .md\:max-h-\[calc\(100vh-12rem\)\] {
@@ -2544,11 +2539,6 @@
   inherits: false;
   initial-value: 1;
 }
-@property --tw-content {
-  syntax: "*";
-  initial-value: "";
-  inherits: false;
-}
 @property --tw-text-shadow-color {
   syntax: "*";
   inherits: false;
@@ -2626,7 +2616,6 @@
       --tw-scale-x: 1;
       --tw-scale-y: 1;
       --tw-scale-z: 1;
-      --tw-content: "";
       --tw-text-shadow-color: initial;
       --tw-text-shadow-alpha: 100%;
     }

@@ -35,25 +35,6 @@ Usage: {% render 'product-image-carousel', product: product, mobile: true/false 
       </div>
       {% endfor %}
     </div>
-
-    <!-- Navigation arrows (only show if multiple images) -->
-    {% if product.images.size > 1 %}
-    <div
-      class="swiper-button-next after:content-[''] bg-white rounded-full shadow-lg w-10 h-10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-      <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-      </svg>
-    </div>
-    <div
-      class="swiper-button-prev after:content-[''] bg-white rounded-full shadow-lg w-10 h-10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-      <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-      </svg>
-    </div>
-
-    <!-- Pagination dots -->
-    <div class="swiper-pagination mt-4"></div>
-    {% endif %}
   </div>
 
   <!-- Thumbnail Navigation (Desktop Only) -->
@@ -133,7 +114,6 @@ Usage: {% render 'product-image-carousel', product: product, mobile: true/false 
     },
     slideChange: function () {
       console.log('Slide changed to: ' + this.realIndex);
-      {% unless is_mobile %}
       const activeIndex = this.realIndex;
       document.querySelectorAll('.thumbnail-btn').forEach((btn, index) => {
         if (index === activeIndex) {
@@ -144,7 +124,6 @@ Usage: {% render 'product-image-carousel', product: product, mobile: true/false 
           btn.classList.add('border-transparent');
         }
       });
-      {% endunless %}
     }
   }
       });
