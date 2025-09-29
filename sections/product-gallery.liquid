@@ -100,23 +100,27 @@
       mousewheel: {
         releaseOnEdges: true,
       },
+      centeredSlides: false,
+      watchSlidesProgress: false,
+      watchSlidesVisibility: false,
+      normalizeSlideIndex: false,
       {% if section.settings.show_navigation %}
       navigation: {
-    nextEl: '.swiper-button-next',
-    prevEl: '.swiper-button-prev',
-  },
-    {% endif %}
-    breakpoints: {
-    640: {
-      slidesPerView: 3,
-    },
-    768: {
-      slidesPerView: 4,
-    },
-    1024: {
-      slidesPerView: '{{ section.settings.slides_per_view }}',
-    }
-  }
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      {% endif %}
+      breakpoints: {
+        640: {
+          slidesPerView: 3,
+        },
+        768: {
+          slidesPerView: 4,
+        },
+        1024: {
+          slidesPerView: '{{ section.settings.slides_per_view }}',
+        }
+      }
     });
   });
 </script>
