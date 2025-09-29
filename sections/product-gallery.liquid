@@ -62,7 +62,7 @@
     <div class="swiper product-swiper">
       <div class="swiper-wrapper">
         {% for product in gallery_collection.products limit: section.settings.products_limit %}
-        {% render 'product-card-carousel'
+        {% render 'product-card-carousel-2'
         , product: product %}
         {% endfor %}
       </div>
