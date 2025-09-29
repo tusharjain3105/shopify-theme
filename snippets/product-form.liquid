@@ -1,6 +1,6 @@
 {% comment %}
-  Product Add to Cart Form - Monochromatic Button Design
-  Usage: {% render 'product-form', product: product %}
+Product Add to Cart Form - Monochromatic Button Design
+Usage: {% render 'product-form', product: product %}
 {% endcomment %}
 
 <style>
@@ -10,6 +10,7 @@
     -webkit-appearance: none;
     margin: 0;
   }
+
   .product-form input[type=number] {
     -moz-appearance: textfield;
     appearance: textfield;
@@ -18,320 +19,280 @@
 
 <div class="product-form">
   {% form 'product'
-    , product
-    , class: 'product-form-inner' %}
-    {% assign current_variant = product.selected_or_first_available_variant %}
+  , product
+  , class: 'product-form-inner' %}
+  {% assign current_variant = product.selected_or_first_available_variant %}
 
-    <!-- Variant Selector -->
-    {% if product.variants.size > 1 %}
-      <div class="variant-selector mb-4">
-        <label for="variant-select" class="block text-sm font-medium text-gray-700 mb-2">
-          Choose variant:
-        </label>
-        <select
-          name="id"
-          id="variant-select"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 bg-white focus:ring-2 focus:ring-gray-500 focus:border-gray-500">
-          {% for variant in product.variants %}
-            <option
-              value="{{ variant.id }}"
-              {% if variant == current_variant %}
-              selected{% endif %}
-              {% unless variant.available %}
-              disabled{% endunless %}
-              data-price="{{ variant.price | money }}"
-              data-compare-price="{{ variant.compare_at_price | money }}">
-              {{ variant.title }}
-              {% unless variant.available %}
-                - Sold out{% endunless %}
-            </option>
-          {% endfor %}
-        </select>
-      </div>
-    {% else %}
-      <input
-        type="hidden"
-        name="id"
-        value="{{ current_variant.id }}">
-    {% endif %}
+  <!-- Variant Selector -->
+  {% if product.variants.size > 1 %}
+  <div class="variant-selector mb-4">
+    <label for="variant-select" class="block text-sm font-medium text-gray-700 mb-2">
+      Choose variant:
+    </label>
+    <select name="id" id="variant-select"
+      class="w-full border border-gray-300 px-3 py-2 bg-white focus:ring-2 focus:ring-gray-500 focus:border-gray-500">
+      {% for variant in product.variants %}
+      <option value="{{ variant.id }}" {% if variant==current_variant %} selected{% endif %} {% unless variant.available
+        %} disabled{% endunless %} data-price="{{ variant.price | money }}"
+        data-compare-price="{{ variant.compare_at_price | money }}">
+        {{ variant.title }}
+        {% unless variant.available %}
+        - Sold out{% endunless %}
+      </option>
+      {% endfor %}
+    </select>
+  </div>
+  {% else %}
+  <input type="hidden" name="id" value="{{ current_variant.id }}">
+  {% endif %}
 
-    <!-- Quantity Selector -->
-    <div class="quantity-selector mb-6">
-      <label for="quantity" class="block text-sm font-medium text-gray-700 mb-2">
-        Quantity:
-      </label>
-      <div class="flex items-center border border-gray-300 rounded-md w-32">
-        <button
-          type="button"
-          class="quantity-btn minus px-3 py-2 text-gray-600 hover:text-gray-800"
-          data-action="minus">
-          <svg
-            class="w-16 h-16"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M20 12H4" />
-          </svg>
-        </button>
-        <input
-          type="number"
-          name="quantity"
-          id="quantity"
-          min="1"
-          value="1"
-          class="w-full text-center border-0 focus:ring-0 py-2">
-        <button
-          type="button"
-          class="quantity-btn plus px-3 py-2 text-gray-600 hover:text-gray-800"
-          data-action="plus">
-          <svg
-            class="w-16 h-16"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24">
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M12 6v12M6 12h12" />
-          </svg>
-        </button>
-      </div>
+  <!-- Quantity Selector -->
+  <div class="quantity-selector mb-6">
+    <label for="quantity" class="block text-sm font-medium text-gray-700 mb-2">
+      Quantity:
+    </label>
+    <div class="flex items-center border border-gray-300 w-32">
+      <button type="button" class="quantity-btn minus px-3 py-2 text-gray-600 hover:text-gray-800" data-action="minus">
+        <svg class="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
+        </svg>
+      </button>
+      <input type="number" name="quantity" id="quantity" min="1" value="1"
+        class="w-full text-center border-0 focus:ring-0 py-2">
+      <button type="button" class="quantity-btn plus px-3 py-2 text-gray-600 hover:text-gray-800" data-action="plus">
+        <svg class="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v12M6 12h12" />
+        </svg>
+      </button>
     </div>
+  </div>
 
-    <!-- CTA Buttons -->
-    <div class="add-to-cart-container space-y-3">
-      <!-- Secondary Add to Cart Button -->
-      <button
-        type="submit"
-        class="add-to-cart-btn w-full bg-gray-100 text-gray-900 border border-gray-300 py-4 px-6 rounded-lg font-semibold hover:bg-gray-200 hover:border-gray-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-gray-100"
-        {% unless current_variant.available %}
-        disabled{% endunless %}>
-        {% if current_variant.available %}
-          Add to Cart
-        {% else %}
-          Sold Out
-        {% endif %}
+  <!-- CTA Buttons -->
+  <div class="add-to-cart-container space-y-3">
+    <!-- Secondary Add to Cart Button -->
+    <button type="submit"
+      class="add-to-cart-btn w-full bg-gray-100 text-gray-900 border border-gray-300 py-4 px-6 font-semibold hover:bg-gray-200 hover:border-gray-400 transition-colors disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-gray-100"
+      {% unless current_variant.available %} disabled{% endunless %}>
+      {% if current_variant.available %}
+      Add to Cart
+      {% else %}
+      Sold Out
+      {% endif %}
+    </button>
+
+    <!-- Primary Buy Now Button -->
+    {% if current_variant.available %}
+    <div class="buy-now-wrapper">
+      <!-- Custom styled buy now button -->
+      <button type="button"
+        class="buy-now-btn w-full bg-gray-900 text-white py-4 px-6 font-semibold hover:bg-black transition-colors"
+        onclick="handleBuyNow()">
+        Buy Now
       </button>
 
-      <!-- Primary Buy Now Button -->
-      {% if current_variant.available %}
-        <div class="buy-now-wrapper">
-          <!-- Custom styled buy now button -->
-          <button
-            type="button"
-            class="buy-now-btn w-full bg-gray-900 text-white py-4 px-6 rounded-lg font-semibold hover:bg-black transition-colors"
-            onclick="handleBuyNow()">
-            Buy Now
-          </button>
-
-          <!-- Hidden payment button for fallback -->
-          <div class="hidden">
-            {{ form | payment_button }}
-          </div>
-        </div>
-      {% endif %}
+      <!-- Hidden payment button for fallback -->
+      <div class="hidden">
+        {{ form | payment_button }}
+      </div>
     </div>
+    {% endif %}
+  </div>
   {% endform %}
 </div>
 
 <script>
-  (function() {
-  const init = () => {
-  const root = document;
-  const CURRENCY = '{{ shop.currency }}';
-  const formatMoney = (cents) => {
-    try { return new Intl.NumberFormat(undefined, { style: 'currency', currency: CURRENCY }).format((cents||0)/100); } catch { return `₹${((cents||0)/100).toFixed(2)}`; }
-  };
-  const plural = (n, s, p) => (n === 1 ? s : p);
-  // Quantity controls are wired per-form below
+  (function () {
+    const init = () => {
+      const root = document;
+      const CURRENCY = '{{ shop.currency }}';
+      const formatMoney = (cents) => {
+        try { return new Intl.NumberFormat(undefined, { style: 'currency', currency: CURRENCY }).format((cents || 0) / 100); } catch { return `₹${((cents || 0) / 100).toFixed(2)}`; }
+      };
+      const plural = (n, s, p) => (n === 1 ? s : p);
+      // Quantity controls are wired per-form below
 
-  // Buy Now functionality
-  window.handleBuyNow = function() {
-    // Try to click the hidden payment button first
-    const paymentButton = document.querySelector('.shopify-payment-button__button');
-    if (paymentButton) {
-      paymentButton.click();
-    } else {
-      // Fallback: add to cart and redirect to checkout
-      const form = document.querySelector('.product-form-inner');
-      const formData = new FormData(form);
-      
-      fetch('/cart/add.js', {
-        method: 'POST',
-        body: formData
-      })
-      .then(response => response.json())
-      .then(data => {
-        // Redirect to checkout
-        window.location.href = '/checkout';
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        // Fallback: submit the form normally
-        form.submit();
-      });
-    }
-  };
+      // Buy Now functionality
+      window.handleBuyNow = function () {
+        // Try to click the hidden payment button first
+        const paymentButton = document.querySelector('.shopify-payment-button__button');
+        if (paymentButton) {
+          paymentButton.click();
+        } else {
+          // Fallback: add to cart and redirect to checkout
+          const form = document.querySelector('.product-form-inner');
+          const formData = new FormData(form);
 
-  // Variant change handling
-  const variantSelect = root.querySelector('#variant-select');
-  variantSelect?.addEventListener('change', function() {
-    const selectedOption = this.options[this.selectedIndex];
-    const price = selectedOption.dataset.price;
-    const comparePrice = selectedOption.dataset.comparePrice;
-    
-    // Update price display
-    const currentPriceElement = root.querySelector('.current-price');
-    const comparePriceElement = root.querySelector('.compare-price');
-    
-    if (currentPriceElement && price) {
-      currentPriceElement.textContent = price;
-    }
-    
-    if (comparePriceElement && comparePrice && comparePrice !== price) {
-      comparePriceElement.textContent = comparePrice;
-      comparePriceElement.style.display = 'inline';
-    } else if (comparePriceElement) {
-      comparePriceElement.style.display = 'none';
-    }
+          fetch('/cart/add.js', {
+            method: 'POST',
+            body: formData
+          })
+            .then(response => response.json())
+            .then(data => {
+              // Redirect to checkout
+              window.location.href = '/checkout';
+            })
+            .catch(error => {
+              console.error('Error:', error);
+              // Fallback: submit the form normally
+              form.submit();
+            });
+        }
+      };
 
-    // Update button states
-    const addToCartBtn = root.querySelector('.add-to-cart-btn');
-    const buyNowBtn = root.querySelector('.buy-now-btn');
-    const buyNowWrapper = root.querySelector('.buy-now-wrapper');
-    
-    if (selectedOption.disabled) {
-      addToCartBtn.disabled = true;
-      addToCartBtn.textContent = 'Sold Out';
-      if (buyNowWrapper) {
-        buyNowWrapper.style.display = 'none';
-      }
-    } else {
-      addToCartBtn.disabled = false;
-      addToCartBtn.textContent = 'Add to Cart';
-      if (buyNowWrapper) {
-        buyNowWrapper.style.display = 'block';
-      }
-    }
-  });
+      // Variant change handling
+      const variantSelect = root.querySelector('#variant-select');
+      variantSelect?.addEventListener('change', function () {
+        const selectedOption = this.options[this.selectedIndex];
+        const price = selectedOption.dataset.price;
+        const comparePrice = selectedOption.dataset.comparePrice;
 
-  // Intercept add-to-cart submit to open cart drawer (support multiple forms on page)
-  const forms = document.querySelectorAll('.product-form-inner');
-  const updateCartCount = () => {
-    fetch('{{ routes.cart_url }}.js')
-      .then(r => r.json())
-      .then(cart => {
-        const badge = document.querySelector('[data-cart-open] .absolute');
-        if (badge) {
-          if (cart.item_count > 0) {
-            badge.textContent = cart.item_count;
-            badge.style.display = '';
-          } else {
-            badge.style.display = 'none';
+        // Update price display
+        const currentPriceElement = root.querySelector('.current-price');
+        const comparePriceElement = root.querySelector('.compare-price');
+
+        if (currentPriceElement && price) {
+          currentPriceElement.textContent = price;
+        }
+
+        if (comparePriceElement && comparePrice && comparePrice !== price) {
+          comparePriceElement.textContent = comparePrice;
+          comparePriceElement.style.display = 'inline';
+        } else if (comparePriceElement) {
+          comparePriceElement.style.display = 'none';
+        }
+
+        // Update button states
+        const addToCartBtn = root.querySelector('.add-to-cart-btn');
+        const buyNowBtn = root.querySelector('.buy-now-btn');
+        const buyNowWrapper = root.querySelector('.buy-now-wrapper');
+
+        if (selectedOption.disabled) {
+          addToCartBtn.disabled = true;
+          addToCartBtn.textContent = 'Sold Out';
+          if (buyNowWrapper) {
+            buyNowWrapper.style.display = 'none';
+          }
+        } else {
+          addToCartBtn.disabled = false;
+          addToCartBtn.textContent = 'Add to Cart';
+          if (buyNowWrapper) {
+            buyNowWrapper.style.display = 'block';
           }
         }
-      })
-      .catch(() => {});
-  };
+      });
 
-  const addToCart = (formEl, addBtn, e) => {
-    if (e) e.preventDefault();
-    // Prevent double-submits/toasts
-    if (formEl.dataset.busy === '1' || (addBtn && addBtn.dataset.busy === '1')) return;
-    formEl.dataset.busy = '1';
-    if (addBtn) addBtn.dataset.busy = '1';
-    if (addBtn) {
-      addBtn.disabled = true;
-      addBtn.textContent = 'Adding...';
-    }
+      // Intercept add-to-cart submit to open cart drawer (support multiple forms on page)
+      const forms = document.querySelectorAll('.product-form-inner');
+      const updateCartCount = () => {
+        fetch('{{ routes.cart_url }}.js')
+          .then(r => r.json())
+          .then(cart => {
+            const badge = document.querySelector('[data-cart-open] .absolute');
+            if (badge) {
+              if (cart.item_count > 0) {
+                badge.textContent = cart.item_count;
+                badge.style.display = '';
+              } else {
+                badge.style.display = 'none';
+              }
+            }
+          })
+          .catch(() => { });
+      };
 
-    const formData = new FormData(formEl);
-    const prom = fetch('/cart/add.js', {
-      method: 'POST',
-      body: formData,
-      headers: { 'Accept': 'application/json' }
-    })
-    .then(res => {
-      if (!res.ok) return res.json().then(err => { throw err; });
-      return res.json();
-    })
-    .then((data) => {
-      // Update header badge only; drawer/redirect will happen after toast success
-      updateCartCount();
-      // Fetch latest cart for subtotal/count to show in toast
-      return fetch('{{ routes.cart_url }}.js').then(r=>r.json()).then(cart => ({ data, cart }));
-    })
-    .finally(() => {
-      if (addBtn) {
-        addBtn.disabled = false;
-        addBtn.textContent = 'Add to Cart';
-        addBtn.dataset.busy = '0';
-      }
-      formEl.dataset.busy = '0';
-    });
+      const addToCart = (formEl, addBtn, e) => {
+        if (e) e.preventDefault();
+        // Prevent double-submits/toasts
+        if (formEl.dataset.busy === '1' || (addBtn && addBtn.dataset.busy === '1')) return;
+        formEl.dataset.busy = '1';
+        if (addBtn) addBtn.dataset.busy = '1';
+        if (addBtn) {
+          addBtn.disabled = true;
+          addBtn.textContent = 'Adding...';
+        }
 
-    // Toast promise with detailed messages
-    const qty = parseInt((formEl.querySelector('#quantity')?.value)||'1')||1;
-    const variantTitle = formEl.querySelector('#variant-select option:checked')?.textContent?.trim() || '{{ product.title | escape }}';
-    window.Toast?.promise(prom, {
-      loading: { title: `Adding ${qty} × ${variantTitle}…` },
-      success: (res) => {
-        // After showing success content, open drawer or redirect shortly after to avoid racing UI
-        setTimeout(() => {
-          if (window.CartDrawer && typeof window.CartDrawer.open === 'function') {
-            window.CartDrawer.open();
-          } else {
-            window.location.href = '{{ routes.cart_url }}';
-          }
-        }, 120);
-        return {
-          title: `Added ${qty} × ${variantTitle}`,
-          description: res?.cart ? `Subtotal: ${formatMoney(res.cart.total_price)} · ${res.cart.item_count} ${plural(res.cart.item_count,'item','items')}` : ''
+        const formData = new FormData(formEl);
+        const prom = fetch('/cart/add.js', {
+          method: 'POST',
+          body: formData,
+          headers: { 'Accept': 'application/json' }
+        })
+          .then(res => {
+            if (!res.ok) return res.json().then(err => { throw err; });
+            return res.json();
+          })
+          .then((data) => {
+            // Update header badge only; drawer/redirect will happen after toast success
+            updateCartCount();
+            // Fetch latest cart for subtotal/count to show in toast
+            return fetch('{{ routes.cart_url }}.js').then(r => r.json()).then(cart => ({ data, cart }));
+          })
+          .finally(() => {
+            if (addBtn) {
+              addBtn.disabled = false;
+              addBtn.textContent = 'Add to Cart';
+              addBtn.dataset.busy = '0';
+            }
+            formEl.dataset.busy = '0';
+          });
+
+        // Toast promise with detailed messages
+        const qty = parseInt((formEl.querySelector('#quantity')?.value) || '1') || 1;
+        const variantTitle = formEl.querySelector('#variant-select option:checked')?.textContent?.trim() || '{{ product.title | escape }}';
+        window.Toast?.promise(prom, {
+          loading: { title: `Adding ${qty} × ${variantTitle}…` },
+          success: (res) => {
+            // After showing success content, open drawer or redirect shortly after to avoid racing UI
+            setTimeout(() => {
+              if (window.CartDrawer && typeof window.CartDrawer.open === 'function') {
+                window.CartDrawer.open();
+              } else {
+                window.location.href = '{{ routes.cart_url }}';
+              }
+            }, 120);
+            return {
+              title: `Added ${qty} × ${variantTitle}`,
+              description: res?.cart ? `Subtotal: ${formatMoney(res.cart.total_price)} · ${res.cart.item_count} ${plural(res.cart.item_count, 'item', 'items')}` : ''
+            };
+          },
+          error: (err) => ({ title: 'Failed to add to cart', description: (err && (err.description || err.message)) ? (err.description || err.message) : '' })
+        });
+      };
+
+      forms.forEach((formEl) => {
+        // Avoid double-binding if init runs more than once
+        if (formEl.dataset.listenersBound === '1') return;
+        formEl.dataset.listenersBound = '1';
+        const addBtn = formEl.querySelector('.add-to-cart-btn');
+        // Wire quantity controls per form
+        const quantityInput = formEl.querySelector('#quantity');
+        const minusBtn = formEl.querySelector('.quantity-btn[data-action="minus"]');
+        const plusBtn = formEl.querySelector('.quantity-btn[data-action="plus"]');
+        const clampQty = () => {
+          const val = parseInt(quantityInput.value || '1') || 1;
+          quantityInput.value = Math.max(1, val);
         };
-      },
-      error: (err) => ({ title: 'Failed to add to cart', description: (err && (err.description || err.message)) ? (err.description || err.message) : '' })
-    });
-  };
+        minusBtn?.addEventListener('click', function () {
+          const currentValue = parseInt(quantityInput.value || '1') || 1;
+          quantityInput.value = Math.max(1, currentValue - 1);
+        });
+        plusBtn?.addEventListener('click', function () {
+          const currentValue = parseInt(quantityInput.value || '1') || 1;
+          quantityInput.value = Math.max(1, currentValue + 1);
+        });
+        quantityInput?.addEventListener('change', clampQty);
 
-  forms.forEach((formEl) => {
-    // Avoid double-binding if init runs more than once
-    if (formEl.dataset.listenersBound === '1') return;
-    formEl.dataset.listenersBound = '1';
-    const addBtn = formEl.querySelector('.add-to-cart-btn');
-    // Wire quantity controls per form
-    const quantityInput = formEl.querySelector('#quantity');
-    const minusBtn = formEl.querySelector('.quantity-btn[data-action="minus"]');
-    const plusBtn = formEl.querySelector('.quantity-btn[data-action="plus"]');
-    const clampQty = () => {
-      const val = parseInt(quantityInput.value || '1') || 1;
-      quantityInput.value = Math.max(1, val);
+        // Intercept submit only (avoid duplicate click+submit)
+        formEl.addEventListener('submit', function (e) {
+          addToCart(formEl, addBtn, e);
+        });
+      });
     };
-    minusBtn?.addEventListener('click', function() {
-      const currentValue = parseInt(quantityInput.value || '1') || 1;
-      quantityInput.value = Math.max(1, currentValue - 1);
-    });
-    plusBtn?.addEventListener('click', function() {
-      const currentValue = parseInt(quantityInput.value || '1') || 1;
-      quantityInput.value = Math.max(1, currentValue + 1);
-    });
-    quantityInput?.addEventListener('change', clampQty);
 
-    // Intercept submit only (avoid duplicate click+submit)
-    formEl.addEventListener('submit', function(e) {
-      addToCart(formEl, addBtn, e);
-    });
-  });
-  };
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
   })();
 </script>

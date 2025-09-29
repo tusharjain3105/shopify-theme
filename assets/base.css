@@ -578,6 +578,9 @@
   .h-\[1lh\] {
     height: 1lh;
   }
+  .h-\[2\.5lh\] {
+    height: 2.5lh;
+  }
   .h-\[var\(--banner-height\)\] {
     height: var(--banner-height);
   }
@@ -592,6 +595,9 @@
   }
   .h-screen {
     height: 100vh;
+  }
+  .max-h-\[1\.8lh\] {
+    max-height: 1.8lh;
   }
   .max-h-\[70\%\] {
     max-height: 70%;
@@ -974,9 +980,6 @@
   }
   .border-zinc-300 {
     border-color: var(--color-zinc-300);
-  }
-  .bg-\[--color-background\] {
-    background-color: --color-background;
   }
   .bg-\[var\(--color-background\)\] {
     background-color: var(--color-background);

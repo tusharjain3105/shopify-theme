@@ -55,16 +55,16 @@ Usage: {% render 'product-card-enhanced', product: product %}
     </div>
 
     <!-- Product Info -->
-    <div class="pt-2">
+    <div class="pt-2 h-[2.5lh]">
       <h3
-        class="text-sm uppercase font-medium text-gray-900 group-hover:text-gray-700 transition-colors mb-0.5 line-clamp-1 h-[1lh]">
+        class="text-xs uppercase font-medium text-gray-900 group-hover:text-gray-700 transition-colors mb-0.5 line-clamp-2 max-h-[1.8lh]">
         {{ product.title | truncate: 60 }}
       </h3>
 
       <div class="flex items-center justify-between">
         <div class="price-container">
           {% if product.compare_at_price > product.price %}
-          <span class="text-sm text-gray-700">{{ product.price | money }}</span>
+          <span class="text-xs text-gray-700">{{ product.price | money }}</span>
           <span class="text-xs text-gray-400 line-through ml-1">{{ product.compare_at_price | money }}</span>
           {% else %}
           <span class="text-sm text-gray-700">{{ product.price | money }}</span>

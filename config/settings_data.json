@@ -13,6 +13,7 @@
     "favicon_image": "shopify://shop_images/logo.png",
     "max_page_width": "100vw",
     "min_page_margin": 0,
+    "background_color": "#ffffff",
     "content_for_index": []
   }
 }
