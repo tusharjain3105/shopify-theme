@@ -89,29 +89,33 @@
     new Swiper('.product-swiper', {
       slidesPerView: 'auto',
       spaceBetween: 0,
-      loop: true,
-      {% if section.settings.autoplay %}
-      autoplay: {
-    delay: 3000,
-    disableOnInteraction: false,
+      freeMode: {
+        enabled: true,
+        momentum: true,
+        momentumRatio: 1,
+        momentumBounce: false,
+        momentumVelocityRatio: 1.2,
+        sticky: false
+      },
+      mousewheel: {
+        releaseOnEdges: true,
+      },
+      {% if section.settings.show_navigation %}
+      navigation: {
+    nextEl: '.swiper-button-next',
+    prevEl: '.swiper-button-prev',
   },
     {% endif %}
-    {% if section.settings.show_navigation %}
-  navigation: {
-    nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev',
-      },
-  {% endif %}
-  breakpoints: {
+    breakpoints: {
     640: {
       slidesPerView: 3,
-        },
+    },
     768: {
       slidesPerView: 4,
-        },
+    },
     1024: {
       slidesPerView: '{{ section.settings.slides_per_view }}',
-        }
+    }
   }
     });
   });

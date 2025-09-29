@@ -1,11 +1,48 @@
 {% assign default_categories = 'Electronics,Fashion,Home & Garden,Sports,Books,Beauty,Toys,Automotive' | split: ',' %}
 
-<section class="md:hidden">
+<section class="md:hidden py-4">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
   <div class="swiper category-swiper p-4">
     <div class="swiper-wrapper">
       {% if section.blocks.size > 0 %}
+      {% comment %} Original slides {% endcomment %}
+      {% for block in section.blocks %}
+      <div class="swiper-slide">
+        <a href="{{ block.settings.category_link | default: '/collections/all' }}" class="block text-center">
+          <div class="h-20 w-20 rounded-full overflow-hidden shadow-lg mx-auto mb-2">
+            {% if block.settings.category_image %}
+            <img class="h-full w-full object-cover" src="{{ block.settings.category_image | image_url }}"
+              alt="{{ block.settings.category_title }}">
+            {% else %}
+            <div class="h-full w-full bg-gray-200 flex items-center justify-center">
+              <span class="text-gray-500 text-xs">{{ block.settings.category_title | slice: 0, 2 | upcase }}</span>
+            </div>
+            {% endif %}
+          </div>
+          <h3 class="text-xs font-medium uppercase">{{ block.settings.category_title }}</h3>
+        </a>
+      </div>
+      {% endfor %}
+      {% comment %} First duplicate {% endcomment %}
+      {% for block in section.blocks %}
+      <div class="swiper-slide">
+        <a href="{{ block.settings.category_link | default: '/collections/all' }}" class="block text-center">
+          <div class="h-20 w-20 rounded-full overflow-hidden shadow-lg mx-auto mb-2">
+            {% if block.settings.category_image %}
+            <img class="h-full w-full object-cover" src="{{ block.settings.category_image | image_url }}"
+              alt="{{ block.settings.category_title }}">
+            {% else %}
+            <div class="h-full w-full bg-gray-200 flex items-center justify-center">
+              <span class="text-gray-500 text-xs">{{ block.settings.category_title | slice: 0, 2 | upcase }}</span>
+            </div>
+            {% endif %}
+          </div>
+          <h3 class="text-xs font-medium uppercase">{{ block.settings.category_title }}</h3>
+        </a>
+      </div>
+      {% endfor %}
+      {% comment %} Second duplicate {% endcomment %}
       {% for block in section.blocks %}
       <div class="swiper-slide">
         <a href="{{ block.settings.category_link | default: '/collections/all' }}" class="block text-center">
@@ -24,6 +61,33 @@
       </div>
       {% endfor %}
       {% else %}
+      {% comment %} Original default categories {% endcomment %}
+      {% for category in default_categories %}
+      <div class="swiper-slide">
+        <a href="/collections/{{ category | downcase | replace: ' ', '-' | replace: '&', 'and' }}"
+          class="block text-center">
+          <div
+            class="h-20 w-20 rounded-full overflow-hidden shadow-lg mx-auto mb-2 bg-gray-200 flex items-center justify-center">
+            <span class="text-gray-500 text-sm font-bold">{{ category | slice: 0, 2 | upcase }}</span>
+          </div>
+          <h3 class="text-xs font-medium uppercase">{{ category }}</h3>
+        </a>
+      </div>
+      {% endfor %}
+      {% comment %} First duplicate {% endcomment %}
+      {% for category in default_categories %}
+      <div class="swiper-slide">
+        <a href="/collections/{{ category | downcase | replace: ' ', '-' | replace: '&', 'and' }}"
+          class="block text-center">
+          <div
+            class="h-20 w-20 rounded-full overflow-hidden shadow-lg mx-auto mb-2 bg-gray-200 flex items-center justify-center">
+            <span class="text-gray-500 text-sm font-bold">{{ category | slice: 0, 2 | upcase }}</span>
+          </div>
+          <h3 class="text-xs font-medium uppercase">{{ category }}</h3>
+        </a>
+      </div>
+      {% endfor %}
+      {% comment %} Second duplicate {% endcomment %}
       {% for category in default_categories %}
       <div class="swiper-slide">
         <a href="/collections/{{ category | downcase | replace: ' ', '-' | replace: '&', 'and' }}"
@@ -45,10 +109,18 @@
     const swiper = new Swiper('.category-swiper', {
       slidesPerView: 'auto',
       spaceBetween: 16,
+      freeMode: {
+        enabled: true,
+        momentum: true,
+        momentumRatio: 1,
+        momentumBounce: false,
+        momentumVelocityRatio: 1,
+        sticky: false,
+      },
       loop: true,
-      freeMode: true,
-      freeModeMomentum: true,
-      freeModeSticky: false,
+      mousewheel: {
+        releaseOnEdges: true,
+      },
       slidesPerView: 4.5,
       breakpoints: {
         320: { slidesPerView: 3.5 },

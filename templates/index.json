@@ -7,7 +7,7 @@
  * made to this file may be overwritten.
  * ------------------------------------------------------------
  */
- {
+{
   "sections": {
     "splash_4gYCcP": {
       "type": "splash",
@@ -19,8 +19,29 @@
         "announcement_duration": 1000
       }
     },
+    "banner_2_9aNqr9": {
+      "type": "banner-2",
+      "name": "Banner 2",
+      "settings": {
+        "desktop_media_type": "image",
+        "desktop_image": "shopify://shop_images/Screenshot_2025-09-06_at_6.47.29_PM.png",
+        "desktop_height": "calc(100vh - 4rem)",
+        "mobile_media_type": "video",
+        "mobile_video": "shopify://files/videos/IMG_1750.MP4",
+        "mobile_height": "calc(100vh - 4rem)",
+        "autoplay_video": true,
+        "loop_video": true,
+        "mute_video": true,
+        "show_card": false,
+        "heading": "Welcome to Our Store",
+        "subtext": "Discover the latest collections and exclusive offers.",
+        "button_link": "",
+        "button_text": "Shop Now"
+      }
+    },
     "banner": {
       "type": "banner",
+      "disabled": true,
       "settings": {
         "media_type": "image",
         "banner_image": "shopify://shop_images/Screenshot_2025-09-06_at_6.47.29_PM.png",
@@ -299,6 +320,7 @@
   },
   "order": [
     "splash_4gYCcP",
+    "banner_2_9aNqr9",
     "banner",
     "category_stories_rUftBF",
     "categories",
