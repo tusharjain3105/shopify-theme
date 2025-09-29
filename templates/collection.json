@@ -7,88 +7,97 @@
  * made to this file may be overwritten.
  * ------------------------------------------------------------
  */
-{
+ {
   "sections": {
-    "main": {
-      "type": "collection",
-      "settings": {}
-    },
-    "categories": {
-      "type": "categories",
+    "category_stories_rUftBF": {
+      "type": "category-stories",
       "blocks": {
-        "category_DzYmAG": {
+        "category_MfFTUF": {
           "type": "category",
+          "name": "Neckpieces",
           "settings": {
             "category_image": "shopify://shop_images/Screenshot_2025-08-31_at_10.03.32_PM.png",
             "category_title": "Neckpieces",
-            "category_link": ""
+            "category_link": "shopify://collections/neckpieces"
           }
         },
-        "category_QrhREG": {
+        "category_xyHxbQ": {
           "type": "category",
+          "name": "Bracelets",
           "settings": {
-            "category_image": "shopify://shop_images/Screenshot_2025-08-31_at_10.03.13_PM.png",
+            "category_image": "shopify://shop_images/Screenshot_2025-08-31_at_10.03.32_PM.png",
             "category_title": "Bracelets",
-            "category_link": ""
+            "category_link": "shopify://collections/bracelets"
           }
         },
-        "category_6HgMrg": {
+        "category_HLfFft": {
           "type": "category",
+          "name": "Earrings",
           "settings": {
-            "category_image": "shopify://shop_images/Screenshot_2025-08-31_at_10.03.07_PM.png",
+            "category_image": "shopify://shop_images/Screenshot_2025-08-31_at_10.03.32_PM.png",
             "category_title": "Earrings",
-            "category_link": ""
+            "category_link": "shopify://collections/earrings"
           }
         },
-        "category_W6CEDk": {
+        "category_DiT67t": {
           "type": "category",
+          "name": "Pearls",
           "settings": {
-            "category_image": "shopify://shop_images/Screenshot_2025-08-31_at_10.03.26_PM.png",
+            "category_image": "shopify://shop_images/Screenshot_2025-08-31_at_10.03.32_PM.png",
             "category_title": "Pearls",
-            "category_link": ""
+            "category_link": "shopify://collections/pearls"
           }
         },
-        "category_xVDkC6": {
+        "category_8zErqL": {
           "type": "category",
+          "name": "Pendants",
           "settings": {
-            "category_image": "shopify://shop_images/Screenshot_2025-08-31_at_10.03.20_PM.png",
+            "category_image": "shopify://shop_images/Screenshot_2025-08-31_at_10.03.32_PM.png",
             "category_title": "Pendants",
-            "category_link": ""
+            "category_link": "shopify://collections/pendants"
           }
         },
-        "category_pChCYz": {
+        "category_VM8VzJ": {
           "type": "category",
+          "name": "Rings",
           "settings": {
-            "category_image": "shopify://shop_images/Screenshot_2025-08-31_at_10.02.44_PM.png",
+            "category_image": "shopify://shop_images/Screenshot_2025-08-31_at_10.03.32_PM.png",
             "category_title": "Rings",
-            "category_link": ""
+            "category_link": "shopify://collections/rings"
           }
         },
-        "category_infC9U": {
+        "category_qWbfBh": {
           "type": "category",
+          "name": "Chains",
           "settings": {
-            "category_image": "shopify://shop_images/Screenshot_2025-08-31_at_10.03.07_PM.png",
+            "category_image": "shopify://shop_images/Screenshot_2025-08-31_at_10.03.32_PM.png",
             "category_title": "Chains",
-            "category_link": ""
+            "category_link": "shopify://collections/chains"
           }
         }
       },
       "block_order": [
-        "category_DzYmAG",
-        "category_QrhREG",
-        "category_6HgMrg",
-        "category_W6CEDk",
-        "category_xVDkC6",
-        "category_pChCYz",
-        "category_infC9U"
+        "category_MfFTUF",
+        "category_xyHxbQ",
+        "category_HLfFft",
+        "category_DiT67t",
+        "category_8zErqL",
+        "category_VM8VzJ",
+        "category_qWbfBh"
       ],
-      "settings": {
-        "expand_on_hover": true
-      }
+      "custom_css": [
+        "{@media screen and (max-width: 768px) {margin-top: 5rem; }}"
+      ],
+      "name": "Category Stories",
+      "settings": {}
+    },
+    "main": {
+      "type": "collection",
+      "settings": {}
     }
   },
   "order": [
-    "categories",
+    "category_stories_rUftBF",
     "main"
   ]
 }

@@ -7,7 +7,7 @@
  * made to this file may be overwritten.
  * ------------------------------------------------------------
  */
-{
+ {
   "sections": {
     "splash_4gYCcP": {
       "type": "splash",
@@ -35,6 +35,85 @@
         "button_link": "",
         "button_text": "Shop Now"
       }
+    },
+    "category_stories_rUftBF": {
+      "type": "category-stories",
+      "blocks": {
+        "category_MfFTUF": {
+          "type": "category",
+          "name": "Neckpieces",
+          "settings": {
+            "category_image": "shopify://shop_images/Screenshot_2025-08-31_at_10.03.32_PM.png",
+            "category_title": "Neckpieces",
+            "category_link": "shopify://collections/neckpieces"
+          }
+        },
+        "category_xyHxbQ": {
+          "type": "category",
+          "name": "Bracelets",
+          "settings": {
+            "category_image": "shopify://shop_images/Screenshot_2025-08-31_at_10.03.32_PM.png",
+            "category_title": "Bracelets",
+            "category_link": "shopify://collections/bracelets"
+          }
+        },
+        "category_HLfFft": {
+          "type": "category",
+          "name": "Earrings",
+          "settings": {
+            "category_image": "shopify://shop_images/Screenshot_2025-08-31_at_10.03.32_PM.png",
+            "category_title": "Earrings",
+            "category_link": "shopify://collections/earrings"
+          }
+        },
+        "category_DiT67t": {
+          "type": "category",
+          "name": "Pearls",
+          "settings": {
+            "category_image": "shopify://shop_images/Screenshot_2025-08-31_at_10.03.32_PM.png",
+            "category_title": "Pearls",
+            "category_link": "shopify://collections/pearls"
+          }
+        },
+        "category_8zErqL": {
+          "type": "category",
+          "name": "Pendants",
+          "settings": {
+            "category_image": "shopify://shop_images/Screenshot_2025-08-31_at_10.03.32_PM.png",
+            "category_title": "Pendants",
+            "category_link": "shopify://collections/pendants"
+          }
+        },
+        "category_VM8VzJ": {
+          "type": "category",
+          "name": "Rings",
+          "settings": {
+            "category_image": "shopify://shop_images/Screenshot_2025-08-31_at_10.03.32_PM.png",
+            "category_title": "Rings",
+            "category_link": "shopify://collections/rings"
+          }
+        },
+        "category_qWbfBh": {
+          "type": "category",
+          "name": "Chains",
+          "settings": {
+            "category_image": "shopify://shop_images/Screenshot_2025-08-31_at_10.03.32_PM.png",
+            "category_title": "Chains",
+            "category_link": "shopify://collections/chains"
+          }
+        }
+      },
+      "block_order": [
+        "category_MfFTUF",
+        "category_xyHxbQ",
+        "category_HLfFft",
+        "category_DiT67t",
+        "category_8zErqL",
+        "category_VM8VzJ",
+        "category_qWbfBh"
+      ],
+      "name": "Category Stories",
+      "settings": {}
     },
     "categories": {
       "type": "categories",
@@ -221,6 +300,7 @@
   "order": [
     "splash_4gYCcP",
     "banner",
+    "category_stories_rUftBF",
     "categories",
     "product-gallery",
     "banner_FfHwgK",
