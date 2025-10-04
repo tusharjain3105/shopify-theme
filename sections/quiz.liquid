@@ -4,6 +4,31 @@
     "tag": "section",
     "settings": [
       {
+        "type": "header",
+        "content": "Background"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_backdrop_video",
+        "label": "Enable backdrop video",
+        "default": false
+      },
+      {
+        "type": "video",
+        "id": "backdrop_video",
+        "label": "Backdrop video"
+      },
+      {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background color",
+        "default": "#f8fafc"
+      },
+      {
+        "type": "header",
+        "content": "Content"
+      },
+      {
         "type": "text",
         "id": "main_heading",
         "label": "Main heading",
@@ -36,11 +61,6 @@
         "label": "Hero image"
       }, {
         "type": "color",
-        "id": "background_color",
-        "label": "Background color",
-        "default": "#f8fafc"
-      }, {
-        "type": "color",
         "id": "text_color",
         "label": "Text color",
         "default": "#1f2937"
@@ -64,8 +84,23 @@
   }
 {% endschema %}
 
-<section class="py-12 md:py-16" style="background-color: {{ section.settings.background_color }};">
-  <div class="max-w-7xl mx-auto px-4">
+<section class="py-12 md:py-16 relative overflow-hidden" style="background-color: {{ section.settings.background_color }};">
+  
+  {% if section.settings.enable_backdrop_video and section.settings.backdrop_video != blank %}
+    <div class="absolute inset-0 w-full h-full">
+      <video 
+        class="w-full h-full object-cover blur-sm opacity-30" 
+        autoplay 
+        loop 
+        muted 
+        playsinline>
+        <source src="{{ section.settings.backdrop_video.sources[1].url }}" type="video/mp4">
+        <source src="{{ section.settings.backdrop_video.sources[0].url }}" type="video/webm">
+      </video>
+    </div>
+  {% endif %}
+
+  <div class="max-w-7xl mx-auto px-4 relative z-10">
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
 
       <!-- Left Column - Text Content -->
