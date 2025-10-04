@@ -83,17 +83,25 @@
   </div>
   <!-- Collapsible Search Bar -->
   <div
-    class="px-4 md:px-6 grid transition-[grid-template-rows] duration-300 grid-rows-[0fr] data-[state=expanded]:grid-rows-[1fr]"
+    class="px-4 md:px-6 grid transition-[grid-template-rows] duration-300 grid-rows-[0fr] data-[state=expanded]:grid-rows-[1fr] group"
     data-searchbar data-state="collapsed">
-    <div class="overflow-hidden">
-      <form action="{{ routes.search_url }}" method="get" role="search">
-        <div class="flex items-center gap-2 bg-white border border-zinc-300 rounded-md px-3 py-2 shadow-sm">
-          <input type="search" name="q" placeholder="Search products..."
-            class="flex-1 bg-transparent outline-none text-sm text-black placeholder-zinc-500" aria-label="Search" />
-          <button type="submit" class="text-zinc-700 hover:text-black">{% render 'icon', icon: 'search', size: 16
-            %}</button>
+    <div class="group-data-[state=collapsed]:overflow-hidden">
+      <div class="relative">
+        <form action="{{ routes.search_url }}" method="get" role="search">
+          <div class="flex items-center gap-2 bg-white border border-zinc-300 rounded-md px-3 py-2 shadow-sm">
+            <input type="search" name="q" placeholder="Search products..." id="search-input"
+              class="flex-1 bg-transparent outline-none text-sm text-black placeholder-zinc-500" aria-label="Search"
+              autocomplete="off" />
+            <button type="submit" class="text-zinc-700 hover:text-black">{% render 'icon', icon: 'search', size: 16
+              %}</button>
+          </div>
+        </form>
+        <!-- Search Suggestions -->
+        <div id="search-suggestions"
+          class="absolute top-full left-0 right-0 bg-white border border-zinc-300 border-t-0 rounded-b-md shadow-lg z-50 hidden">
+          <div id="suggestions-list" class="max-h-64 overflow-y-auto"></div>
         </div>
-      </form>
+      </div>
     </div>
   </div>
 
@@ -263,8 +271,80 @@
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && searchbar && searchbar.dataset.state === 'expanded') {
         searchbar.dataset.state = 'collapsed';
+        hideSuggestions();
       }
     });
+
+    // Search suggestions functionality
+    const searchInput = document.getElementById('search-input');
+    const suggestionsContainer = document.getElementById('search-suggestions');
+    const suggestionsList = document.getElementById('suggestions-list');
+    let searchTimeout;
+
+    function showSuggestions() {
+      suggestionsContainer.classList.remove('hidden');
+    }
+
+    function hideSuggestions() {
+      suggestionsContainer.classList.add('hidden');
+    }
+
+    function fetchSuggestions(query) {
+      if (query.length < 2) {
+        hideSuggestions();
+        return;
+      }
+
+      fetch(`/search/suggest.json?q=${encodeURIComponent(query)}&resources[type]=product&resources[limit]=6`)
+        .then(response => response.json())
+        .then(data => {
+          displaySuggestions(data.resources.results.products || []);
+        })
+        .catch(() => {
+          hideSuggestions();
+        });
+    }
+
+    function displaySuggestions(products) {
+      if (products.length === 0) {
+        hideSuggestions();
+        return;
+      }
+
+      suggestionsList.innerHTML = products.map(product => `
+        <a href="${product.url}" class="flex items-center gap-3 p-3 hover:bg-gray-50 border-b border-gray-100 last:border-b-0">
+          <img src="${product.featured_image.url}" alt="${product.title}" class="w-10 h-10 object-cover rounded">
+          <div class="flex-1 min-w-0">
+            <div class="text-sm font-medium text-gray-900 truncate">${product.title}</div>
+            <div class="text-xs text-gray-500">${product.price}</div>
+          </div>
+        </a>
+      `).join('');
+
+      showSuggestions();
+    }
+
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+          fetchSuggestions(e.target.value.trim());
+        }, 300);
+      });
+
+      searchInput.addEventListener('focus', (e) => {
+        if (e.target.value.trim().length >= 2) {
+          fetchSuggestions(e.target.value.trim());
+        }
+      });
+
+      // Hide suggestions when clicking outside
+      document.addEventListener('click', (e) => {
+        if (!searchInput.contains(e.target) && !suggestionsContainer.contains(e.target)) {
+          hideSuggestions();
+        }
+      });
+    }
   });
 
 </script>
