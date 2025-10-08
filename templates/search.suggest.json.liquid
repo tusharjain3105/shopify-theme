@@ -1,0 +1,24 @@
+{%- liquid
+  assign search_query = search.terms | default: ''
+  assign product_results = search.results | where: 'object_type', 'product'
+  assign limited_products = product_results | slice: 0, 6
+-%}
+
+{
+  "resources": {
+    "type": "product",
+    "results": {
+      "products": [
+        {%- for product in limited_products -%}
+        {
+          "id": {{ product.id | json }},
+          "title": {{ product.title | json }},
+          "url": {{ product.url | json }},
+          "price": {{ product.price | money | json }},
+          "featured_image": {{ product.featured_image | image_url: width: 80 | json }}
+        }{% unless forloop.last %},{% endunless %}
+        {%- endfor -%}
+      ]
+    }
+  }
+}
