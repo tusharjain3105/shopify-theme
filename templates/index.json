@@ -244,7 +244,8 @@
       "name": "SIC Archive",
       "settings": {
         "media_type": "video",
-        "archive_video": "shopify://files/videos/IMG_1750.MP4"
+        "archive_video": "shopify://files/videos/IMG_1750.MP4",
+        "archive_link": ""
       }
     },
     "product_gallery_Pech8Q": {
@@ -274,6 +275,21 @@
         "button_bg_color": "#1f2937",
         "button_text_color": "#ffffff"
       }
+    },
+    "1759897621bed437ba": {
+      "type": "apps",
+      "blocks": {
+        "judge_me_reviews_featured_carousel_Q6EydE": {
+          "type": "shopify://apps/judge-me-reviews/blocks/featured_carousel/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {
+            "maxwidth": 1080
+          }
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_featured_carousel_Q6EydE"
+      ],
+      "settings": {}
     },
     "featured": {
       "type": "featured",
@@ -340,6 +356,7 @@
     "sicarchive_T7UzeM",
     "product_gallery_Pech8Q",
     "quiz",
+    "1759897621bed437ba",
     "featured"
   ]
 }
