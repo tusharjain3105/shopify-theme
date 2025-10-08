@@ -149,9 +149,13 @@ body {
   }
 }
 
-.scrollbar-hide {
+.scrollbar-hide, .scrollbar-hide * {
   scrollbar-width: none;
   --webkit-scrollbar: none;
+  
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 @font-face {

@@ -656,6 +656,9 @@
   .w-80 {
     width: calc(var(--spacing) * 80);
   }
+  .w-\[50vw\] {
+    width: 50vw;
+  }
   .w-\[50vw\]\! {
     width: 50vw !important;
   }
@@ -901,6 +904,9 @@
   }
   .overflow-visible {
     overflow: visible;
+  }
+  .overflow-x-auto {
+    overflow-x: auto;
   }
   .overflow-y-auto {
     overflow-y: auto;
@@ -1303,6 +1309,9 @@
   .tracking-wider {
     --tw-tracking: var(--tracking-wider);
     letter-spacing: var(--tracking-wider);
+  }
+  .text-wrap {
+    text-wrap: wrap;
   }
   .whitespace-nowrap {
     white-space: nowrap;
@@ -2079,6 +2088,11 @@
   .md\:w-64 {
     @media (width >= 48rem) {
       width: calc(var(--spacing) * 64);
+    }
+  }
+  .md\:w-\[20vw\] {
+    @media (width >= 48rem) {
+      width: 20vw;
     }
   }
   .md\:w-\[20vw\]\! {

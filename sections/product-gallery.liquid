@@ -21,25 +21,6 @@
 "step": 1,
 "min": 1,
 "max": 50
-},
-{
-"type": "range",
-"id": "slides_per_view",
-"label": "Products visible at once",
-"default": 5,
-"step": 1,
-"min": 2,
-"max": 6
-}, {
-"type": "checkbox",
-"id": "autoplay",
-"label": "Enable autoplay",
-"default": true
-}, {
-"type": "checkbox",
-"id": "show_navigation",
-"label": "Show navigation arrows",
-"default": false
 }
 ],
 "presets": [
@@ -58,20 +39,12 @@
   {% assign gallery_collection = collections[section.settings.gallery_collection] %}
   {% if gallery_collection and gallery_collection.products_count > 0 %}
 
-  <div class="product-carousel relative">
-    <div class="swiper product-swiper">
-      <div class="swiper-wrapper">
-        {% for product in gallery_collection.products limit: section.settings.products_limit %}
-        {% render 'product-card-carousel-2'
-        , product: product %}
-        {% endfor %}
-      </div>
+  <div class="product-gallery overflow-x-auto scrollbar-hide">
+    <div class="flex gap-2 pb-4" style="width: max-content;">
+      {% for product in gallery_collection.products limit: section.settings.products_limit %}
+      {% render 'product-card-carousel-2', product: product %}
+      {% endfor %}
     </div>
-
-    {% if section.settings.show_navigation %}
-    <div class="swiper-button-next"></div>
-    <div class="swiper-button-prev"></div>
-    {% endif %}
   </div>
 
   {% else %}
@@ -81,46 +54,22 @@
   {% endif %}
 </section>
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    new Swiper('.product-swiper', {
-      slidesPerView: 'auto',
-      spaceBetween: 0,
-      freeMode: {
-        enabled: true,
-        momentum: true,
-        momentumRatio: 1,
-        momentumBounce: false,
-        momentumVelocityRatio: 1.2,
-        sticky: false
-      },
-      mousewheel: {
-        releaseOnEdges: true,
-      },
-      centeredSlides: false,
-      watchSlidesProgress: false,
-      watchSlidesVisibility: false,
-      normalizeSlideIndex: false,
-      {% if section.settings.show_navigation %}
-      navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
-      },
-      {% endif %}
-      breakpoints: {
-        640: {
-          slidesPerView: 3,
-        },
-        768: {
-          slidesPerView: 4,
-        },
-        1024: {
-          slidesPerView: '{{ section.settings.slides_per_view }}',
-        }
-      }
-    });
-  });
-</script>
+{% stylesheet %}
+.product-gallery {
+scrollbar-width: none;
+scrollbar-color: #cbd5e0 transparent;
+}
+.product-gallery::-webkit-scrollbar {
+display: none;
+}
+.product-gallery::-webkit-scrollbar-track {
+background: transparent;
+}
+.product-gallery::-webkit-scrollbar-thumb {
+background-color: #cbd5e0;
+border-radius: 3px;
+}
+.product-gallery::-webkit-scrollbar-thumb:hover {
+background-color: #a0aec0;
+}
+{% endstylesheet %}
