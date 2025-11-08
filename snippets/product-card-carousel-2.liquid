@@ -39,7 +39,7 @@ Parameters:
               <!-- Add to Cart Button (for available products) -->
         {% if show_add_to_cart %}
         <button
-          class="product-card-btn {% if product.available == false %}opacity-50{% else %}hover:bg-white active:bg-white{% endif %} absolute bottom-2 right-2 z-10 bg-white/50 p-2 rounded-full"
+          class="product-card-btn {% if product.available == false %}opacity-50{% else %}hover:bg-white active:bg-white{% endif %} absolute bottom-2 right-2 bg-white/50 p-2 rounded-full"
           data-product-id="{{ product.selected_or_first_available_variant.id }}"
           data-product-available="{{ product.available }}" onclick="event.preventDefault(); event.stopPropagation();" {%
           if product.available==false %}disabled{% endif %}>
