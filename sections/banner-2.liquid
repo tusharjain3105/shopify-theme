@@ -156,11 +156,13 @@
     <!-- Desktop Media -->
     <div class="hidden md:block absolute inset-0 w-full h-full">
       {% if section.settings.desktop_media_type == 'video' and section.settings.desktop_video != blank %}
-      <video class="w-full h-full object-cover" 
+      <video id="desktop-video" class="w-full h-full object-cover" 
         {% if section.settings.autoplay_video %}autoplay{% endif %}
         {% if section.settings.loop_video %}loop{% endif %}
         {% if section.settings.mute_video %}muted{% endif %}
         playsinline
+        webkit-playsinline
+        preload="metadata"
         {% if section.settings.desktop_video_poster %}poster="{{ section.settings.desktop_video_poster | img_url: '1600x' }}"{% endif %}>
         <source src="{{ section.settings.desktop_video.sources[1].url }}" type="video/mp4">
         <source src="{{ section.settings.desktop_video.sources[0].url }}" type="video/webm">
@@ -175,11 +177,13 @@
     <!-- Mobile Media -->
     <div class="block md:hidden absolute inset-0 w-full h-full">
       {% if section.settings.mobile_media_type == 'video' and section.settings.mobile_video != blank %}
-      <video class="w-full h-full object-cover"
+      <video id="mobile-video" class="w-full h-full object-cover"
         {% if section.settings.autoplay_video %}autoplay{% endif %}
         {% if section.settings.loop_video %}loop{% endif %}
         {% if section.settings.mute_video %}muted{% endif %}
         playsinline
+        webkit-playsinline
+        preload="metadata"
         {% if section.settings.mobile_video_poster %}poster="{{ section.settings.mobile_video_poster | img_url: '800x' }}"{% endif %}>
         <source src="{{ section.settings.mobile_video.sources[1].url }}" type="video/mp4">
         <source src="{{ section.settings.mobile_video.sources[0].url }}" type="video/webm">
@@ -205,3 +209,41 @@
     {% endif %}
   </section>
 </a>
+
+{% if section.settings.autoplay_video %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const desktopVideo = document.getElementById('desktop-video');
+  const mobileVideo = document.getElementById('mobile-video');
+  
+  function playVideo(video) {
+    if (video) {
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // Autoplay failed, try on user interaction
+          document.addEventListener('touchstart', function() {
+            video.play();
+          }, { once: true });
+        });
+      }
+    }
+  }
+  
+  // Try to play videos
+  playVideo(desktopVideo);
+  playVideo(mobileVideo);
+  
+  // iOS specific handling
+  if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
+    [desktopVideo, mobileVideo].forEach(video => {
+      if (video) {
+        video.setAttribute('webkit-playsinline', '');
+        video.load();
+        setTimeout(() => playVideo(video), 100);
+      }
+    });
+  }
+});
+</script>
+{% endif %}

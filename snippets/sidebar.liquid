@@ -20,13 +20,13 @@ Sidebar component
           </summary>
           <div
             class="grid overflow-hidden transition-[grid-template-rows] duration-300 ease-in-out grid-rows-[0fr] group-open:grid-rows-[1fr]">
-            <ul class="pl-4 border-l border-zinc-200 mb-2 overflow-hidden uppercase">
+            <ul class="pl-4 border-l border-zinc-200 mb-2 overflow-hidden uppercase divide-y divide-zinc-100">
               {% for child_link in link.links %}
               <li>
                 <a href="{{ child_link.url }}" class="block px-2 py-2 text-sm hover:bg-zinc-100 rounded">{{
                   child_link.title }}</a>
                 {% if child_link.links != blank %}
-                <ul class="pl-4 border-l border-zinc-200 my-1">
+                <ul class="pl-4 border-l border-zinc-200 my-1 divide-y divide-zinc-100">
                   {% for grand_link in child_link.links %}
                   <li>
                     <a href="{{ grand_link.url }}" class="block px-2 py-2 text-sm hover:bg-zinc-100 rounded">{{
@@ -41,10 +41,8 @@ Sidebar component
           </div>
         </details>
         {% else %}
-        {% if link.title != 'Sicarchive' %}
         <a href="{{ link.url }}" class="block px-2 py-3 uppercase tracking-wide hover:opacity-80">{{ link.title
           }}</a>
-        {% endif %}
         {% endif %}
       </li>
       {% endfor %}
