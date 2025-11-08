@@ -31,29 +31,7 @@ Props:
 
     <!-- Price Filter -->
     <div class="filter-group mb-6">
-      <h4 class="text-sm font-medium text-gray-700 mb-3">Price Range</h4>
-      <div class="space-y-2">
-        <label class="flex items-center">
-          <input type="checkbox" class="price-filter mr-2" data-min="0" data-max="500">
-          <span class="text-sm">Under ₹500</span>
-        </label>
-        <label class="flex items-center">
-          <input type="checkbox" class="price-filter mr-2" data-min="500" data-max="1000">
-          <span class="text-sm">₹500 - ₹1,000</span>
-        </label>
-        <label class="flex items-center">
-          <input type="checkbox" class="price-filter mr-2" data-min="1000" data-max="2500">
-          <span class="text-sm">₹1,000 - ₹2,500</span>
-        </label>
-        <label class="flex items-center">
-          <input type="checkbox" class="price-filter mr-2" data-min="2500" data-max="5000">
-          <span class="text-sm">₹2,500 - ₹5,000</span>
-        </label>
-        <label class="flex items-center">
-          <input type="checkbox" class="price-filter mr-2" data-min="5000" data-max="999999">
-          <span class="text-sm">Over ₹5,000</span>
-        </label>
-      </div>
+      {% render 'price-range-slider', min_price: 0, max_price: 10000 %}
     </div>
 
     <!-- Availability Filter -->
