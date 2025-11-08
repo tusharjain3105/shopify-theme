@@ -23,11 +23,12 @@
       "type": "banner-2",
       "name": "Banner 2",
       "settings": {
-        "desktop_media_type": "image",
+        "desktop_media_type": "video",
         "desktop_image": "shopify://shop_images/Screenshot_2025-09-06_at_6.47.29_PM.png",
+        "desktop_video": "shopify://files/videos/1920x1080xw.mp4",
         "desktop_height": "calc(100vh - 4rem)",
         "mobile_media_type": "video",
-        "mobile_video": "shopify://files/videos/IMG_1750.MP4",
+        "mobile_video": "shopify://files/videos/1080x1920_1.mp4",
         "mobile_height": "calc(100vh - 4rem)",
         "autoplay_video": true,
         "loop_video": true,
@@ -214,10 +215,7 @@
       "settings": {
         "gallery_collection": "new-arrivals",
         "section_heading": "New Arrivals",
-        "products_limit": 8,
-        "slides_per_view": 5,
-        "autoplay": true,
-        "show_navigation": false
+        "products_limit": 8
       }
     },
     "banner_FfHwgK": {
@@ -253,10 +251,7 @@
       "settings": {
         "gallery_collection": "new-arrivals",
         "section_heading": "Best Sellers",
-        "products_limit": 8,
-        "slides_per_view": 5,
-        "autoplay": true,
-        "show_navigation": false
+        "products_limit": 8
       }
     },
     "quiz": {

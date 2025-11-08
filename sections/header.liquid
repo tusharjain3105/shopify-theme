@@ -7,14 +7,14 @@
           <span class="border border-transparent hover:border-white p-2 block md:hidden" sidebar-toggle>
             {% render 'icon'
             , icon: 'menu'
-            , size: 16 %}
+            , size: 20 %}
           </span>
 
           <button type="button" class="border border-transparent hover:border-white p-2 block md:hidden"
             searchbar-toggle>
             {% render 'icon'
             , icon: 'search'
-            , size: 16 %}
+            , size: 20 %}
           </button>
         </div>
 
@@ -51,11 +51,11 @@
           <button type="button" class="border border-transparent hover:border-white p-2 md:block hidden"
             searchbar-toggle>
             {% render 'icon'
-            , icon: 'search', size: 16 %}
+            , icon: 'search', size: 20 %}
           </button>
           <button type="button" data-wishlist-open class="relative border border-transparent hover:border-white p-2">
             {% render 'icon'
-            , icon: 'wishlist', size: 16 %}
+            , icon: 'wishlist', size: 20 %}
             <div
               class="wishlist-badge absolute -top-1 -right-1 hidden h-4 w-4 items-center justify-center rounded-full bg-red-600 text-xs font-medium text-white">
               <span id="wishlist-count-badge" class="wishlist-count">0</span>
@@ -63,7 +63,7 @@
           </button>
           <button type="button" data-cart-open class="relative border border-transparent hover:border-white p-2">
             {% render 'icon'
-            , icon: 'cart', size: 16 %}
+            , icon: 'cart', size: 20 %}
             {% if cart.item_count > 0 %}
             <span
               class="absolute -top-2 -right-2 bg-black text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
@@ -74,7 +74,7 @@
           <div class="border border-transparent hover:border-white p-2 hidden md:block">
             <a href="{{ routes.account_url }}">
               {% render 'icon'
-              , icon: 'account', size: 16 %}
+              , icon: 'account', size: 20 %}
             </a>
           </div>
         </div>

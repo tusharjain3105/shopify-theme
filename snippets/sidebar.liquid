@@ -13,7 +13,7 @@ Sidebar component
         {% if link.links != blank %}
         <details class="group">
           <summary class="flex items-center justify-between px-2 py-3 cursor-pointer select-none">
-            <a href="{{ link.url }}" class="uppercase tracking-wide text-sm hover:opacity-80">{{ link.title }}</a>
+            <a href="{{ link.url }}" class="uppercase tracking-wide hover:opacity-80">{{ link.title }}</a>
             <span class="text-zinc-500 transition-transform duration-300 group-open:rotate-90">
               {% render 'icon', icon: 'chevron-right', size: 16 %}
             </span>
@@ -42,7 +42,7 @@ Sidebar component
         </details>
         {% else %}
         {% if link.title != 'Sicarchive' %}
-        <a href="{{ link.url }}" class="block px-2 py-3 uppercase tracking-wide text-sm hover:opacity-80">{{ link.title
+        <a href="{{ link.url }}" class="block px-2 py-3 uppercase tracking-wide hover:opacity-80">{{ link.title
           }}</a>
         {% endif %}
         {% endif %}

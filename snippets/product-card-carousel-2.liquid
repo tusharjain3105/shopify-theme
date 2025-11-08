@@ -1,7 +1,12 @@
 {% comment %}
 Carousel Product Card Snippet - Clean and minimal
-Usage: {% render 'product-card-carousel', product: product %}
+Usage: {% render 'product-card-carousel-2', product: product, show_add_to_cart: true %}
+Parameters:
+- product: required product object
+- show_add_to_cart: optional boolean to show/hide add-to-cart button (default: false)
 {% endcomment %}
+
+{% assign show_add_to_cart = show_add_to_cart | default: false %}
 
 <div class="flex-shrink-0 w-[50vw] md:w-[20vw]">
   <a href="{{ product.url }}" class="block group bg-white h-full">
@@ -30,6 +35,17 @@ Usage: {% render 'product-card-carousel', product: product %}
         SOLD OUT
       </div>
       {% endunless %}
+
+              <!-- Add to Cart Button (for available products) -->
+        {% if show_add_to_cart %}
+        <button
+          class="product-card-btn {% if product.available == false %}opacity-50{% else %}hover:bg-white active:bg-white{% endif %} absolute bottom-2 right-2 z-10 bg-white/50 p-2 rounded-full"
+          data-product-id="{{ product.selected_or_first_available_variant.id }}"
+          data-product-available="{{ product.available }}" onclick="event.preventDefault(); event.stopPropagation();" {%
+          if product.available==false %}disabled{% endif %}>
+          {% render 'icon', icon: 'plus', size: '20' %}
+        </button>
+        {% endif %}
     </div>
 
     <div class="py-2">
@@ -38,7 +54,9 @@ Usage: {% render 'product-card-carousel', product: product %}
         {{ product.title | truncate: 50 }}
       </h3>
 
-      <div>
+      <div class="{% if show_add_to_cart %}
+      {% comment %} mb-2 {% endcomment %}
+      {% endif %}">
         {% if product.compare_at_price > product.price %}
         <span class="text-sm text-gray-700">{{ product.price | money }}</span>
         <span class="text-xs text-gray-400 line-through ml-1">{{ product.compare_at_price | money }}</span>
@@ -46,6 +64,85 @@ Usage: {% render 'product-card-carousel', product: product %}
         <span class="text-sm text-gray-700">{{ product.price | money }}</span>
         {% endif %}
       </div>
+
+      {% if show_add_to_cart %}
+      <!-- Add to Cart Button -->
+      {% if product.available %}
+      <form action="/cart/add" method="post" enctype="multipart/form-data" class="product-card-form hidden" onclick="event.stopPropagation();">
+        <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+        <input type="hidden" name="quantity" value="1">
+        <button type="submit" class="w-full bg-gray-900 text-white py-1.5 px-3 text-xs font-medium hover:bg-black transition-colors duration-200 md:opacity-0 md:group-hover:opacity-100 md:transform md:translate-y-1 md:group-hover:translate-y-0 transition-all duration-300">
+          Add to Cart
+        </button>
+      </form>
+      {% else %}
+      <button disabled class="w-full bg-gray-400 text-white py-1.5 px-3 text-xs font-medium cursor-not-allowed md:opacity-0 md:group-hover:opacity-100 md:transform md:translate-y-1 md:group-hover:translate-y-0 transition-all duration-300">
+        Sold Out
+      </button>
+      {% endif %}
+      {% endif %}
     </div>
   </a>
 </div>
+
+{% if show_add_to_cart %}
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const forms = document.querySelectorAll('.product-card-form');
+    
+    forms.forEach(form => {
+      if (form.dataset.bound) return;
+      form.dataset.bound = 'true';
+      
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const button = form.querySelector('button[type="submit"]');
+        if (button.disabled) return;
+        
+        button.disabled = true;
+        button.textContent = 'Adding...';
+        
+        fetch('/cart/add.js', {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { 'Accept': 'application/json' }
+        })
+        .then(response => response.ok ? response.json() : Promise.reject())
+        .then(() => {
+          button.textContent = 'Added!';
+          button.classList.replace('bg-gray-900', 'bg-green-600');
+          
+          // Update cart count
+          fetch('/cart.js').then(r => r.json()).then(cart => {
+            const badge = document.querySelector('[data-cart-open] .absolute');
+            if (badge) {
+              badge.textContent = cart.item_count;
+              badge.style.display = cart.item_count > 0 ? '' : 'none';
+            }
+          });
+          
+          // Open cart drawer
+          setTimeout(() => window.CartDrawer?.open?.(), 500);
+          
+          // Reset button
+          setTimeout(() => {
+            button.textContent = 'Add to Cart';
+            button.classList.replace('bg-green-600', 'bg-gray-900');
+            button.disabled = false;
+          }, 2000);
+        })
+        .catch(() => {
+          button.textContent = 'Error';
+          button.classList.replace('bg-gray-900', 'bg-red-600');
+          setTimeout(() => {
+            button.textContent = 'Add to Cart';
+            button.classList.replace('bg-red-600', 'bg-gray-900');
+            button.disabled = false;
+          }, 2000);
+        });
+      });
+    });
+  });
+</script>
+{% endif %}

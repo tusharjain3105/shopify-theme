@@ -42,7 +42,7 @@
   <div class="product-gallery overflow-x-auto scrollbar-hide">
     <div class="flex gap-2 pb-4" style="width: max-content;">
       {% for product in gallery_collection.products limit: section.settings.products_limit %}
-      {% render 'product-card-carousel-2', product: product %}
+      {% render 'product-card-carousel-2', product: product, show_add_to_cart: true %}
       {% endfor %}
     </div>
   </div>

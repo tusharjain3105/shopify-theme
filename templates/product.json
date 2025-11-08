@@ -99,8 +99,7 @@
       "type": "product-recommendations",
       "settings": {
         "heading": "You May Also Like",
-        "products_limit": 8,
-        "show_navigation": false
+        "products_limit": 8
       }
     }
   },

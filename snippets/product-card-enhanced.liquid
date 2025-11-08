@@ -1,7 +1,12 @@
 {% comment %}
 Enhanced Product Card for Collection Page - Monochromatic Design
-Usage: {% render 'product-card-enhanced', product: product %}
+Usage: {% render 'product-card-enhanced', product: product, show_add_to_cart: true %}
+Parameters:
+- product: required product object
+- show_add_to_cart: optional boolean to show/hide add-to-cart button (default: false)
 {% endcomment %}
+
+{% assign show_add_to_cart = show_add_to_cart | default: true %}
 
 <div class="product-card-enhanced" data-price="{{ product.price | divided_by: 100.0 }}"
   data-available="{{ product.available }}" data-type="{{ product.type | handleize }}"
@@ -52,10 +57,21 @@ Usage: {% render 'product-card-enhanced', product: product %}
           </svg>
         </button>
       </div>
+
+        <!-- Add to Cart Button (for available products) -->
+        {% if show_add_to_cart %}
+        <button
+          class="product-card-btn {% if product.available == false %}opacity-50{% else %}hover:bg-white active:bg-white{% endif %} absolute bottom-2 right-2 z-10 bg-white/50 p-2 rounded-full"
+          data-product-id="{{ product.selected_or_first_available_variant.id }}"
+          data-product-available="{{ product.available }}" onclick="event.preventDefault(); event.stopPropagation();" {%
+          if product.available==false %}disabled{% endif %}>
+          {% render 'icon', icon: 'plus', size: '20' %}
+        </button>
+        {% endif %}
     </div>
 
     <!-- Product Info -->
-    <div class="pt-2 h-[2.5lh]">
+    <div class="pt-4 h-[2.5lh]">
       <h3
         class="text-xs uppercase font-medium text-gray-900 group-hover:text-gray-700 transition-colors mb-0.5 line-clamp-2 max-h-[1.8lh]">
         {{ product.title | truncate: 60 }}
@@ -70,15 +86,76 @@ Usage: {% render 'product-card-enhanced', product: product %}
           <span class="text-sm text-gray-700">{{ product.price | money }}</span>
           {% endif %}
         </div>
-
-        <!-- Add to Cart Button (for available products) -->
-        {% if product.available %}
-        <button
-          class="opacity-0 group-hover:opacity-100 bg-gray-800 text-white text-xs px-3 py-1 rounded hover:bg-gray-900 transition-all hidden">
-          Add to Cart
-        </button>
-        {% endif %}
       </div>
     </div>
   </a>
 </div>
+
+{% if show_add_to_cart %}
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const buttons = document.querySelectorAll('.product-card-btn');
+
+    buttons.forEach(button => {
+      if (button.dataset.bound) return;
+      button.dataset.bound = 'true';
+
+      button.addEventListener('click', function () {
+
+        const available = button.dataset.productAvailable;
+
+        if (available === 'false') {
+          console.log("Product is not available");
+          return;
+        }
+
+
+        if (button.disabled) return; 
+
+        button.disabled = true;
+        // button.textContent = 'Adding...';
+
+        const formData = new FormData();
+        formData.append('id', button.dataset.productId);
+        formData.append('quantity', '1');
+
+        fetch('/cart/add.js', {
+          method: 'POST',
+          body: formData,
+          headers: { 'Accept': 'application/json' }
+        })
+          .then(response => response.ok ? response.json() : Promise.reject())
+          .then(() => {
+            // button.textContent = 'Added!';
+            button.classList.replace('bg-gray-800', 'bg-green-600');
+
+            fetch('/cart.js').then(r => r.json()).then(cart => {
+              const badge = document.querySelector('[data-cart-open] .absolute');
+              if (badge) {
+                badge.textContent = cart.item_count;
+                badge.style.display = cart.item_count > 0 ? '' : 'none';
+              }
+            });
+
+            setTimeout(() => window.CartDrawer?.open?.(), 500);
+
+            setTimeout(() => {
+              // button.textContent = 'Add to Cart';
+              button.classList.replace('bg-green-600', 'bg-gray-800');
+              button.disabled = false;
+            }, 2000);
+          })
+          .catch(() => {
+            button.textContent = 'Error';
+            button.classList.replace('bg-gray-800', 'bg-red-600');
+            setTimeout(() => {
+              button.textContent = 'Add to Cart';
+              button.classList.replace('bg-red-600', 'bg-gray-800');
+              button.disabled = false;
+            }, 2000);
+          });
+      });
+    });
+  });
+</script>
+{% endif %}

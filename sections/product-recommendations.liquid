@@ -30,7 +30,7 @@ Usage: Add this section to product templates
       {% endif %}
 
       {% for related_product in related_products %}
-      {% render 'product-card-carousel-2', product: related_product %}
+      {% render 'product-card-carousel-2', product: related_product, show_add_to_cart: true %}
       {% endfor %}
     </div>
   </div>
