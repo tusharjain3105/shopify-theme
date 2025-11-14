@@ -9,8 +9,21 @@
  */
 {
   "sections": {
+    "sicarchive_gakyWF": {
+      "type": "sicarchive",
+      "custom_css": [
+        "{margin-top: 5rem}"
+      ],
+      "name": "SIC Archive",
+      "settings": {
+        "media_type": "video",
+        "archive_video": "shopify://files/videos/IMG_1750.MP4",
+        "archive_link": ""
+      }
+    },
     "banner_mQkwqF": {
       "type": "banner",
+      "disabled": true,
       "name": "Banner",
       "settings": {
         "media_type": "image",
@@ -33,6 +46,7 @@
     }
   },
   "order": [
+    "sicarchive_gakyWF",
     "banner_mQkwqF",
     "main"
   ]

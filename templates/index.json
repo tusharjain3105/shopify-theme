@@ -74,7 +74,7 @@
           "type": "category",
           "name": "Bracelets",
           "settings": {
-            "category_image": "shopify://shop_images/Screenshot_2025-08-31_at_10.03.32_PM.png",
+            "category_image": "shopify://shop_images/7ae4c4_145e93f1e869494bad5767be5a07de3f_mv2_04f2d2ed-654e-42f1-9e65-e08a608e687e.jpg",
             "category_title": "Bracelets",
             "category_link": "shopify://collections/bracelets"
           }
@@ -83,7 +83,7 @@
           "type": "category",
           "name": "Earrings",
           "settings": {
-            "category_image": "shopify://shop_images/Screenshot_2025-08-31_at_10.03.32_PM.png",
+            "category_image": "shopify://shop_images/7ae4c4_d26a65a656a24b1eb2e0fe178f52f13f_mv2.jpg",
             "category_title": "Earrings",
             "category_link": "shopify://collections/earrings"
           }
@@ -92,7 +92,7 @@
           "type": "category",
           "name": "Pearls",
           "settings": {
-            "category_image": "shopify://shop_images/Screenshot_2025-08-31_at_10.03.32_PM.png",
+            "category_image": "shopify://shop_images/7ae4c4_33fb8cf42ebe4946860c7c61a26638e2_mv2.jpg",
             "category_title": "Pearls",
             "category_link": "shopify://collections/pearls"
           }
@@ -101,7 +101,7 @@
           "type": "category",
           "name": "Pendants",
           "settings": {
-            "category_image": "shopify://shop_images/Screenshot_2025-08-31_at_10.03.32_PM.png",
+            "category_image": "shopify://shop_images/7ae4c4_1d3ed443a942439e92ab2877e53cc7a4_mv2.jpg",
             "category_title": "Pendants",
             "category_link": "shopify://collections/pendants"
           }
@@ -110,7 +110,7 @@
           "type": "category",
           "name": "Rings",
           "settings": {
-            "category_image": "shopify://shop_images/Screenshot_2025-08-31_at_10.03.32_PM.png",
+            "category_image": "shopify://shop_images/7ae4c4_e81beaf9d94246409ffa888f7d010a14_mv2.jpg",
             "category_title": "Rings",
             "category_link": "shopify://collections/rings"
           }
@@ -119,7 +119,7 @@
           "type": "category",
           "name": "Chains",
           "settings": {
-            "category_image": "shopify://shop_images/Screenshot_2025-08-31_at_10.03.32_PM.png",
+            "category_image": "shopify://shop_images/7ae4c4_0bbd9e08a8a948e6a396ad2f8b65be68_mv2_25f92b63-d936-4806-9df2-60c5214a00ff.jpg",
             "category_title": "Chains",
             "category_link": "shopify://collections/chains"
           }
@@ -215,18 +215,18 @@
       "settings": {
         "gallery_collection": "new-arrivals",
         "section_heading": "New Arrivals",
-        "products_limit": 8
+        "products_limit": 8,
+        "gallery_layout": "carousel"
       }
     },
     "banner_FfHwgK": {
       "type": "banner",
-      "disabled": true,
       "name": "Banner",
       "settings": {
         "media_type": "image",
-        "banner_image": "shopify://shop_images/generate-a-named-banner-for-sicarchive-its-a-curated-selection-of-jwellery-products.png",
+        "banner_image": "shopify://shop_images/TY7RF.jpg",
         "banner_image_height": "50vh",
-        "banner_image_height_mobile": "30vh",
+        "banner_image_height_mobile": "25vh",
         "autoplay_video": true,
         "loop_video": true,
         "mute_video": true,
@@ -239,6 +239,7 @@
     },
     "sicarchive_T7UzeM": {
       "type": "sicarchive",
+      "disabled": true,
       "name": "SIC Archive",
       "settings": {
         "media_type": "video",
@@ -251,7 +252,8 @@
       "settings": {
         "gallery_collection": "new-arrivals",
         "section_heading": "Best Sellers",
-        "products_limit": 8
+        "products_limit": 8,
+        "gallery_layout": "carousel"
       }
     },
     "quiz": {
