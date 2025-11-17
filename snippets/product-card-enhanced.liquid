@@ -16,7 +16,7 @@ Parameters:
     class="block group bg-[var(--color-background)] transition-all duration-300 overflow-hidden">
 
     <!-- Product Image -->
-    <div class="relative overflow-hidden aspect-[3/4]">
+    <div class="relative overflow-hidden aspect-image">
       {% if product.featured_image %}
       <img src="{{ product.featured_image | img_url: '400x400' }}" alt="{{ product.title | escape }}"
         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" />
@@ -58,16 +58,16 @@ Parameters:
         </button>
       </div>
 
-        <!-- Add to Cart Button (for available products) -->
-        {% if show_add_to_cart %}
-        <button
-          class="product-card-btn {% if product.available == false %}opacity-50{% else %}hover:bg-white active:bg-white{% endif %} absolute bottom-2 right-2 bg-white/50 p-2 rounded-full"
-          data-product-id="{{ product.selected_or_first_available_variant.id }}"
-          data-product-available="{{ product.available }}" onclick="event.preventDefault(); event.stopPropagation();" {%
-          if product.available==false %}disabled{% endif %}>
-          {% render 'icon', icon: 'plus', size: '20' %}
-        </button>
-        {% endif %}
+      <!-- Add to Cart Button (for available products) -->
+      {% if show_add_to_cart %}
+      <button
+        class="product-card-btn {% if product.available == false %}opacity-50{% else %}hover:bg-white active:bg-white{% endif %} absolute bottom-2 right-2 bg-white/50 p-2 rounded-full"
+        data-product-id="{{ product.selected_or_first_available_variant.id }}"
+        data-product-available="{{ product.available }}" onclick="event.preventDefault(); event.stopPropagation();" {%
+        if product.available==false %}disabled{% endif %}>
+        {% render 'icon', icon: 'plus', size: '20' %}
+      </button>
+      {% endif %}
     </div>
 
     <!-- Product Info -->
@@ -110,7 +110,7 @@ Parameters:
         }
 
 
-        if (button.disabled) return; 
+        if (button.disabled) return;
 
         button.disabled = true;
         // button.textContent = 'Adding...';

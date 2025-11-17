@@ -8,7 +8,7 @@ Usage: {% render 'product-card-carousel', product: product %}
     <div class="relative overflow-hidden">
       {% if product.featured_image %}
       <img src="{{ product.featured_image | img_url: '400x400' }}" alt="{{ product.title | escape }}"
-        class="w-full object-cover group-hover:scale-105 transition-transform duration-300 aspect-[3/4]"
+        class="w-full object-cover group-hover:scale-105 transition-transform duration-300 aspect-image"
         loading="lazy" />
       {% else %}
       <div class="w-full bg-gray-100 flex items-center justify-center">

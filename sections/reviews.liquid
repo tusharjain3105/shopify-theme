@@ -1,99 +1,578 @@
+{% comment %}
+Custom Review Carousel - FIXED v4
+- Added "ghost" slides at start and end for proper centering of first/last real slides.
+- Adjusted scroll-snap-type for more flexible scrolling.
+- Refined JS for active state calculation to ignore ghost slides and ensure correct initial centering.
+{% endcomment %}
+
+{% comment %} --- SVG DEFINITIONS --- {% endcomment %}
+{%- capture icon_star_filled -%}
+<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
+    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+</svg>
+{%- endcapture -%}
+
+{%- capture icon_star_half -%}
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="half_grad_star_{{ section.id }}">
+      <stop offset="50%" stop-color="currentColor" />
+      <stop offset="50%" stop-color="transparent" />
+    </linearGradient>
+  </defs>
+  <path fill="url(#half_grad_star_{{ section.id }})" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+    stroke-linejoin="round"
+    d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" />
+</svg>
+{%- endcapture -%}
+
+{%- capture icon_star_empty -%}
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
+    stroke="#ccc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+</svg>
+{%- endcapture -%}
+
+<div id="ReviewSection-{{ section.id }}" class="review-carousel-section"
+  style="background-color: {{ section.settings.bg_color }};">
+  <div class="review-grid-pattern"></div>
+
+  <div class="page-width">
+    {% if section.settings.title != blank %}
+    <h2 class="text-3xl font-bold mb-4 text-center uppercase">{{ section.settings.title }}</h2>
+    {% endif %}
+
+    <div class="review-carousel-container">
+      <div class="review-carousel-track" data-track>
+        {% comment %} Ghost slide at the beginning {% endcomment %}
+        <div class="review-card-slide review-card-ghost" aria-hidden="true"></div>
+
+        {% for block in section.blocks %}
+        <div class="review-card-slide" {{ block.shopify_attributes }} data-review-slide>
+          <div class="review-card-inner">
+
+            {% comment %} Review Image {% endcomment %}
+            {% if block.settings.image != blank %}
+            <div class="review-image-wrapper">
+              <img src="{{ block.settings.image | image_url: width: 600 }}"
+                alt="{{ block.settings.image.alt | escape }}" loading="lazy" width="600"
+                height="{{ 600 | divided_by: block.settings.image.aspect_ratio | ceil }}" class="review-image">
+            </div>
+            {% endif %}
+
+            {% comment %} Rating Icons (Stars) {% endcomment %}
+            <div class="review-stars">
+              {% assign rating = block.settings.rating %}
+              {% for i in (1..5) %}
+              {% assign threshold = i | minus: 0.5 %}
+              <span class="star-icon">
+                {% if rating >= i %}
+                {{ icon_star_filled }}
+                {% elsif rating >= threshold %}
+                {{ icon_star_half }}
+                {% else %}
+                {{ icon_star_empty }}
+                {% endif %}
+              </span>
+              {% endfor %}
+            </div>
+
+            {% comment %} Headline {% endcomment %}
+            {% if block.settings.heading != blank %}
+            <h3 class="review-headline">“{{ block.settings.heading }}”</h3>
+            {% endif %}
+
+            {% comment %} Review Text {% endcomment %}
+            <div class="review-text">
+              {{ block.settings.text }}
+            </div>
+
+            {% comment %} Reviewer Name & Verified Badge {% endcomment %}
+            <div class="review-author">
+              <span class="author-name">{{ block.settings.author | upcase }}</span>
+              <span class="verified-badge" title="Verified Buyer">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </span>
+            </div>
+
+            {% comment %} Optional Product Link {% endcomment %}
+            {% if block.settings.product != blank %}
+            <div class="review-product-link">
+              <a href="{{ block.settings.product.url }}">
+                {{ block.settings.product.title }}
+              </a>
+            </div>
+            {% endif %}
+
+          </div>
+        </div>
+        {% endfor %}
+
+        {% comment %} Ghost slide at the end {% endcomment %}
+        <div class="review-card-slide review-card-ghost" aria-hidden="true"></div>
+      </div>
+
+      {% comment %} Navigation Buttons {% endcomment %}
+      <div class="review-nav-controls">
+        <button class="review-nav-btn prev" aria-label="Previous review" data-direction="prev">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M15 18l-6-6 6-6" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+        <button class="review-nav-btn next" aria-label="Next review" data-direction="next">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 18l6-6-6-6" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<style>
+  /* --- Fonts & Variables --- */
+  .review-carousel-section {
+    position: relative;
+    padding: 60px 20px;
+    overflow: hidden;
+    font-family: "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+
+  /* --- Grid Background Effect --- */
+  .review-grid-pattern {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .review-carousel-section .page-width {
+    position: relative;
+    max-width: 600px;
+    margin: 0 auto;
+    z-index: 1;
+    transition: max-width 0.3s ease;
+  }
+
+  /* --- Carousel Container --- */
+  .review-carousel-container {
+    background: transparent;
+    border: none;
+    padding: 0;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .review-carousel-track {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    gap: 20px;
+    padding: 30px 20px;
+    /* Changed to proximity for smoother, less strict snapping with ghost slides */
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    align-items: stretch;
+    position: relative;
+  }
+
+  .review-carousel-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* --- Slides --- */
+  .review-card-slide {
+    min-width: 100%;
+    flex: 0 0 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    scroll-snap-align: center;
+    transition: transform 0.4s ease, opacity 0.4s ease;
+    transform-origin: center center;
+  }
+
+  /* Style for ghost slides */
+  .review-card-ghost {
+    min-width: 100%;
+    /* Take up the same space as a real slide */
+    background: transparent !important;
+    box-shadow: none !important;
+    pointer-events: none;
+    /* Make sure they don't block interaction */
+    visibility: hidden;
+    /* Hide them visually */
+    flex-shrink: 0;
+    /* Ensure they don't shrink */
+  }
+
+  /* --- Card Design --- */
+  .review-card-inner {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px 20px;
+    background: #fff;
+    box-shadow: 0 4px 15px rgba(74, 111, 255, 0.1);
+  }
+
+  /* --- Desktop Specific Styles --- */
+  @media screen and (min-width: 750px) {
+    .review-carousel-section .page-width {
+      max-width: 1400px;
+    }
+
+    .review-carousel-track {
+      gap: 10px;
+    }
+
+    .review-card-slide {
+      min-width: 33%;
+      flex: 0 0 33%;
+      transform: scale(0.85);
+      opacity: 0.7;
+      /* Inactive state opacity */
+      cursor: pointer;
+    }
+
+    .review-card-slide.is-active {
+      transform: scale(1);
+      opacity: 1;
+      z-index: 2;
+      box-shadow: 0 10px 30px rgba(74, 111, 255, 0.15);
+    }
+
+    /* Adjust ghost slide width for desktop to match real slides */
+    .review-card-ghost {
+      min-width: 33%;
+    }
+  }
+
+  /* --- Image --- */
+  .review-image-wrapper {
+    width: 100%;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .review-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    aspect-ratio: 1 / 1;
+    display: block;
+  }
+
+  /* --- Stars --- */
+  .review-stars {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 15px;
+    color: #000;
+  }
+
+  .star-icon svg {
+    width: 20px;
+    height: 20px;
+    display: block;
+  }
+
+  /* --- Content --- */
+  .review-headline {
+    font-size: 18px;
+    font-weight: 800;
+    text-transform: uppercase;
+    line-height: 1.3;
+    margin: 0 0 15px 0;
+    color: #111;
+    padding: 0 10px;
+  }
+
+  .review-text {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #444;
+    margin-bottom: 20px;
+    max-width: 90%;
+  }
+
+  .review-author {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-weight: 700;
+    font-size: 13px;
+    color: #000;
+    margin-bottom: 10px;
+  }
+
+  .verified-badge {
+    color: #000;
+    display: flex;
+    align-items: center;
+  }
+
+  .review-product-link {
+    margin-top: 5px;
+    font-size: 12px;
+  }
+
+  .review-product-link a {
+    font-weight: bold;
+    text-decoration: underline;
+    border-bottom: 1px solid transparent;
+    transition: border 0.2s;
+  }
+
+  .review-product-link a:hover {
+    border-bottom: 1px solid #4A6FFF;
+  }
+
+  /* --- Controls --- */
+  .review-nav-controls {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    padding-bottom: 10px;
+    margin-top: 20px;
+  }
+
+  .review-nav-btn {
+    background: #eee;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    color: #333;
+  }
+
+  .review-nav-btn:hover {
+    background: #ddd;
+    color: #000;
+  }
+</style>
+
+<script>
+  (function () {
+    const sectionId = "ReviewSection-{{ section.id }}";
+    let isScrolling; // For debouncing scroll event
+
+    function initReviewCarousel() {
+      const container = document.getElementById(sectionId);
+      if (!container) return;
+
+      const track = container.querySelector('[data-track]');
+      const slides = Array.from(container.querySelectorAll('[data-review-slide]')); // Only real slides
+      const allSlidesInTrack = Array.from(track.querySelectorAll('.review-card-slide')); // All slides including ghosts
+      const prevBtn = container.querySelector('[data-direction="prev"]');
+      const nextBtn = container.querySelector('[data-direction="next"]');
+
+      if (!track || !slides.length) return;
+
+      // --- 1. Update Active Class on Scroll ---
+      function updateActiveSlide() {
+        const trackCenter = track.scrollLeft + (track.clientWidth / 2);
+        let closestSlide = null;
+        let minDistance = Infinity;
+
+        // Iterate over only the actual review slides for active state
+        slides.forEach(slide => {
+          const slideCenter = slide.offsetLeft + (slide.offsetWidth / 2);
+          const distance = Math.abs(trackCenter - slideCenter);
+
+          if (distance < minDistance) {
+            minDistance = distance;
+            closestSlide = slide;
+          }
+        });
+
+        if (closestSlide) {
+          slides.forEach(s => s.classList.remove('is-active'));
+          closestSlide.classList.add('is-active');
+        }
+      }
+
+      // --- 2. Button Logic ---
+      function moveCarousel(direction) {
+        if (allSlidesInTrack.length < 2) return; // Not enough slides to move
+
+        // Find the currently active real slide
+        let currentActiveIndex = slides.findIndex(s => s.classList.contains('is-active'));
+        if (currentActiveIndex === -1) currentActiveIndex = 0; // Fallback to first if none active
+
+        let targetIndex = currentActiveIndex;
+        if (direction === 'next') {
+          targetIndex = Math.min(slides.length - 1, currentActiveIndex + 1);
+        } else { // 'prev'
+          targetIndex = Math.max(0, currentActiveIndex - 1);
+        }
+
+        const targetSlide = slides[targetIndex];
+        if (targetSlide) {
+          // Calculate the scroll position to center the targetSlide
+          const slideOffset = targetSlide.offsetLeft;
+          const slideWidth = targetSlide.offsetWidth;
+          const trackWidth = track.clientWidth;
+          const scrollToPosition = slideOffset - (trackWidth / 2) + (slideWidth / 2);
+
+          track.scrollTo({
+            left: scrollToPosition,
+            behavior: 'smooth'
+          });
+        }
+      }
+
+      // --- 3. Initial Centering and Event Listeners ---
+      // Scroll to the first actual slide to center it on load
+      const firstRealSlide = slides[0];
+      if (firstRealSlide) {
+        const slideOffset = firstRealSlide.offsetLeft;
+        const slideWidth = firstRealSlide.offsetWidth;
+        const trackWidth = track.clientWidth;
+        const scrollToPosition = slideOffset - (trackWidth / 2) + (slideWidth / 2);
+
+        // Use setTimeout to ensure all rendering is done before trying to scroll
+        setTimeout(() => {
+          track.scrollTo({
+            left: scrollToPosition,
+            behavior: 'instant' // Instant scroll on load
+          });
+          updateActiveSlide(); // Set active class after initial scroll
+        }, 0); // Small delay
+      }
+
+      track.addEventListener('scroll', () => {
+        // Debounce scroll event to avoid excessive calls
+        clearTimeout(isScrolling);
+        isScrolling = setTimeout(() => {
+          updateActiveSlide();
+        }, 0);
+      });
+
+      window.addEventListener('resize', () => {
+        // Re-center active slide on resize
+        const currentActiveSlide = container.querySelector('.review-card-slide.is-active');
+        if (currentActiveSlide) {
+          const slideOffset = currentActiveSlide.offsetLeft;
+          const slideWidth = currentActiveSlide.offsetWidth;
+          const trackWidth = track.clientWidth;
+          const scrollToPosition = slideOffset - (trackWidth / 2) + (slideWidth / 2);
+          track.scrollTo({ left: scrollToPosition, behavior: 'instant' });
+        }
+        updateActiveSlide(); // Update active slide after resize re-center
+      });
+
+      if (prevBtn) prevBtn.onclick = (e) => { e.preventDefault(); moveCarousel('prev'); };
+      if (nextBtn) nextBtn.onclick = (e) => { e.preventDefault(); moveCarousel('next'); };
+    }
+
+    // Initialize on Load
+    document.addEventListener("DOMContentLoaded", initReviewCarousel);
+
+    // Initialize on Shopify Editor Events (Load/Select)
+    document.addEventListener("shopify:section:load", function (e) {
+      if (e.detail.sectionId === "{{ section.id }}") initReviewCarousel();
+    });
+  })();
+</script>
+
 {% schema %}
 {
-"name": "Reviews",
+"name": "Custom Review Carousel",
 "tag": "section",
+"class": "section",
 "settings": [
 {
 "type": "text",
-"id": "section_heading",
+"id": "title",
 "label": "Section Heading",
-"default": "Customer Reviews"
-}, {
-"type": "textarea",
-"id": "section_subtext",
-"label": "Section Subtext",
-"default": "Read what our customers have to say or leave a review yourself!"
+"default": "WHAT’RE THEY SAYING?"
+},
+{
+"type": "color",
+"id": "bg_color",
+"label": "Background Color",
+"default": "#FFFFFF"
 }
 ],
 "blocks": [
 {
 "type": "review",
-"name": "Review",
+"name": "Review Card",
 "settings": [
 {
-"type": "text",
-"id": "reviewer_name",
-"label": "Reviewer Name",
-"default": "Jane Doe"
-}, {
-"type": "select",
-"id": "review_rating",
+"type": "image_picker",
+"id": "image",
+"label": "Review Image"
+},
+{
+"type": "range",
+"id": "rating",
+"min": 1,
+"max": 5,
+"step": 0.5,
 "label": "Rating",
-"options": [
-{
-"value": "5",
-"label": "★★★★★"
+"default": 5
 },
 {
-"value": "4",
-"label": "★★★★☆"
+"type": "text",
+"id": "heading",
+"label": "Review Headline",
+"default": "VERSATILE PAIR THAT GOES WITH ANY OUTFIT!"
 },
 {
-"value": "3",
-"label": "★★★☆☆"
-},
-{
-"value": "2",
-"label": "★★☆☆☆"
-}, {
-"value": "1",
-"label": "★☆☆☆☆"
-}
-],
-"default": "5"
-}, {
 "type": "textarea",
-"id": "review_text",
-"label": "Review Text",
-"default": "This is an example review. Products are excellent and the service is outstanding!"
+"id": "text",
+"label": "Review Content",
+"default": "The color looks really clean and premium and the design is simple and stylish. Totally worth it!"
+},
+{
+"type": "text",
+"id": "author",
+"label": "Reviewer Name",
+"default": "Ankit P."
+},
+{
+"type": "product",
+"id": "product",
+"label": "Product (Optional)",
+"info": "Links the review to a specific product."
 }
 ]
 }
 ],
 "presets": [
 {
-"name": "Reviews"
+"name": "Custom Review Carousel",
+"blocks": [
+{ "type": "review" },
+{ "type": "review" },
+{ "type": "review" },
+{ "type": "review" },
+{ "type": "review" }
+]
 }
 ]
 }
 {% endschema %}
-
-<section class="max-w-5xl mx-auto px-4 py-12">
-  <h2 class="text-xl md:text-3xl font-bold text-center mb-2">{{ section.settings.section_heading }}</h2>
-  <p class="text-center text-gray-600 mb-8">{{ section.settings.section_subtext }}</p>
-  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-    {% for block in section.blocks %}
-    <div class="bg-white rounded-xl p-6 shadow flex flex-col items-center">
-      <div class="flex text-yellow-400 text-xl mb-2">
-        {% case block.settings.review_rating %}
-        {% when '5' %}
-        ★★★★★
-        {% when '4' %}
-        ★★★★☆
-        {% when '3' %}
-        ★★★☆☆
-        {% when '2' %}
-        ★★☆☆☆
-        {% when '1' %}
-        ★☆☆☆☆
-        {% endcase %}
-      </div>
-      <p class="text-gray-800 text-base text-center mb-4">“{{ block.settings.review_text }}”</p>
-      <span class="font-medium text-indigo-700 text-sm">— {{ block.settings.reviewer_name }}</span>
-    </div>
-    {% endfor %}
-  </div>
-  {% if section.blocks.size == 0 %}
-  <p class="text-center text-gray-400 mt-8">No reviews available yet.</p>
-  {% endif %}
-</section>

@@ -25,11 +25,11 @@ Usage: {% render 'product-image-carousel', product: product, mobile: true/false 
     <div class="swiper-wrapper">
       {% for image in product.images %}
       <div class="swiper-slide">
-        <div class="aspect-[2/3] overflow-hidden bg-gray-100">
+        <div class="aspect-image overflow-hidden bg-gray-100">
           <img src="{{ image | img_url: '800x800' }}"
             srcset="{{ image | img_url: '400x400' }} 400w, {{ image | img_url: '800x800' }} 800w"
             sizes="(max-width: 768px) 400px, 800px" alt="{{ image.alt | default: product.title | escape }}"
-            class="w-full object-cover aspect-[2/3]" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+            class="w-full object-cover aspect-image" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
             onerror="this.src='image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAiIGhlaWdodD0iODAiIHZpZXdCb3g9IjAgMCA4MCA4MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjgwIiBoZWlnaHQ9IjgwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik0yNCAyNEg1NlY1Nkg0NFY0NEgyNFYyNFoiIGZpbGw9IiM5Q0E0QUYiLz4KPHBhdGggZD0iTTQ0IDQ0TDUyIDM2TDU2IDQwVjU2SDI0VjQ0SDQ0WiIgZmlsbD0iIzlDQTRBRiIvPgo8L3N2Zz4K'" />
         </div>
       </div>
@@ -40,13 +40,13 @@ Usage: {% render 'product-image-carousel', product: product, mobile: true/false 
   <!-- Thumbnail Navigation (Desktop Only) -->
   {% comment %} {% unless is_mobile %} {% endcomment %}
   {% if product.images.size > 1 %}
-  <div class="thumbnail-nav mt-4 grid grid-cols-5 gap-2">
+  <div class="thumbnail-nav mt-4 grid grid-cols-5 gap-2 px-4">
     {% for image in product.images limit: 5 %}
     <button
-      class="thumbnail-btn aspect-[2/3] overflow-hidden border-2 {% if forloop.first %}border-gray-800{% else %}border-transparent{% endif %} hover:border-gray-400 transition-colors"
+      class="thumbnail-btn aspect-square overflow-hidden border-2 {% if forloop.first %}border-gray-800{% else %}border-transparent{% endif %} hover:border-gray-400 transition-colors"
       data-slide="{{ forloop.index0 }}">
       <img src="{{ image | img_url: '120x120' }}" alt="{{ image.alt | default: product.title | escape }}"
-        class="w-full aspect-[2/3] object-cover" loading="lazy" />
+        class="w-full aspect-image object-cover" loading="lazy" />
     </button>
     {% endfor %}
   </div>

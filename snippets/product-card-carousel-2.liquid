@@ -13,7 +13,7 @@ Parameters:
     <div class="relative overflow-hidden">
       {% if product.featured_image %}
       <img src="{{ product.featured_image | img_url: '400x400' }}" alt="{{ product.title | escape }}"
-        class="w-full object-cover group-hover:scale-105 transition-transform duration-300 aspect-[3/4]"
+        class="w-full object-cover group-hover:scale-105 transition-transform duration-300 aspect-image"
         loading="lazy" />
       {% else %}
       <div class="w-full bg-gray-100 flex items-center justify-center">
@@ -36,16 +36,16 @@ Parameters:
       </div>
       {% endunless %}
 
-              <!-- Add to Cart Button (for available products) -->
-        {% if show_add_to_cart %}
-        <button
-          class="product-card-btn {% if product.available == false %}opacity-50{% else %}hover:bg-white active:bg-white{% endif %} absolute bottom-2 right-2 bg-white/50 p-2 rounded-full"
-          data-product-id="{{ product.selected_or_first_available_variant.id }}"
-          data-product-available="{{ product.available }}" onclick="event.preventDefault(); event.stopPropagation();" {%
-          if product.available==false %}disabled{% endif %}>
-          {% render 'icon', icon: 'plus', size: '20' %}
-        </button>
-        {% endif %}
+      <!-- Add to Cart Button (for available products) -->
+      {% if show_add_to_cart %}
+      <button
+        class="product-card-btn {% if product.available == false %}opacity-50{% else %}hover:bg-white active:bg-white{% endif %} absolute bottom-2 right-2 bg-white/50 p-2 rounded-full"
+        data-product-id="{{ product.selected_or_first_available_variant.id }}"
+        data-product-available="{{ product.available }}" onclick="event.preventDefault(); event.stopPropagation();" {%
+        if product.available==false %}disabled{% endif %}>
+        {% render 'icon', icon: 'plus', size: '20' %}
+      </button>
+      {% endif %}
     </div>
 
     <div class="py-2">
@@ -68,15 +68,18 @@ Parameters:
       {% if show_add_to_cart %}
       <!-- Add to Cart Button -->
       {% if product.available %}
-      <form action="/cart/add" method="post" enctype="multipart/form-data" class="product-card-form hidden" onclick="event.stopPropagation();">
+      <form action="/cart/add" method="post" enctype="multipart/form-data" class="product-card-form hidden"
+        onclick="event.stopPropagation();">
         <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
         <input type="hidden" name="quantity" value="1">
-        <button type="submit" class="w-full bg-gray-900 text-white py-1.5 px-3 text-xs font-medium hover:bg-black transition-colors duration-200 md:opacity-0 md:group-hover:opacity-100 md:transform md:translate-y-1 md:group-hover:translate-y-0 transition-all duration-300">
+        <button type="submit"
+          class="w-full bg-gray-900 text-white py-1.5 px-3 text-xs font-medium hover:bg-black transition-colors duration-200 md:opacity-0 md:group-hover:opacity-100 md:transform md:translate-y-1 md:group-hover:translate-y-0 transition-all duration-300">
           Add to Cart
         </button>
       </form>
       {% else %}
-      <button disabled class="w-full bg-gray-400 text-white py-1.5 px-3 text-xs font-medium cursor-not-allowed md:opacity-0 md:group-hover:opacity-100 md:transform md:translate-y-1 md:group-hover:translate-y-0 transition-all duration-300">
+      <button disabled
+        class="w-full bg-gray-400 text-white py-1.5 px-3 text-xs font-medium cursor-not-allowed md:opacity-0 md:group-hover:opacity-100 md:transform md:translate-y-1 md:group-hover:translate-y-0 transition-all duration-300">
         Sold Out
       </button>
       {% endif %}
@@ -87,60 +90,60 @@ Parameters:
 
 {% if show_add_to_cart %}
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function () {
     const forms = document.querySelectorAll('.product-card-form');
-    
+
     forms.forEach(form => {
       if (form.dataset.bound) return;
       form.dataset.bound = 'true';
-      
-      form.addEventListener('submit', function(e) {
+
+      form.addEventListener('submit', function (e) {
         e.preventDefault();
-        
+
         const button = form.querySelector('button[type="submit"]');
         if (button.disabled) return;
-        
+
         button.disabled = true;
         button.textContent = 'Adding...';
-        
+
         fetch('/cart/add.js', {
           method: 'POST',
           body: new FormData(form),
           headers: { 'Accept': 'application/json' }
         })
-        .then(response => response.ok ? response.json() : Promise.reject())
-        .then(() => {
-          button.textContent = 'Added!';
-          button.classList.replace('bg-gray-900', 'bg-green-600');
-          
-          // Update cart count
-          fetch('/cart.js').then(r => r.json()).then(cart => {
-            const badge = document.querySelector('[data-cart-open] .absolute');
-            if (badge) {
-              badge.textContent = cart.item_count;
-              badge.style.display = cart.item_count > 0 ? '' : 'none';
-            }
+          .then(response => response.ok ? response.json() : Promise.reject())
+          .then(() => {
+            button.textContent = 'Added!';
+            button.classList.replace('bg-gray-900', 'bg-green-600');
+
+            // Update cart count
+            fetch('/cart.js').then(r => r.json()).then(cart => {
+              const badge = document.querySelector('[data-cart-open] .absolute');
+              if (badge) {
+                badge.textContent = cart.item_count;
+                badge.style.display = cart.item_count > 0 ? '' : 'none';
+              }
+            });
+
+            // Open cart drawer
+            setTimeout(() => window.CartDrawer?.open?.(), 500);
+
+            // Reset button
+            setTimeout(() => {
+              button.textContent = 'Add to Cart';
+              button.classList.replace('bg-green-600', 'bg-gray-900');
+              button.disabled = false;
+            }, 2000);
+          })
+          .catch(() => {
+            button.textContent = 'Error';
+            button.classList.replace('bg-gray-900', 'bg-red-600');
+            setTimeout(() => {
+              button.textContent = 'Add to Cart';
+              button.classList.replace('bg-red-600', 'bg-gray-900');
+              button.disabled = false;
+            }, 2000);
           });
-          
-          // Open cart drawer
-          setTimeout(() => window.CartDrawer?.open?.(), 500);
-          
-          // Reset button
-          setTimeout(() => {
-            button.textContent = 'Add to Cart';
-            button.classList.replace('bg-green-600', 'bg-gray-900');
-            button.disabled = false;
-          }, 2000);
-        })
-        .catch(() => {
-          button.textContent = 'Error';
-          button.classList.replace('bg-gray-900', 'bg-red-600');
-          setTimeout(() => {
-            button.textContent = 'Add to Cart';
-            button.classList.replace('bg-red-600', 'bg-gray-900');
-            button.disabled = false;
-          }, 2000);
-        });
       });
     });
   });

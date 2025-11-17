@@ -286,7 +286,163 @@
       "block_order": [
         "judge_me_reviews_featured_carousel_Q6EydE"
       ],
+      "disabled": true,
       "settings": {}
+    },
+    "reviews_HNCkX3": {
+      "type": "reviews",
+      "blocks": {
+        "review_NATwCk": {
+          "type": "review",
+          "settings": {
+            "image": "shopify://shop_images/IMG_6057.jpg",
+            "rating": 5,
+            "heading": "Loved the bracelet",
+            "text": "Best product decision and the team was super supportive and responsive Definately coming back for more products Quality of bracelet is too good and I gifted it to someone and everyone loved it",
+            "author": "Shreya",
+            "product": "cdf159c5_5418_d2cf_d4d6_41de650e7542"
+          }
+        },
+        "review_r3xC9L": {
+          "type": "review",
+          "settings": {
+            "image": "shopify://shop_images/67dcb990-8506-41a7-90aa-3f2a3df11bb1.jpg",
+            "rating": 4,
+            "heading": "Amazing",
+            "text": "Amazing, very good quality!",
+            "author": "Ramyabina",
+            "product": "1f9a095d_8272_829d_1df7_ab0c9a156288"
+          }
+        },
+        "review_3xgMB8": {
+          "type": "review",
+          "settings": {
+            "image": "shopify://shop_images/IMG_6054.jpg",
+            "rating": 5,
+            "heading": "Value for money",
+            "text": "Much better price offering for the design and quality when compared to other sellers",
+            "author": "Gary",
+            "product": "c440926b_0c2b_3d7d_bb0d_330d490709a7"
+          }
+        },
+        "review_hHpDfV": {
+          "type": "review",
+          "settings": {
+            "image": "shopify://shop_images/IMG_6055.jpg",
+            "rating": 5,
+            "heading": "Excellent",
+            "text": "its stylish go with any outift and the quality is good too",
+            "author": "Sandeep",
+            "product": ""
+          }
+        },
+        "review_XkAnfi": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "heading": "Rollplay",
+            "text": "omg, the keychain’s quality was top-notch, was expecting the ball to be of smaller size but sicsense really outdid themselves with it, the pricing is still a bit high to be honest, but the product arrived damage-free and the delivery took a lil long. Overall, a happy purchase at my end. Thanks ;) more products to be shopped from here.",
+            "author": "Kush Jain",
+            "product": ""
+          }
+        },
+        "review_JfRe6q": {
+          "type": "review",
+          "settings": {
+            "image": "shopify://shop_images/IMG_6060.jpg",
+            "rating": 5,
+            "heading": "Great Piece",
+            "text": "Really looks good when styled right. worth the purchase.",
+            "author": "Piyush",
+            "product": ""
+          }
+        },
+        "review_9qQhrW": {
+          "type": "review",
+          "settings": {
+            "image": "shopify://shop_images/IMG_6058.jpg",
+            "rating": 5,
+            "heading": "Wonderfull",
+            "text": "Man,You should really buy this its a worthy piece of item",
+            "author": "Abhinav",
+            "product": ""
+          }
+        },
+        "review_N3ag6b": {
+          "type": "review",
+          "settings": {
+            "image": "shopify://shop_images/IMG_6053.jpg",
+            "rating": 5,
+            "heading": "Just go for it",
+            "text": "Loved it. Really good quality",
+            "author": "Annat",
+            "product": ""
+          }
+        },
+        "review_4VYmdy": {
+          "type": "review",
+          "settings": {
+            "image": "shopify://shop_images/5C72AF80-9A50-4416-8C4B-A0BED488A5A2_1.jpg",
+            "rating": 5,
+            "heading": "it’s lovely!fave piece in my collection right now!",
+            "text": "",
+            "author": "Adira",
+            "product": ""
+          }
+        },
+        "review_QdT3dd": {
+          "type": "review",
+          "settings": {
+            "image": "shopify://shop_images/IMG_5169.jpg",
+            "rating": 5,
+            "heading": "Sic Quality",
+            "text": "I love this chain, doesn't feel cheap at all, it's heavy and looks exactly like on the site",
+            "author": "Manas",
+            "product": ""
+          }
+        },
+        "review_C76Btm": {
+          "type": "review",
+          "settings": {
+            "image": "shopify://shop_images/D064D12C-1484-4ACB-A9F6-A8A0ADCECDA4.jpg",
+            "rating": 5,
+            "heading": "Excellent",
+            "text": "To be honest the quality is so good and looks fabulous",
+            "author": "S.M Nihal",
+            "product": ""
+          }
+        },
+        "review_yJpyJ8": {
+          "type": "review",
+          "settings": {
+            "image": "shopify://shop_images/C4F32D9C-4ED2-4AA8-AF0B-DD37F82762CE.jpg",
+            "rating": 5,
+            "heading": "SO GOOD!",
+            "text": "The quality of the material is 10/10, looks expensive and the design is amazing. Definitely an eye catcher!",
+            "author": "Krishna",
+            "product": ""
+          }
+        }
+      },
+      "block_order": [
+        "review_NATwCk",
+        "review_r3xC9L",
+        "review_3xgMB8",
+        "review_hHpDfV",
+        "review_XkAnfi",
+        "review_JfRe6q",
+        "review_9qQhrW",
+        "review_N3ag6b",
+        "review_4VYmdy",
+        "review_QdT3dd",
+        "review_C76Btm",
+        "review_yJpyJ8"
+      ],
+      "name": "Custom Review Carousel",
+      "settings": {
+        "title": "WHAT’RE THEY SAYING?",
+        "bg_color": "#ffffff"
+      }
     },
     "featured": {
       "type": "featured",
@@ -354,6 +510,7 @@
     "product_gallery_Pech8Q",
     "quiz",
     "1759897621bed437ba",
+    "reviews_HNCkX3",
     "featured"
   ]
 }

@@ -92,7 +92,9 @@
 }
 {% endschema %}
 
+{% if section.settings.button_link != blank %}
 <a href="{{ section.settings.button_link }}">
+  {% endif %}
   <section class="relative flex items-center justify-center w-full bg-gray-400 overflow-hidden 
   h-[var(--banner-height)] md:h-[var(--banner-height-desktop)]" style="
     --banner-height: {{ section.settings.banner_image_height_mobile | default: '60vh' }};
@@ -100,14 +102,64 @@
     ">
 
     {% if section.settings.media_type == 'video' and section.settings.banner_video != blank %}
-    <video class="w-full h-full object-cover absolute inset-0" {% if section.settings.autoplay_video %} autoplay{% endif
-      %} {% if section.settings.loop_video %} loop{% endif %} {% if section.settings.mute_video %} muted{% endif %}
-      playsinline {% if section.settings.video_poster !=blank %}
-      poster="{{ section.settings.video_poster | img_url: '1600x' }}" {% endif %}>
+    <video id="banner-video" class="w-full h-full object-cover absolute inset-0" {% if section.settings.autoplay_video
+      %} playsinline webkit-playsinline x-webkit-airplay="allow" muted="muted" {% endif %} {% if
+      section.settings.loop_video %} loop{% endif %} preload="auto" {% if section.settings.video_poster !=blank
+      %}poster="{{ section.settings.video_poster | img_url: '1600x' }}" {% endif %}>
       <source src="{{ section.settings.banner_video.sources[1].url }}" type="video/mp4">
       <source src="{{ section.settings.banner_video.sources[0].url }}" type="video/webm">
       Your browser does not support the video tag.
     </video>
+    {% if section.settings.autoplay_video %}
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const video = document.getElementById('banner-video');
+
+        // Set video properties for iOS
+        video.setAttribute('muted', '');
+        video.muted = true;
+
+        // For iOS 15+
+        video.playsInline = true;
+
+        // Try to autoplay with a small delay
+        const tryAutoPlay = () => {
+          const playPromise = video.play();
+
+          if (playPromise !== undefined) {
+            playPromise.catch(() => {
+              // Show a play button overlay if autoplay fails
+              const playOverlay = document.createElement('div');
+              playOverlay.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.3);z-index:10;';
+              playOverlay.innerHTML = '<div style="background:white;border-radius:50%;width:60px;height:60px;display:flex;align-items:center;justify-content:center;cursor:pointer;"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg></div>';
+
+              playOverlay.onclick = function (e) {
+                e.stopPropagation();
+                video.play().then(() => {
+                  playOverlay.style.display = 'none';
+                });
+              };
+
+              video.parentNode.insertBefore(playOverlay, video.nextSibling);
+            });
+          }
+        };
+
+        // Try to autoplay after a small delay
+        setTimeout(tryAutoPlay, 300);
+
+        // Also try on window focus in case the tab was in background
+        window.addEventListener('focus', tryAutoPlay);
+
+        // Handle page visibility changes
+        document.addEventListener('visibilitychange', function () {
+          if (!document.hidden) {
+            tryAutoPlay();
+          }
+        });
+      });
+    </script>
+    {% endif %}
     {% elsif section.settings.media_type == 'image' and section.settings.banner_image != blank %}
     <img src="{{ section.settings.banner_image | img_url: '1600x' }}" alt="{{ section.settings.heading | escape }}"
       class="w-full object-cover absolute inset-0 h-[var(--banner-height)] md:h-[var(--banner-height-desktop)]">
@@ -127,4 +179,6 @@
     </div>
     {% endif %}
   </section>
+  {% if section.settings.button_link != blank %}
 </a>
+{% endif %}
