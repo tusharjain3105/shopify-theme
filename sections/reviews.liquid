@@ -45,8 +45,7 @@ Custom Review Carousel - FIXED v4
 
     <div class="review-carousel-container">
       <div class="review-carousel-track" data-track>
-        {% comment %} Ghost slide at the beginning {% endcomment %}
-        <div class="review-card-slide review-card-ghost" aria-hidden="true"></div>
+
 
         {% for block in section.blocks %}
         <div class="review-card-slide" {{ block.shopify_attributes }} data-review-slide>
@@ -113,8 +112,7 @@ Custom Review Carousel - FIXED v4
         </div>
         {% endfor %}
 
-        {% comment %} Ghost slide at the end {% endcomment %}
-        <div class="review-card-slide review-card-ghost" aria-hidden="true"></div>
+
       </div>
 
       {% comment %} Navigation Buttons {% endcomment %}
@@ -376,122 +374,172 @@ Custom Review Carousel - FIXED v4
 <script>
   (function () {
     const sectionId = "ReviewSection-{{ section.id }}";
-    let isScrolling; // For debouncing scroll event
+    let isScrolling;
 
     function initReviewCarousel() {
       const container = document.getElementById(sectionId);
       if (!container) return;
 
       const track = container.querySelector('[data-track]');
-      const slides = Array.from(container.querySelectorAll('[data-review-slide]')); // Only real slides
-      const allSlidesInTrack = Array.from(track.querySelectorAll('.review-card-slide')); // All slides including ghosts
-      const prevBtn = container.querySelector('[data-direction="prev"]');
-      const nextBtn = container.querySelector('[data-direction="next"]');
+      if (!track) return;
 
-      if (!track || !slides.length) return;
+      // Clean up any existing clones from previous inits
+      track.querySelectorAll('.is-clone').forEach(el => el.remove());
 
-      // --- 1. Update Active Class on Scroll ---
-      function updateActiveSlide() {
+      // Get real slides (exclude any ghosts if they still exist)
+      const realSlides = Array.from(track.querySelectorAll('.review-card-slide:not(.review-card-ghost):not(.is-clone)'));
+      if (realSlides.length < 2) return;
+
+      // Clone Configuration
+      const cloneCount = 3; // Sufficient for desktop view (3 items) + buffer
+
+      // Create Clones
+      const clonesStart = [];
+      const clonesEnd = [];
+
+      // Clone last N slides for the start (Prepend)
+      for (let i = realSlides.length - cloneCount; i < realSlides.length; i++) {
+        if (realSlides[i]) {
+          const clone = realSlides[i].cloneNode(true);
+          clone.classList.add('is-clone');
+          clone.removeAttribute('data-review-slide');
+          clone.setAttribute('aria-hidden', 'true');
+          clonesStart.push(clone);
+        }
+      }
+
+      // Clone first N slides for the end (Append)
+      for (let i = 0; i < cloneCount; i++) {
+        if (realSlides[i]) {
+          const clone = realSlides[i].cloneNode(true);
+          clone.classList.add('is-clone');
+          clone.removeAttribute('data-review-slide');
+          clone.setAttribute('aria-hidden', 'true');
+          clonesEnd.push(clone);
+        }
+      }
+
+      // Insert Clones
+      // Reverse clonesStart so they are inserted in the correct order (e.g. 3, 4, 5 -> 3 is first, 5 is last before real slides)
+      clonesStart.reverse().forEach(clone => track.insertBefore(clone, track.firstChild));
+      clonesEnd.forEach(clone => track.appendChild(clone));
+
+      // Re-query all slides in order
+      const allSlides = Array.from(track.children);
+
+      // State
+      let currentIndex = cloneCount; // Start at the first real slide
+
+      // Helper: Scroll to specific index
+      function scrollToSlide(index, behavior = 'smooth') {
+        const slide = allSlides[index];
+        if (!slide) return;
+
+        const trackWidth = track.clientWidth;
+        const slideLeft = slide.offsetLeft;
+        const slideWidth = slide.offsetWidth;
+        const centerPos = slideLeft - (trackWidth / 2) + (slideWidth / 2);
+
+        if (behavior === 'instant') {
+          track.style.scrollBehavior = 'auto';
+          track.scrollTo({ left: centerPos });
+          // Restore CSS scroll-behavior after a brief moment
+          setTimeout(() => {
+            track.style.scrollBehavior = '';
+          }, 50);
+        } else {
+          track.style.scrollBehavior = 'smooth';
+          track.scrollTo({ left: centerPos, behavior: 'smooth' });
+        }
+        
+        // Update active class visually
+        allSlides.forEach(s => s.classList.remove('is-active'));
+        slide.classList.add('is-active');
+      }
+
+      // Initial Setup
+      setTimeout(() => {
+        scrollToSlide(currentIndex, 'instant');
+      }, 50);
+
+      // Scroll Loop Logic
+      function checkInfiniteLoop() {
         const trackCenter = track.scrollLeft + (track.clientWidth / 2);
-        let closestSlide = null;
+        
+        // Find visually closest slide
+        let closestIndex = -1;
         let minDistance = Infinity;
 
-        // Iterate over only the actual review slides for active state
-        slides.forEach(slide => {
+        allSlides.forEach((slide, index) => {
           const slideCenter = slide.offsetLeft + (slide.offsetWidth / 2);
-          const distance = Math.abs(trackCenter - slideCenter);
-
-          if (distance < minDistance) {
-            minDistance = distance;
-            closestSlide = slide;
+          const dist = Math.abs(trackCenter - slideCenter);
+          if (dist < minDistance) {
+            minDistance = dist;
+            closestIndex = index;
           }
         });
 
-        if (closestSlide) {
-          slides.forEach(s => s.classList.remove('is-active'));
-          closestSlide.classList.add('is-active');
+        // Teleport if in clone zone
+        if (closestIndex !== -1) {
+          let newIndex = closestIndex;
+          let didTeleport = false;
+
+          if (closestIndex < cloneCount) {
+            // In start clones -> Jump to end real slides
+            newIndex = closestIndex + realSlides.length;
+            didTeleport = true;
+          } else if (closestIndex >= allSlides.length - cloneCount) {
+            // In end clones -> Jump to start real slides
+            newIndex = closestIndex - realSlides.length;
+            didTeleport = true;
+          }
+
+          if (didTeleport) {
+            currentIndex = newIndex;
+            scrollToSlide(newIndex, 'instant');
+          } else {
+            currentIndex = closestIndex;
+            // Ensure active class is correct if we didn't teleport
+            allSlides.forEach(s => s.classList.remove('is-active'));
+            if (allSlides[currentIndex]) allSlides[currentIndex].classList.add('is-active');
+          }
         }
       }
 
-      // --- 2. Button Logic ---
-      function moveCarousel(direction) {
-        if (allSlidesInTrack.length < 2) return; // Not enough slides to move
-
-        // Find the currently active real slide
-        let currentActiveIndex = slides.findIndex(s => s.classList.contains('is-active'));
-        if (currentActiveIndex === -1) currentActiveIndex = 0; // Fallback to first if none active
-
-        let targetIndex = currentActiveIndex;
-        if (direction === 'next') {
-          targetIndex = Math.min(slides.length - 1, currentActiveIndex + 1);
-        } else { // 'prev'
-          targetIndex = Math.max(0, currentActiveIndex - 1);
-        }
-
-        const targetSlide = slides[targetIndex];
-        if (targetSlide) {
-          // Calculate the scroll position to center the targetSlide
-          const slideOffset = targetSlide.offsetLeft;
-          const slideWidth = targetSlide.offsetWidth;
-          const trackWidth = track.clientWidth;
-          const scrollToPosition = slideOffset - (trackWidth / 2) + (slideWidth / 2);
-
-          track.scrollTo({
-            left: scrollToPosition,
-            behavior: 'smooth'
-          });
-        }
-      }
-
-      // --- 3. Initial Centering and Event Listeners ---
-      // Scroll to the first actual slide to center it on load
-      const firstRealSlide = slides[0];
-      if (firstRealSlide) {
-        const slideOffset = firstRealSlide.offsetLeft;
-        const slideWidth = firstRealSlide.offsetWidth;
-        const trackWidth = track.clientWidth;
-        const scrollToPosition = slideOffset - (trackWidth / 2) + (slideWidth / 2);
-
-        // Use setTimeout to ensure all rendering is done before trying to scroll
-        setTimeout(() => {
-          track.scrollTo({
-            left: scrollToPosition,
-            behavior: 'instant' // Instant scroll on load
-          });
-          updateActiveSlide(); // Set active class after initial scroll
-        }, 0); // Small delay
-      }
-
+      // Scroll Listener
       track.addEventListener('scroll', () => {
-        // Debounce scroll event to avoid excessive calls
         clearTimeout(isScrolling);
-        isScrolling = setTimeout(() => {
-          updateActiveSlide();
-        }, 0);
+        isScrolling = setTimeout(checkInfiniteLoop, 60); // Check shortly after scroll stops
       });
 
+      // Resize Listener
       window.addEventListener('resize', () => {
-        // Re-center active slide on resize
-        const currentActiveSlide = container.querySelector('.review-card-slide.is-active');
-        if (currentActiveSlide) {
-          const slideOffset = currentActiveSlide.offsetLeft;
-          const slideWidth = currentActiveSlide.offsetWidth;
-          const trackWidth = track.clientWidth;
-          const scrollToPosition = slideOffset - (trackWidth / 2) + (slideWidth / 2);
-          track.scrollTo({ left: scrollToPosition, behavior: 'instant' });
-        }
-        updateActiveSlide(); // Update active slide after resize re-center
+        scrollToSlide(currentIndex, 'instant');
       });
 
-      if (prevBtn) prevBtn.onclick = (e) => { e.preventDefault(); moveCarousel('prev'); };
-      if (nextBtn) nextBtn.onclick = (e) => { e.preventDefault(); moveCarousel('next'); };
+      // Buttons
+      const prevBtn = container.querySelector('[data-direction="prev"]');
+      const nextBtn = container.querySelector('[data-direction="next"]');
+
+      function move(direction) {
+        if (direction === 'next') {
+          currentIndex++;
+        } else {
+          currentIndex--;
+        }
+        // Clamp to array bounds (though loop should prevent hitting edges)
+        if (currentIndex < 0) currentIndex = 0;
+        if (currentIndex >= allSlides.length) currentIndex = allSlides.length - 1;
+
+        scrollToSlide(currentIndex, 'smooth');
+      }
+
+      if (prevBtn) prevBtn.onclick = (e) => { e.preventDefault(); move('prev'); };
+      if (nextBtn) nextBtn.onclick = (e) => { e.preventDefault(); move('next'); };
     }
 
-    // Initialize on Load
     document.addEventListener("DOMContentLoaded", initReviewCarousel);
-
-    // Initialize on Shopify Editor Events (Load/Select)
-    document.addEventListener("shopify:section:load", function (e) {
+    document.addEventListener("shopify:section:load", (e) => {
       if (e.detail.sectionId === "{{ section.id }}") initReviewCarousel();
     });
   })();

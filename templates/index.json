@@ -300,18 +300,18 @@
             "heading": "Loved the bracelet",
             "text": "Best product decision and the team was super supportive and responsive Definately coming back for more products Quality of bracelet is too good and I gifted it to someone and everyone loved it",
             "author": "Shreya",
-            "product": "cdf159c5_5418_d2cf_d4d6_41de650e7542"
+            "product": ""
           }
         },
         "review_r3xC9L": {
           "type": "review",
           "settings": {
             "image": "shopify://shop_images/67dcb990-8506-41a7-90aa-3f2a3df11bb1.jpg",
-            "rating": 4,
+            "rating": 5,
             "heading": "Amazing",
             "text": "Amazing, very good quality!",
             "author": "Ramyabina",
-            "product": "1f9a095d_8272_829d_1df7_ab0c9a156288"
+            "product": ""
           }
         },
         "review_3xgMB8": {
@@ -322,7 +322,7 @@
             "heading": "Value for money",
             "text": "Much better price offering for the design and quality when compared to other sellers",
             "author": "Gary",
-            "product": "c440926b_0c2b_3d7d_bb0d_330d490709a7"
+            "product": ""
           }
         },
         "review_hHpDfV": {
@@ -332,13 +332,14 @@
             "rating": 5,
             "heading": "Excellent",
             "text": "its stylish go with any outift and the quality is good too",
-            "author": "Sandeep",
+            "author": "Sanket",
             "product": ""
           }
         },
         "review_XkAnfi": {
           "type": "review",
           "settings": {
+            "image": "shopify://shop_images/IMG_6310.jpg",
             "rating": 5,
             "heading": "Rollplay",
             "text": "omg, the keychain’s quality was top-notch, was expecting the ball to be of smaller size but sicsense really outdid themselves with it, the pricing is still a bit high to be honest, but the product arrived damage-free and the delivery took a lil long. Overall, a happy purchase at my end. Thanks ;) more products to be shopped from here.",
@@ -490,6 +491,7 @@
         "image_bw4Wpc",
         "image_bJBeB4"
       ],
+      "disabled": true,
       "settings": {
         "speed": 10,
         "height": 32,

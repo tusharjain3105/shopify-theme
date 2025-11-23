@@ -72,10 +72,17 @@
             {% endif %}
           </button>
           <div class="border border-transparent hover:border-white p-2 hidden md:block">
+            {% if customer %}
             <a href="{{ routes.account_url }}">
               {% render 'icon'
               , icon: 'account', size: 20 %}
             </a>
+            {% else %}
+            <a href="{{ routes.account_login_url }}">
+              {% render 'icon'
+              , icon: 'account', size: 20 %}
+            </a>
+            {% endif %}
           </div>
         </div>
       </div>
@@ -164,10 +171,17 @@
           </span>
           {% endif %}
         </button>
+        {% if customer %}
         <a href="{{ routes.account_url }}" class="text-gray-700 hover:text-gray-900">
           {% render 'icon'
           , icon: 'account' %}
         </a>
+        {% else %}
+        <a href="{{ routes.account_login_url }}" class="text-gray-700 hover:text-gray-900">
+          {% render 'icon'
+          , icon: 'account' %}
+        </a>
+        {% endif %}
       </div>
     </div>
   </div>
