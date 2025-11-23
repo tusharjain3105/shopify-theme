@@ -60,11 +60,10 @@ Parameters:
 
       <!-- Add to Cart Button (for available products) -->
       {% if show_add_to_cart %}
-      <button
+      <button type="button"
         class="product-card-btn {% if product.available == false %}opacity-50{% else %}hover:bg-white active:bg-white{% endif %} absolute bottom-2 right-2 bg-white/50 p-2 rounded-full"
         data-product-id="{{ product.selected_or_first_available_variant.id }}"
-        data-product-available="{{ product.available }}" onclick="event.preventDefault(); event.stopPropagation();" {%
-        if product.available==false %}disabled{% endif %}>
+        data-product-available="{{ product.available }}" {% if product.available==false %}disabled{% endif %}>
         {% render 'icon', icon: 'plus', size: '20' %}
       </button>
       {% endif %}
@@ -92,70 +91,5 @@ Parameters:
 </div>
 
 {% if show_add_to_cart %}
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const buttons = document.querySelectorAll('.product-card-btn');
-
-    buttons.forEach(button => {
-      if (button.dataset.bound) return;
-      button.dataset.bound = 'true';
-
-      button.addEventListener('click', function () {
-
-        const available = button.dataset.productAvailable;
-
-        if (available === 'false') {
-          console.log("Product is not available");
-          return;
-        }
-
-
-        if (button.disabled) return;
-
-        button.disabled = true;
-        // button.textContent = 'Adding...';
-
-        const formData = new FormData();
-        formData.append('id', button.dataset.productId);
-        formData.append('quantity', '1');
-
-        fetch('/cart/add.js', {
-          method: 'POST',
-          body: formData,
-          headers: { 'Accept': 'application/json' }
-        })
-          .then(response => response.ok ? response.json() : Promise.reject())
-          .then(() => {
-            // button.textContent = 'Added!';
-            button.classList.replace('bg-gray-800', 'bg-green-600');
-
-            fetch('/cart.js').then(r => r.json()).then(cart => {
-              const badge = document.querySelector('[data-cart-open] .absolute');
-              if (badge) {
-                badge.textContent = cart.item_count;
-                badge.style.display = cart.item_count > 0 ? '' : 'none';
-              }
-            });
-
-            setTimeout(() => window.CartDrawer?.open?.(), 500);
-
-            setTimeout(() => {
-              // button.textContent = 'Add to Cart';
-              button.classList.replace('bg-green-600', 'bg-gray-800');
-              button.disabled = false;
-            }, 2000);
-          })
-          .catch(() => {
-            button.textContent = 'Error';
-            button.classList.replace('bg-gray-800', 'bg-red-600');
-            setTimeout(() => {
-              button.textContent = 'Add to Cart';
-              button.classList.replace('bg-red-600', 'bg-gray-800');
-              button.disabled = false;
-            }, 2000);
-          });
-      });
-    });
-  });
-</script>
 {% endif %}
+<script src="{{ 'cart-handler.js' | asset_url }}" defer="defer"></script>
