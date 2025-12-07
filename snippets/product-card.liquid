@@ -43,30 +43,7 @@ Parameters:
         </svg>
       </button>
 
-      <script>
-        // Initialize wishlist button state for this product
-        document.addEventListener('DOMContentLoaded', function () {
-          const wishlistButton = document.querySelector('.wishlist-toggle[data-product-id="{{ product.id }}"]');
-          if (wishlistButton) {
-            try {
-              const wishlist = JSON.parse(localStorage.getItem('wishlistItems') || '[]');
-              const isInWishlist = wishlist.some(item => String(item.id) === '{{ product.id }}');
 
-              if (isInWishlist) {
-                wishlistButton.classList.add('text-red-600');
-                wishlistButton.setAttribute('aria-label', 'Remove from wishlist');
-                wishlistButton.title = 'Remove from wishlist';
-              } else {
-                wishlistButton.classList.add('text-gray-400');
-                wishlistButton.setAttribute('aria-label', 'Add to wishlist');
-                wishlistButton.title = 'Add to wishlist';
-              }
-            } catch (e) {
-              console.error('Error initializing wishlist button:', e);
-            }
-          }
-        });
-      </script>
 
       <!-- Product badges -->
       {% if product.compare_at_price > product.price %}

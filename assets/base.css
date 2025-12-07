@@ -19,7 +19,6 @@
     --color-amber-900: oklch(41.4% 0.112 45.904);
     --color-green-50: oklch(98.2% 0.018 155.826);
     --color-green-200: oklch(92.5% 0.084 155.995);
-    --color-green-600: oklch(62.7% 0.194 149.214);
     --color-green-900: oklch(39.3% 0.095 152.535);
     --color-blue-50: oklch(97% 0.014 254.604);
     --color-blue-200: oklch(88.2% 0.059 254.128);
@@ -701,6 +700,15 @@
   .max-w-7xl {
     max-width: var(--container-7xl);
   }
+  .max-w-\[10rem\] {
+    max-width: 10rem;
+  }
+  .max-w-\[20rem\] {
+    max-width: 20rem;
+  }
+  .max-w-\[50rem\] {
+    max-width: 50rem;
+  }
   .max-w-\[92vw\] {
     max-width: 92vw;
   }
@@ -1078,9 +1086,6 @@
   }
   .bg-green-50 {
     background-color: var(--color-green-50);
-  }
-  .bg-green-600 {
-    background-color: var(--color-green-600);
   }
   .bg-indigo-600 {
     background-color: var(--color-indigo-600);
@@ -2041,14 +2046,18 @@
       }
     }
   }
-  .data-active\:fill-red-600 {
+  .data-active\:\*\:fill-red-600 {
     &[data-active] {
-      fill: var(--color-red-600);
+      :is(& > *) {
+        fill: var(--color-red-600);
+      }
     }
   }
-  .data-active\:text-red-600 {
+  .data-active\:\*\:text-red-600 {
     &[data-active] {
-      color: var(--color-red-600);
+      :is(& > *) {
+        color: var(--color-red-600);
+      }
     }
   }
   .data-\[active\=true\]\:opacity-100 {

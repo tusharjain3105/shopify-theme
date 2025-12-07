@@ -134,10 +134,17 @@ Custom Review Carousel - FIXED v4
 </div>
 
 <style>
+  h2 {
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3), 1px 1px 2px rgba(0, 0, 0, 0.3);
+    background: #ffffff90;
+    padding: 10px 20px;
+  }
+
+
   /* --- Fonts & Variables --- */
   .review-carousel-section {
     position: relative;
-    padding: 60px 20px;
+    padding: 40px 0;
     overflow: hidden;
     font-family: "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
   }
@@ -149,9 +156,13 @@ Custom Review Carousel - FIXED v4
     left: 0;
     width: 100%;
     height: 100%;
-    background-size: 40px 40px;
     pointer-events: none;
     z-index: 0;
+    background: url("https://cdn.shopify.com/s/files/1/0706/2686/9440/files/SICFAM_REVIEWS.png?v=1763997661");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    transform: rotate(180deg);
   }
 
   .review-carousel-section .page-width {
@@ -224,7 +235,7 @@ Custom Review Carousel - FIXED v4
     flex-direction: column;
     align-items: center;
     padding: 30px 20px;
-    background: #fff;
+    background: #ffffffee;
     box-shadow: 0 4px 15px rgba(74, 111, 255, 0.1);
   }
 
@@ -451,7 +462,7 @@ Custom Review Carousel - FIXED v4
           track.style.scrollBehavior = 'smooth';
           track.scrollTo({ left: centerPos, behavior: 'smooth' });
         }
-        
+
         // Update active class visually
         allSlides.forEach(s => s.classList.remove('is-active'));
         slide.classList.add('is-active');
@@ -465,7 +476,7 @@ Custom Review Carousel - FIXED v4
       // Scroll Loop Logic
       function checkInfiniteLoop() {
         const trackCenter = track.scrollLeft + (track.clientWidth / 2);
-        
+
         // Find visually closest slide
         let closestIndex = -1;
         let minDistance = Infinity;
