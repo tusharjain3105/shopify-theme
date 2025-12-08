@@ -54,10 +54,8 @@
             , icon: 'search', size: 20 %}
           </button>
           <button type="button" data-wishlist-open class="relative border border-transparent hover:border-white p-2">
-            <span class="text-red-500">
-              {% render 'icon'
-              , icon: 'wishlist', size: 20 %}
-            </span>
+            {% render 'icon'
+            , icon: 'wishlist', size: 20 %}
             <div
               class="wishlist-badge absolute -top-1 -right-1 hidden h-4 w-4 items-center justify-center rounded-full bg-red-600 text-xs font-medium text-white">
               <span id="wishlist-count-badge" class="wishlist-count">0</span>
@@ -157,9 +155,7 @@
       <!-- Right side icons -->
       <div class="flex items-center gap-2 md:gap-4 lg:gap-6 justify-end-safe">
         <button type="button" data-wishlist-open class="relative text-gray-700 hover:text-gray-900">
-          <span class="text-red-500">
-            {% render 'icon', icon: 'wishlist' %}
-          </span>
+          {% render 'icon', icon: 'wishlist' %}
           <div
             class="wishlist-badge absolute -top-1 -right-1 hidden h-4 w-4 items-center justify-center rounded-full bg-red-600 text-xs font-medium text-white">
             <span id="wishlist-count-badge" class="wishlist-count">0</span>

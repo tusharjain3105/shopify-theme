@@ -128,7 +128,48 @@
      "label": "Enable Banner Text"
    }
  ]
+},
+{
+  "name": "font",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Typography Settings"
+    },
+    {
+        "type": "select",
+        "id": "google_font_family",
+        "default": "outfit",
+        "label": "Google Font",
+        "options": [
+          {
+            "value": "outfit",
+            "label": "Outfit"
+          },
+          {
+            "value": "noto sans",
+            "label": "Noto Sans"
+          },
+          {
+            "value": "roboto",
+            "label": "Roboto"
+          },
+          {
+            "value": "open sans",
+            "label": "Open Sans"
+          },
+          {
+            "value": "montserrat",
+            "label": "Montserrat"
+          }
+        ]
+      },
+    {
+        "type": "font_picker",
+        "id": "type_primary_font",
+        "default": "assistant_n4",
+        "label": "Shopify Font"
+      }
+  ]
 }
-
-
 ]
