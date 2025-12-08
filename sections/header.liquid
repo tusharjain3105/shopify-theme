@@ -1,7 +1,7 @@
 <header class="sticky top-0 w-full h-0 overflow-visible z-10">
   <div class="py-4 px-4">
     <div
-      class="mx-auto main-header-2 backdrop-blur-[2px] w-full px-2 md:px-4 py-2 rounded-md text-white transition-[background-color] hover:bg-[rgba(241,241,241,0.6)]! hover:text-black!">
+      class="mx-auto main-header-2 backdrop-blur-[2px] w-full px-2 md:px-4 py-2 rounded-md text-white transition-[background-color] bg-[rgba(50,50,50,0.8)] hover:bg-[rgba(50,50,50,0.8)]!">
       <div class="flex justify-between items-center">
         <div class="flex items-center md:hidden">
           <span class="border border-transparent hover:border-white p-2 block md:hidden" sidebar-toggle>
@@ -54,8 +54,10 @@
             , icon: 'search', size: 20 %}
           </button>
           <button type="button" data-wishlist-open class="relative border border-transparent hover:border-white p-2">
-            {% render 'icon'
-            , icon: 'wishlist', size: 20 %}
+            <span class="text-red-500">
+              {% render 'icon'
+              , icon: 'wishlist', size: 20 %}
+            </span>
             <div
               class="wishlist-badge absolute -top-1 -right-1 hidden h-4 w-4 items-center justify-center rounded-full bg-red-600 text-xs font-medium text-white">
               <span id="wishlist-count-badge" class="wishlist-count">0</span>
@@ -155,7 +157,9 @@
       <!-- Right side icons -->
       <div class="flex items-center gap-2 md:gap-4 lg:gap-6 justify-end-safe">
         <button type="button" data-wishlist-open class="relative text-gray-700 hover:text-gray-900">
-          {% render 'icon', icon: 'wishlist' %}
+          <span class="text-red-500">
+            {% render 'icon', icon: 'wishlist' %}
+          </span>
           <div
             class="wishlist-badge absolute -top-1 -right-1 hidden h-4 w-4 items-center justify-center rounded-full bg-red-600 text-xs font-medium text-white">
             <span id="wishlist-count-badge" class="wishlist-count">0</span>
@@ -249,8 +253,10 @@
       header.style.color = 'black';
     }
   }
-  document.addEventListener('DOMContentLoaded', onScroll);
-  document.addEventListener('scroll', onScroll);
+
+  // Disabled background change for now
+  // document.addEventListener('DOMContentLoaded', onScroll);
+  // document.addEventListener('scroll', onScroll);
 
   // Initialize UI once DOM is ready to avoid async timing issues
   document.addEventListener('DOMContentLoaded', function () {

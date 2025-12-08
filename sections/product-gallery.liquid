@@ -23,20 +23,20 @@
 "max": 50
 },
 {
-  "type": "select",
-  "id": "gallery_layout",
-  "label": "Gallery layout",
-  "options": [
-    {
-      "value": "carousel",
-      "label": "Carousel"
-    },
-    {
-      "value": "grid",
-      "label": "Grid"
-    }
-  ],
-  "default": "carousel"
+"type": "select",
+"id": "gallery_layout",
+"label": "Gallery layout",
+"options": [
+{
+"value": "carousel",
+"label": "Carousel"
+},
+{
+"value": "grid",
+"label": "Grid"
+}
+],
+"default": "carousel"
 }
 ],
 "presets": [
@@ -47,8 +47,8 @@
 }
 {% endschema %}
 
-<section class="w-full">
-  <div class="max-w-7xl mx-auto px-4 py-8">
+<section class="w-full no-row">
+  <div class="max-w-7xl mx-auto px-4">
     <h2 class="text-xl md:text-3xl font-bold text-center mb-8 uppercase">{{ section.settings.section_heading }}</h2>
   </div>
 
@@ -59,16 +59,19 @@
     {% if section.settings.gallery_layout == 'carousel' %}
     <div class="flex gap-2 pb-4" style="width: max-content;">
       {% for product in gallery_collection.products limit: section.settings.products_limit %}
-      {% render 'product-card-carousel-2', product: product, show_add_to_cart: true %}
+      <div class="w-[50vw] md:w-[20vw]">
+        {% render 'product-card-enhanced', product: product, show_add_to_cart: true %}
+      </div>
       {% endfor %}
     </div>
     {% else %}
     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
       {% for product in gallery_collection.products limit: 4 %}
-      {% render 'product-card-carousel-2', product: product, show_add_to_cart: true %}
+      {% render 'product-card-enhanced', product: product, show_add_to_cart: true %}
       {% endfor %}
     </div>
-    <a href="{{ section.settings.gallery_collection | prepend: "/collections/" }}" class="btn btn-primary m-auto my-4 px-4 py-2 border-2 w-fit block">Discover More</a>
+    <a href="{{ section.settings.gallery_collection | prepend: " /collections/" }}"
+      class="btn btn-primary m-auto my-4 px-4 py-2 border-2 w-fit block">Discover More</a>
     {% endif %}
   </div>
 

@@ -84,11 +84,12 @@ Usage: {% render 'product-form', product: product %}
     {% if current_variant.available %}
     <div class="buy-now-wrapper">
       <!-- Custom styled buy now button -->
-      <button type="button"
+      {% comment %} <button type="button"
         class="buy-now-btn w-full bg-gray-900 text-white py-4 px-6 font-semibold hover:bg-black transition-colors"
         onclick="handleBuyNow()">
         Buy Now
-      </button>
+      </button> {% endcomment %}
+      {% render 'gokwik-buy-now' %}
 
       <!-- Hidden payment button for fallback -->
       <div class="hidden">

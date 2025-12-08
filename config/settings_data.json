@@ -9,6 +9,11 @@
  */
 {
   "current": {
+    "mid": "gq11imffpfyuc",
+    "envType": "production",
+    "fbpixel": "1092081232057239",
+    "goEnable": true,
+    "goBuynowEnable": true,
     "google_font_family": "Outfit",
     "favicon_image": "shopify://shop_images/logo.png",
     "max_page_width": "100vw",

@@ -7,7 +7,7 @@
  * made to this file may be overwritten.
  * ------------------------------------------------------------
  */
- {
+{
   "sections": {
     "category_stories_rUftBF": {
       "type": "category-stories",
@@ -16,7 +16,7 @@
           "type": "category",
           "name": "Neckpieces",
           "settings": {
-            "category_image": "shopify://shop_images/Screenshot_2025-08-31_at_10.03.32_PM.png",
+            "category_image": "shopify://shop_images/IMG_2545_JPEG.jpg",
             "category_title": "Neckpieces",
             "category_link": "shopify://collections/neckpieces"
           }
@@ -25,7 +25,7 @@
           "type": "category",
           "name": "Bracelets",
           "settings": {
-            "category_image": "shopify://shop_images/Screenshot_2025-08-31_at_10.03.32_PM.png",
+            "category_image": "shopify://shop_images/IMG_2539_JPEG.jpg",
             "category_title": "Bracelets",
             "category_link": "shopify://collections/bracelets"
           }
@@ -34,7 +34,7 @@
           "type": "category",
           "name": "Earrings",
           "settings": {
-            "category_image": "shopify://shop_images/Screenshot_2025-08-31_at_10.03.32_PM.png",
+            "category_image": "shopify://shop_images/IMG_2544_JPEG.jpg",
             "category_title": "Earrings",
             "category_link": "shopify://collections/earrings"
           }
@@ -43,7 +43,7 @@
           "type": "category",
           "name": "Pearls",
           "settings": {
-            "category_image": "shopify://shop_images/Screenshot_2025-08-31_at_10.03.32_PM.png",
+            "category_image": "shopify://shop_images/IMG_2537_JPEG.jpg",
             "category_title": "Pearls",
             "category_link": "shopify://collections/pearls"
           }
@@ -52,7 +52,7 @@
           "type": "category",
           "name": "Pendants",
           "settings": {
-            "category_image": "shopify://shop_images/Screenshot_2025-08-31_at_10.03.32_PM.png",
+            "category_image": "shopify://shop_images/IMG_2542.png",
             "category_title": "Pendants",
             "category_link": "shopify://collections/pendants"
           }
@@ -61,7 +61,7 @@
           "type": "category",
           "name": "Rings",
           "settings": {
-            "category_image": "shopify://shop_images/Screenshot_2025-08-31_at_10.03.32_PM.png",
+            "category_image": "shopify://shop_images/IMG_2546_JPEG.jpg",
             "category_title": "Rings",
             "category_link": "shopify://collections/rings"
           }

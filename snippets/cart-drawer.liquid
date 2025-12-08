@@ -31,7 +31,8 @@ Usage: place `{% render 'cart-drawer' %}` once (e.g., in `layout/theme.liquid` o
       <p class="text-xs text-gray-500">Shipping and taxes calculated at checkout.</p>
       <div class="flex gap-2">
         <a href="{{ routes.cart_url }}" class="flex-1 inline-flex items-center justify-center border border-gray-300 rounded-md h-10 text-gray-800 hover:bg-gray-50">View cart</a>
-        <a href="/checkout" class="flex-1 inline-flex items-center justify-center bg-black text-white rounded-md h-10 hover:bg-gray-900">Checkout</a>
+        {% comment %} <a href="/checkout" class="flex-1 inline-flex items-center justify-center bg-black text-white rounded-md h-10 hover:bg-gray-900">Checkout</a> {% endcomment %}
+         {% render 'gokwik-checkout' %}
       </div>
     </div>
   </aside>

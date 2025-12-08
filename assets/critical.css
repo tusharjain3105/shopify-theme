@@ -101,6 +101,30 @@ body {
   transition: padding-top 0.3s ease-in-out;
 }
 
+.shopify-section:not(:has(.no-row)) {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #d0d0d0;
+  margin-bottom: 1rem;
+}
+
+.shopify-section:has(.no-row-padding) {
+  padding-bottom: 0;
+}
+
+.shopify-section:has(.no-row-margin) {
+  margin-bottom: 0;
+}
+
+.shopify-section:not(:has(> :not(.hidden))) {
+  display: none;
+}
+
+.shopify-section-group-header-group.shopify-section {
+  padding-bottom: 0;
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
 /* Child elements, by default, are constrained to the central column of the grid. */
 .shopify-section > * {
   grid-column: 2;
