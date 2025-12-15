@@ -10,6 +10,21 @@ body {
   flex-direction: column;
   margin: 0;
   min-height: 100svh;
+  font-family: 'Inter', sans-serif;
+}
+
+h1, h2 {
+    font-family: 'Raleway', sans-serif;
+}
+
+.font-inter {
+    font-family: 'Inter', sans-serif;
+}
+.font-raleway {
+    font-family: 'Raleway', sans-serif;
+}
+.font-outfit {
+    font-family: 'Outfit', sans-serif;
 }
 
 html:has(dialog[scroll-lock][open], details[scroll-lock][open]) {
@@ -104,18 +119,13 @@ body {
 .shopify-section:not(:has(.no-row)) {
   padding-bottom: 1rem;
   border-bottom: 1px solid #d0d0d0;
-  margin-bottom: 1rem;
 }
 
 .shopify-section:has(.no-row-padding) {
   padding-bottom: 0;
 }
 
-.shopify-section:has(.no-row-margin) {
-  margin-bottom: 0;
-}
-
-.shopify-section:not(:has(> :not(.hidden))) {
+.shopify-section:not(:has(> :not(.hidden,script))) {
   display: none;
 }
 

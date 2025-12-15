@@ -40,7 +40,7 @@ Custom Review Carousel - FIXED v4
 
   <div class="page-width">
     {% if section.settings.title != blank %}
-    <h2 class="text-3xl font-bold mb-4 text-center uppercase">{{ section.settings.title }}</h2>
+    <h2 class="text-3xl font-bold mb-4 text-center uppercase heading">{{ section.settings.title }}</h2>
     {% endif %}
 
     <div class="review-carousel-container">
@@ -83,7 +83,7 @@ Custom Review Carousel - FIXED v4
             {% endif %}
 
             {% comment %} Review Text {% endcomment %}
-            <div class="review-text">
+            <div class="review-text line-clamp-4">
               {{ block.settings.text }}
             </div>
 
@@ -134,9 +134,9 @@ Custom Review Carousel - FIXED v4
 </div>
 
 <style>
-  h2 {
+  .heading {
     text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3), 1px 1px 2px rgba(0, 0, 0, 0.3);
-    background: #ffffff90;
+    background: #ffffffd0;
     padding: 10px 20px;
   }
 
@@ -144,7 +144,7 @@ Custom Review Carousel - FIXED v4
   /* --- Fonts & Variables --- */
   .review-carousel-section {
     position: relative;
-    padding: 40px 0;
+    padding: 20px 0;
     overflow: hidden;
     font-family: "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
   }

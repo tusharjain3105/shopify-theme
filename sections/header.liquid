@@ -1,7 +1,7 @@
 <header class="sticky top-0 w-full h-0 overflow-visible z-10">
   <div class="py-4 px-4">
     <div
-      class="mx-auto main-header-2 backdrop-blur-[2px] w-full px-2 md:px-4 py-2 rounded-md text-white transition-[background-color] bg-[rgba(50,50,50,0.8)] hover:bg-[rgba(50,50,50,0.8)]!">
+      class="mx-auto main-header-2 backdrop-blur-[2px] w-full px-2 md:px-4 py-2 rounded-md text-white transition-[background-color] hover:bg-[rgba(25,25,25,0.8)]!">
       <div class="flex justify-between items-center">
         <div class="flex items-center md:hidden">
           <span class="border border-transparent hover:border-white p-2 block md:hidden" sidebar-toggle>
@@ -221,8 +221,9 @@
     const header = document.querySelector(".main-header-2")
 
     if (location.pathname !== '/') {
-      header.style.background = "#dddddd50";
-      header.style.color = 'black';
+      // header.style.background = "#dddddd50";
+      header.style.background = "rgba(25,25,25,0.8)";
+      header.style.color = 'white';
       return
     }
     const OPACITY_HEIGHT_RATIO = 50;
@@ -236,23 +237,25 @@
       navLogoTitle.style.opacity = (OPACITY_HEIGHT_RATIO * 2 - scrollTop) / OPACITY_HEIGHT_RATIO;
       navLogo.style.opacity = 0;
       header.style.background = "rgba(100, 100, 100, 0.6)";
+      // header.style.background = "rgba(25,25,25,0.8)";
       header.style.color = 'white';
     } else if (scrollTop < OPACITY_HEIGHT_RATIO * 3) {
       navLogoTitle.style.opacity = 0;
       navLogo.style.opacity = (scrollTop - OPACITY_HEIGHT_RATIO * 2) / OPACITY_HEIGHT_RATIO;
-      header.style.background = "rgba(200, 200, 200, 0.6)";
-      header.style.color = 'black';
+      // header.style.background = "rgba(200, 200, 200, 0.6)";
+      header.style.background = "rgba(50,50,50,0.8)";
+      header.style.color = 'white';
     } else {
       navLogoTitle.style.opacity = 0;
       navLogo.style.opacity = 100;
-      header.style.background = "rgba(241, 241, 241, 0.6)";
-      header.style.color = 'black';
+      // header.style.background = "rgba(241, 241, 241, 0.6)";
+      header.style.background = "rgba(25,25,25,0.8)";
+      header.style.color = 'white';
     }
   }
 
-  // Disabled background change for now
-  // document.addEventListener('DOMContentLoaded', onScroll);
-  // document.addEventListener('scroll', onScroll);
+  document.addEventListener('DOMContentLoaded', onScroll);
+  document.addEventListener('scroll', onScroll);
 
   // Initialize UI once DOM is ready to avoid async timing issues
   document.addEventListener('DOMContentLoaded', function () {

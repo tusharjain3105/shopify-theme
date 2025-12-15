@@ -47,9 +47,15 @@
 }
 {% endschema %}
 
-<section class="w-full no-row">
-  <div class="max-w-7xl mx-auto px-4">
-    <h2 class="text-xl md:text-3xl font-bold text-center mb-8 uppercase">{{ section.settings.section_heading }}</h2>
+<section class="w-full">
+  <div class="max-w-7xl mx-auto py-4 px-2">
+    <div class="flex justify-between items-center">
+      <h2 class="text-lg md:text-3xl font-bold md:text-center uppercase">{{ section.settings.section_heading }}
+      </h2>
+      <a href="{{ section.settings.gallery_collection | prepend: " /collections/" }}"
+        class="p-1 px-2 bg-gray-200 text-xs grid place-items-center max-w-fit" role="button">Discover
+        More</a>
+    </div>
   </div>
 
   {% assign gallery_collection = collections[section.settings.gallery_collection] %}
