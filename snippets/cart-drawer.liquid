@@ -1,38 +1,159 @@
 {% comment %}
 Reusable Cart Drawer
 Includes overlay + right-side panel, basic cart summary, and controls.
-Usage: place `{% render 'cart-drawer' %}` once (e.g., in `layout/theme.liquid` or header) and trigger with `[data-cart-open]`.
+Usage: place `{% render 'cart-drawer' %}` once (e.g., in `layout/theme.liquid` or header) and trigger with
+`[data-cart-open]`.
 {% endcomment %}
 
-<div id="cart-drawer" class="fixed inset-0 z-[60] pointer-events-none">
+<div id="cart-drawer" class="fixed inset-0 z-[60] pointer-events-none font-outfit">
   <!-- Overlay -->
   <div data-cart-overlay class="hidden absolute inset-0 bg-black/40 opacity-0 transition-opacity duration-200"></div>
 
   <!-- Panel -->
-  <aside data-cart-panel class="absolute right-0 top-0 h-full w-[90%] max-w-md bg-white shadow-xl translate-x-full transition-transform duration-300 flex flex-col">
-    <div class="flex items-center justify-between p-4 border-b">
-      <h3 class="text-lg font-semibold">Your Cart</h3>
+  <aside data-cart-panel
+    class="absolute right-0 top-0 h-full w-full md:w-[400px] bg-[#f8f9fa] shadow-xl translate-x-full transition-transform duration-300 flex flex-col">
+
+    <!-- Header -->
+    <div class="flex items-center justify-between p-4 bg-white border-b sticky top-0 z-10">
+      <h3 class="text-lg font-semibold font-raleway" data-cart-title>Your Cart (0 items)</h3>
       <button type="button" data-cart-close class="p-2 text-gray-500 hover:text-gray-800" aria-label="Close cart">
-        {% render 'icon', icon: 'x' %}
+        {% render 'icon', icon: 'x', size: 24 %}
       </button>
     </div>
 
-    <!-- Cart content -->
-    <div data-cart-content class="flex-1 overflow-auto p-4 space-y-4">
-      <div class="text-sm text-gray-500">Loading your cart...</div>
+    <!-- Banner -->
+    {% comment %} Banner removed as per user request {% endcomment %}
+
+    <!-- Scrollable Content -->
+    <div class="flex-1 overflow-y-auto no-scrollbar">
+
+      <!-- Rewards Progress - Gauge Style with Needle -->
+      <div class="py-4 bg-white mb-2 pt-6">
+        <div class="relative w-48 h-24 mx-auto mb-8">
+          <!-- SVG Gauge -->
+          <svg viewBox="0 0 200 100" class="w-full h-full transform overflow-visible">
+            <!-- Defs for gradients/shadows -->
+            <defs>
+              <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+                <feDropShadow dx="0" dy="1" stdDeviation="1" flood-opacity="0.2" />
+              </filter>
+            </defs>
+
+            <!-- Background Arc -->
+            <path d="M 10 100 A 90 90 0 0 1 190 100" fill="none" stroke="#e5e7eb" stroke-width="8"
+              stroke-linecap="round" />
+
+            <!-- Active Progress Arc (Colored) -->
+            <!-- We'll use JS to calculate the dasharray/offset if we want the bar to fill too, or just use needle. 
+                     Let's keep the bar fill for extra visual cue -->
+            <path id="gauge-progress" d="M 10 100 A 90 90 0 0 1 190 100" fill="none" class="text-black"
+              stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-dasharray="282.7"
+              stroke-dashoffset="282.7" style="transition: stroke-dashoffset 0.8s ease-out;" />
+
+            <!-- Checkpoints (Circles on the path) -->
+            <!-- 25% mark (499/2000) -> Angle 135deg -> x=36.3, y=36.5 -->
+            <g class="checkpoint" transform="translate(36.3, 36.5)">
+              <circle r="4" fill="white" stroke="#e5e7eb" stroke-width="2" />
+            </g>
+
+            <!-- 65% mark (1299/2000) -> Angle 63deg -> x=140.7, y=19.8 -->
+            <g class="checkpoint" transform="translate(140.7, 19.8)">
+              <circle r="4" fill="white" stroke="#e5e7eb" stroke-width="2" />
+            </g>
+
+            <!-- Needle Group -->
+            <g id="gauge-needle" transform="translate(100, 100) rotate(-90)">
+              <!-- The Needle shape -->
+              <path d="M -4 -4 L 0 -90 L 4 -4 Z" fill="black" filter="url(#shadow)" />
+              <circle r="6" fill="black" />
+            </g>
+          </svg>
+
+          <!-- Labels (Absolute overlaid) -->
+          <div class="absolute bottom-0 left-2 translate-y-full pt-2 text-[10px] text-gray-500 font-medium">₹0</div>
+          <div class="absolute bottom-0 right-2 translate-y-full pt-2 text-[10px] text-gray-500 font-medium">₹2000</div>
+
+          <!-- Text Labels for checkpoints -->
+          <div
+            class="absolute top-[28%] left-[18%] -translate-x-1/2 -translate-y-full pb-2 text-center pointer-events-none">
+            <span
+              class="text-[9px] font-bold uppercase tracking-wider bg-white px-1 shadow-sm rounded border border-gray-100 block whitespace-nowrap">Free<br>Ship</span>
+          </div>
+
+          <div
+            class="absolute top-[20%] left-[70%] -translate-x-1/2 -translate-y-full pb-2 text-center pointer-events-none">
+            <span
+              class="text-[9px] font-bold uppercase tracking-wider bg-white px-1 shadow-sm rounded border border-gray-100 block whitespace-nowrap">Extra<br>5%</span>
+          </div>
+        </div>
+        <p class="text-center text-sm font-medium mt-8 text-gray-700 text-white bg-black py-1" data-reward-message>Add
+          items
+          to unlock rewards
+        </p>
+      </div>
+
+      <!-- Cart Items -->
+      <div data-cart-content class="p-4 space-y-4 bg-white mb-2 min-h-[100px]">
+        <div class="text-sm text-gray-500 text-center py-8">Loading your cart...</div>
+      </div>
+
+      <!-- Coupon Code -->
+      <div class="p-4 bg-white mb-2">
+        <div class="border rounded-md p-1 flex items-center bg-white shadow-sm">
+          <span class="pl-2 text-green-500">{% render 'icon', icon: 'discount', size: 16 %}</span>
+          <input type="text" placeholder="Enter Coupon Code"
+            class="flex-1 p-2 text-sm outline-none bg-transparent placeholder-gray-400">
+        </div>
+        <button onclick="document.getElementById('offers-list').classList.toggle('hidden')"
+          class="w-full text-left text-blue-600 text-sm font-medium mt-2 flex items-center hover:underline">
+          View All Offers {% render 'icon', icon: 'chevron-right', size: 12 %}
+        </button>
+        <div id="offers-list" class="hidden mt-2 space-y-2 border-t pt-2">
+          <div
+            class="bg-blue-50 p-2 rounded text-xs border border-blue-100 border-dashed flex justify-between items-center cursor-pointer hover:bg-blue-100">
+            <span class="font-bold text-blue-800">WELCOME10</span>
+            <span class="text-blue-600">10% Off First Order</span>
+          </div>
+          <div
+            class="bg-green-50 p-2 rounded text-xs border border-green-100 border-dashed flex justify-between items-center cursor-pointer hover:bg-green-100">
+            <span class="font-bold text-green-800">PREPAID5</span>
+            <span class="text-green-600">Extra 5% on Prepaid</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cross Sells (Carousel) -->
+      <div class="p-4 bg-[#f8f9fa] border-t">
+        <h4 class="text-lg font-bold uppercase mb-4">You may also like</h4>
+        <div class="overflow-x-auto no-scrollbar -mx-4 px-4">
+          <div class="flex gap-3 pb-2" style="width: max-content;">
+            {% assign related_products = collections['all'].products | where: "available" %}
+            {% for product in related_products limit: 4 %}
+            <div class="w-40 flex-shrink-0 bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden">
+              {% render 'product-card-enhanced', product: product, show_add_to_cart: true %}
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+      <!-- Spacer for footer -->
+      <div class="h-48"></div>
     </div>
 
     <!-- Footer -->
-    <div class="border-t p-4 space-y-3">
-      <div class="flex items-center justify-between text-sm">
-        <span>Subtotal</span>
-        <span data-cart-subtotal class="font-medium">—</span>
+    <div class="absolute bottom-0 left-0 right-0 bg-white border-t p-4 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] z-20">
+      <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center gap-2">
+          {% render 'icon', icon: 'note', size: 20 %}
+          <span class="text-lg font-semibold">Estimated Total</span>
+          {% render 'icon', icon: 'chevron-down', size: 14 %}
+        </div>
+        <span data-cart-subtotal class="text-xl font-bold font-outfit">₹0.00</span>
       </div>
-      <p class="text-xs text-gray-500">Shipping and taxes calculated at checkout.</p>
-      <div class="flex gap-2">
-        <a href="{{ routes.cart_url }}" class="flex-1 inline-flex items-center justify-center border border-gray-300 rounded-md h-10 text-gray-800 hover:bg-gray-50">View cart</a>
-        {% comment %} <a href="/checkout" class="flex-1 inline-flex items-center justify-center bg-black text-white rounded-md h-10 hover:bg-gray-900">Checkout</a> {% endcomment %}
-         {% render 'gokwik-checkout' %}
+
+      <div class="w-full">
+        {% render 'gokwik-checkout' %}
       </div>
     </div>
   </aside>
@@ -40,6 +161,9 @@ Usage: place `{% render 'cart-drawer' %}` once (e.g., in `layout/theme.liquid` o
 
 <script>
   (() => {
+    // Store cart state for optimistic updates
+    let currentCartState = null;
+
     const drawer = document.getElementById('cart-drawer');
     if (!drawer) return;
 
@@ -47,6 +171,15 @@ Usage: place `{% render 'cart-drawer' %}` once (e.g., in `layout/theme.liquid` o
     const panel = drawer.querySelector('[data-cart-panel]');
     const content = drawer.querySelector('[data-cart-content]');
     const subtotalEl = drawer.querySelector('[data-cart-subtotal]');
+    const titleEl = drawer.querySelector('[data-cart-title]');
+    const progressPath = document.getElementById('gauge-progress');
+    const needleGroup = document.getElementById('gauge-needle');
+    const rewardMsgEl = drawer.querySelector('[data-reward-message]');
+
+    const FREE_SHIPPING_THRESHOLD = 49900;
+    const DISCOUNT_THRESHOLD = 129900;
+    const MAX_GAUGE_VALUE = 200000; // Updated to 2000 for better scaling
+    const ARC_LENGTH = 282.7; // PI * 90 (radius)
 
     const open = () => {
       drawer.style.pointerEvents = 'auto';
@@ -56,13 +189,7 @@ Usage: place `{% render 'cart-drawer' %}` once (e.g., in `layout/theme.liquid` o
         panel.classList.remove('translate-x-full');
         document.documentElement.classList.add('overflow-hidden');
       });
-      // Fetch cart
-      fetch('{{ routes.cart_url }}.js')
-        .then(r => r.json())
-        .then(cart => renderCart(cart))
-        .catch(() => {
-          content.innerHTML = '<div class="text-sm text-red-500">Failed to load cart.</div>';
-        });
+      fetchCart();
     };
 
     const close = () => {
@@ -77,34 +204,185 @@ Usage: place `{% render 'cart-drawer' %}` once (e.g., in `layout/theme.liquid` o
 
     const formatMoney = (cents) => {
       try {
-        return new Intl.NumberFormat('{{ shop.locale | default: 'en-US' }}', { style: 'currency', currency: '{{ shop.currency }}' }).format((cents || 0)/100);
-      } catch(e) {
-        return (cents/100).toFixed(2);
+        return new Intl.NumberFormat('{{ shop.locale | default: 'en - US' }}', { style: 'currency', currency: 'INR' }).format((cents || 0) / 100);
+      } catch (e) {
+        return '₹' + (cents / 100).toFixed(2);
+      }
+    };
+
+    const updateRewards = (totalPrice) => {
+      // Calculate progress percentage based on max value
+      const progress = Math.min(1, Math.max(0, totalPrice / MAX_GAUGE_VALUE));
+
+      // Update Arc
+      const dashOffset = ARC_LENGTH * (1 - progress);
+      if (progressPath) progressPath.style.strokeDashoffset = dashOffset;
+
+      // Update Needle Rotation
+      // Range: -90deg (0%) to 90deg (100%)
+      const rotation = -90 + (progress * 180);
+      if (needleGroup) needleGroup.style.transform = `translate(100px, 100px) rotate(${rotation}deg)`;
+
+      if (totalPrice < FREE_SHIPPING_THRESHOLD) {
+        const diff = FREE_SHIPPING_THRESHOLD - totalPrice;
+        rewardMsgEl.innerHTML = `Add <strong>${formatMoney(diff)}</strong> more for <strong>Free Shipping</strong>`;
+      } else if (totalPrice < DISCOUNT_THRESHOLD) {
+        const diff = DISCOUNT_THRESHOLD - totalPrice;
+        rewardMsgEl.innerHTML = `Add <strong>${formatMoney(diff)}</strong> more for <strong>Extra 5% Off</strong>`;
+      } else {
+        rewardMsgEl.innerHTML = `<strong>You have unlocked all rewards!</strong>`;
       }
     };
 
     const renderCart = (cart) => {
+      currentCartState = cart; // Update local state
+
+      titleEl.textContent = `Your Cart (${cart.item_count} items)`;
       subtotalEl.textContent = formatMoney(cart.items_subtotal_price);
+      updateRewards(cart.items_subtotal_price);
+
       if (!cart.items || cart.items.length === 0) {
-        content.innerHTML = '<div class="text-sm text-gray-500">Your cart is empty.</div>';
+        content.innerHTML = `
+            <div class="flex flex-col items-center justify-center py-12 text-center">
+                <div class="p-4 bg-gray-50 rounded-full mb-4">
+                    {% render 'icon', icon: 'cart', size: 32 %}
+                </div>
+                <p class="text-gray-900 font-medium mb-1">Your cart is empty</p>
+                <p class="text-gray-500 text-sm mb-6">Looks like you haven't added anything yet.</p>
+                <button onclick="window.CartDrawer.close()" class="btn btn-primary px-6 py-2 border border-black rounded bg-black text-white hover:bg-gray-800">
+                    Continue Shopping
+                </button>
+            </div>`;
         return;
       }
+
       content.innerHTML = cart.items.map(item => `
-        <div class="flex gap-3">
-          <div class="w-16 h-16 bg-gray-100 flex-shrink-0 overflow-hidden rounded">
+        <div class="flex gap-4 p-3 border border-gray-400 border-[1px] rounded-lg bg-white relative group" data-line-item-key="${item.key}">
+          <div class="w-20 h-24 bg-gray-100 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
             ${item.image ? `<img src="${item.image}" alt="${item.product_title}" class="w-full h-full object-cover" />` : ''}
           </div>
-          <div class="flex-1 min-w-0">
-            <div class="text-sm font-medium text-gray-900 truncate">${item.product_title}</div>
-            <div class="text-xs text-gray-500 truncate">${item.variant_title || ''}</div>
-            <div class="mt-1 text-sm">${formatMoney(item.line_price)}</div>
-            <div class="mt-2 flex items-center gap-2 text-xs text-gray-500">
-              <span>Qty: ${item.quantity}</span>
+          <div class="flex-1 min-w-0 flex flex-col justify-between py-0.5">
+            <div>
+                <div class="flex justify-between items-start">
+                    <div class="text-sm font-semibold text-gray-900 truncate pr-2">${item.product_title}</div>
+                    <button type="button" class="text-gray-400 hover:text-red-500 transition-colors p-1" onclick="changeItemQuantity('${item.key}', 0)">
+                        {% render 'icon', icon: 'trash', size: 14 %}
+                    </button>
+                </div>
+                
+                <div class="text-xs text-gray-500 truncate mb-1">
+                  ${item.variant_title && item.variant_title !== 'Default Title' ? item.variant_title : ''}
+                </div>
+                <div class="text-sm font-bold">${formatMoney(item.original_line_price)}</div>
+            </div>
+            
+            <div class="flex justify-end items-end mt-2">
+                 <div class="flex items-center border border-gray-200 rounded h-8">
+                    <button type="button" class="w-8 h-full flex items-center justify-center text-gray-500 hover:bg-gray-50 hover:text-black transition-colors" onclick="changeItemQuantity('${item.key}', ${item.quantity - 1})">−</button>
+                    <div class="w-8 h-full flex items-center justify-center text-sm font-medium border-x border-gray-100">${item.quantity}</div>
+                    <button type="button" class="w-8 h-full flex items-center justify-center text-gray-500 hover:bg-gray-50 hover:text-black transition-colors" onclick="changeItemQuantity('${item.key}', ${item.quantity + 1})">＋</button>
+                 </div>
             </div>
           </div>
         </div>
       `).join('');
     };
+
+    const fetchCart = () => {
+      fetch('{{ routes.cart_url }}.js')
+        .then(r => r.json())
+        .then(cart => renderCart(cart))
+        .catch(err => {
+          console.error(err);
+          content.innerHTML = '<div class="text-sm text-red-500 p-4 text-center">Failed to load cart. Please try refreshing.</div>';
+        });
+    };
+
+    // Optimistic Update Helper
+    window.changeItemQuantity = (key, newQty) => {
+      if (!currentCartState) return;
+
+      // 1. Optimistic Updates
+      // Deep copy state to avoid mutating original source of truth prematurely
+      const optimisticCart = JSON.parse(JSON.stringify(currentCartState));
+      const itemIndex = optimisticCart.items.findIndex(item => item.key === key);
+
+      if (itemIndex > -1) {
+        const item = optimisticCart.items[itemIndex];
+        const oldQty = item.quantity;
+        const pricePerItem = item.final_price; // use final_price
+
+        // Update item
+        if (newQty <= 0) {
+          optimisticCart.items.splice(itemIndex, 1);
+          optimisticCart.item_count -= oldQty;
+          optimisticCart.items_subtotal_price -= (pricePerItem * oldQty);
+        } else {
+          const diff = newQty - oldQty;
+          item.quantity = newQty;
+          item.original_line_price = pricePerItem * newQty;
+          item.final_line_price = pricePerItem * newQty;
+          item.line_price = pricePerItem * newQty;
+
+          optimisticCart.item_count += diff;
+          optimisticCart.items_subtotal_price += (pricePerItem * diff);
+        }
+        // Recalculate total price same as subtotal for simplicity in loose mode
+        optimisticCart.total_price = optimisticCart.items_subtotal_price;
+
+        // Render immediately
+        renderCart(optimisticCart);
+      }
+
+      // 2. Network Request
+      fetch('/cart/change.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: key, quantity: newQty })
+      })
+        .then(r => r.json())
+        .then(cart => {
+          // 3. Confirm with Server Source of Truth
+          renderCart(cart);
+          // also update cart bubble if exists
+          const bubbles = document.querySelectorAll('.cart-count-bubble');
+          bubbles.forEach(el => el.textContent = cart.item_count);
+        })
+        .catch(err => {
+          console.error('Cart update failed', err);
+          // 4. Revert on failure
+          // Assuming fetchCart will restore truth, or we could keep a 'previousCartState'
+          fetchCart();
+        });
+    };
+
+    // Helper to add cross-sell item
+    window.addToCartFromForm = (form) => {
+      const formData = new FormData(form);
+      const submitBtn = form.querySelector('button');
+      const originalText = submitBtn.textContent;
+      submitBtn.textContent = '...';
+      submitBtn.disabled = true;
+
+      fetch('/cart/add.js', {
+        method: 'POST',
+        body: formData
+      })
+        .then(r => r.json())
+        .then(item => {
+          submitBtn.textContent = 'Added';
+          setTimeout(() => {
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+          }, 2000);
+          fetchCart();
+        })
+        .catch(err => {
+          console.error(err);
+          submitBtn.textContent = 'Error';
+          submitBtn.disabled = false;
+        });
+    }
 
     // Global controls
     document.addEventListener('click', (e) => {
@@ -120,7 +398,15 @@ Usage: place `{% render 'cart-drawer' %}` once (e.g., in `layout/theme.liquid` o
       }
     });
 
-    // Expose for other scripts if needed
-    window.CartDrawer = { open, close };
+    // Expose
+    window.CartDrawer = { open, close, refresh: fetchCart };
+
+    // Auto-open if query param exists (from redirect)
+    if (window.location.search.includes('cart_open=true')) {
+      const url = new URL(window.location);
+      url.searchParams.delete('cart_open');
+      window.history.replaceState({}, '', url);
+      setTimeout(open, 500);
+    }
   })();
 </script>
