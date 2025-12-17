@@ -214,7 +214,7 @@ Shows locally stored wishlist items. Trigger with [data-wishlist-open] and inclu
                 <a href="${productUrl}" class="inline-flex items-center justify-center border border-gray-300 rounded-md h-8 px-3 text-sm text-gray-800 hover:bg-gray-50 whitespace-nowrap">
                   View product
                 </a>
-                <button type="button" data-wishlist-remove="${item.id}" class="inline-flex items-center gap-1 text-sm text-red-600 hover:text-red-700 whitespace-nowrap">
+                <button type="button" data-wishlist-remove="${item.id}" class="inline-flex items-center gap-1 text-sm text-black hover:text-black whitespace-nowrap">
                   {% render 'icon', icon: 'trash', class: 'w-4 h-4' %}
                   Remove
                 </button>
@@ -225,7 +225,7 @@ Shows locally stored wishlist items. Trigger with [data-wishlist-open] and inclu
         }).join('');
       } catch (e) {
         console.error('Error rendering wishlist:', e);
-        content.innerHTML = '<div class="text-sm text-red-600">Error loading wishlist. Please refresh the page.</div>';
+        content.innerHTML = '<div class="text-sm text-black">Error loading wishlist. Please refresh the page.</div>';
       }
     };
 

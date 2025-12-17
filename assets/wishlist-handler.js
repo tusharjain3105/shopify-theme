@@ -159,7 +159,7 @@ if (!window.WishlistHandler) {
         }
 
         function updateButtonState(btn, isInWishlist) {
-            btn.classList.toggle('text-red-600', isInWishlist);
+            btn.classList.toggle('text-black', isInWishlist);
             btn.classList.toggle('text-gray-400', !isInWishlist);
 
             // Handle data-active attribute for custom styling

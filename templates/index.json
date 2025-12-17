@@ -227,7 +227,7 @@
         "banner_image": "shopify://shop_images/TY7RF.jpg",
         "banner_image_height": "80vh",
         "banner_image_height_mobile": "125vw",
-        "banner_video": "shopify://files/videos/WhatsApp Video 2025-11-27 at 17.07.24.mp4",
+        "banner_video": "shopify://files/videos/4x5 format web.mp4",
         "autoplay_video": true,
         "loop_video": true,
         "mute_video": true,
@@ -259,6 +259,7 @@
     },
     "quiz": {
       "type": "quiz",
+      "disabled": true,
       "settings": {
         "enable_backdrop_video": false,
         "backdrop_video": "shopify://files/videos/IMG_1750.MP4",
@@ -285,7 +286,7 @@
         "description": "",
         "button_text": "Start Quiz",
         "button_link": "",
-        "hero_image": "shopify://shop_images/Product_Placement_Zig_Zag.jpg",
+        "hero_image": "shopify://shop_images/IMG_6713.png",
         "text_color": "#1f2937",
         "button_bg_color": "#1f2937",
         "button_text_color": "#ffffff"

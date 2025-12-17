@@ -480,6 +480,9 @@
   .mt-14 {
     margin-top: calc(var(--spacing) * 14);
   }
+  .mt-auto {
+    margin-top: auto;
+  }
   .mr-1 {
     margin-right: calc(var(--spacing) * 1);
   }
@@ -564,6 +567,12 @@
   .inline-flex {
     display: inline-flex;
   }
+  .aspect-\[1\/1\.25\] {
+    aspect-ratio: 1/1.25;
+  }
+  .aspect-\[4\/5\] {
+    aspect-ratio: 4/5;
+  }
   .aspect-image {
     aspect-ratio: var(--aspect-image);
   }
@@ -592,6 +601,9 @@
   }
   .h-6 {
     height: calc(var(--spacing) * 6);
+  }
+  .h-7 {
+    height: calc(var(--spacing) * 7);
   }
   .h-8 {
     height: calc(var(--spacing) * 8);
@@ -665,6 +677,9 @@
   .min-h-0 {
     min-height: calc(var(--spacing) * 0);
   }
+  .min-h-\[2\.5em\] {
+    min-height: 2.5em;
+  }
   .min-h-\[2\.5rem\] {
     min-height: 2.5rem;
   }
@@ -679,6 +694,9 @@
   }
   .w-6 {
     width: calc(var(--spacing) * 6);
+  }
+  .w-7 {
+    width: calc(var(--spacing) * 7);
   }
   .w-8 {
     width: calc(var(--spacing) * 8);
@@ -727,6 +745,9 @@
   }
   .w-\[90vw\] {
     width: 90vw;
+  }
+  .w-\[150px\] {
+    width: 150px;
   }
   .w-fit {
     width: fit-content;
@@ -1825,9 +1846,19 @@
       }
     }
   }
+  .group-has-\[\.wishlist-toggle\.text-black\]\:text-black {
+    &:is(:where(.group):has(*:is(.wishlist-toggle.text-black)) *) {
+      color: var(--color-black);
+    }
+  }
   .group-has-\[\.wishlist-toggle\.text-red-600\]\:text-red-600 {
     &:is(:where(.group):has(*:is(.wishlist-toggle.text-red-600)) *) {
       color: var(--color-red-600);
+    }
+  }
+  .group-has-\[\.wishlist-toggle\:hover\]\:text-black {
+    &:is(:where(.group):has(*:is(.wishlist-toggle:hover)) *) {
+      color: var(--color-black);
     }
   }
   .group-has-\[\.wishlist-toggle\:hover\]\:text-red-500 {
@@ -2221,10 +2252,24 @@
       }
     }
   }
+  .data-active\:\*\:fill-black {
+    &[data-active] {
+      :is(& > *) {
+        fill: var(--color-black);
+      }
+    }
+  }
   .data-active\:\*\:fill-red-600 {
     &[data-active] {
       :is(& > *) {
         fill: var(--color-red-600);
+      }
+    }
+  }
+  .data-active\:\*\:text-black {
+    &[data-active] {
+      :is(& > *) {
+        color: var(--color-black);
       }
     }
   }

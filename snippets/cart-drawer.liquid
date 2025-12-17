@@ -144,6 +144,16 @@ Usage: place `{% render 'cart-drawer' %}` once (e.g., in `layout/theme.liquid` o
         </div>
       </div>
 
+      <!-- Wishlist Section (Hidden by default) -->
+      <div id="cart-wishlist-section" class="hidden p-4 bg-white border-t">
+        <h4 class="text-lg font-bold uppercase mb-4">From your wishlist</h4>
+        <div class="overflow-x-auto no-scrollbar -mx-4 px-4">
+          <div id="cart-wishlist-items" class="flex gap-3 pb-2" style="width: max-content;">
+            <!-- Items injected via JS -->
+          </div>
+        </div>
+      </div>
+
       <!-- Cross Sells (Carousel) -->
       <div class="p-4 bg-[#f8f9fa] border-t">
         <h4 class="text-lg font-bold uppercase mb-4">You may also like</h4>
@@ -220,6 +230,7 @@ Usage: place `{% render 'cart-drawer' %}` once (e.g., in `layout/theme.liquid` o
         document.documentElement.classList.add('overflow-hidden');
       });
       fetchCart();
+      renderWishlist(); // Render wishlist on open
     };
 
     const close = () => {
@@ -469,6 +480,116 @@ Usage: place `{% render 'cart-drawer' %}` once (e.g., in `layout/theme.liquid` o
           submitBtn.disabled = false;
         });
     }
+
+    // Wishlist Rendering Logic
+    const wishlistSection = document.getElementById('cart-wishlist-section');
+    const wishlistContainer = document.getElementById('cart-wishlist-items');
+
+    const renderWishlist = () => {
+      try {
+        const wishlist = JSON.parse(localStorage.getItem('wishlistItems') || '[]');
+
+        if (!wishlist || wishlist.length === 0) {
+          wishlistSection.classList.add('hidden');
+          return;
+        }
+
+        wishlistSection.classList.remove('hidden');
+        wishlistContainer.innerHTML = wishlist.map(item => `
+          <div class="w-40 flex-shrink-0 bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden relative group">
+             <!-- Remove Button (Custom overlay) -->
+             <button type="button" class="absolute top-2 right-2 w-7 h-7 bg-white rounded-full shadow-md flex items-center justify-center text-gray-400 hover:text-black z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-200" 
+                     onclick="window.removeFromWishlist('${item.id}')">
+               {% render 'icon', icon: 'trash', size: 14 %}
+             </button>
+
+            <a href="${item.url}" class="block h-full transition-all duration-300">
+              <!-- Product Image -->
+              <div class="relative overflow-hidden aspect-[1/1.25]">
+                ${item.image ?
+            `<img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">` :
+            `<div class="w-full h-full bg-gray-50 flex items-center justify-center text-gray-300">{% render 'icon', icon: 'image', size: 24 %}</div>`
+          }
+                
+                <!-- Add to Cart (Bottom Right) -->
+                <button type="button" 
+                  class="absolute bottom-2 right-2 bg-white/50 p-2 rounded-full hover:bg-white active:bg-white transition-colors z-10"
+                  onclick="event.preventDefault(); window.addWishlistItemToCart(this, '${item.variant_id || item.id}')">
+                  {% render 'icon', icon: 'plus', size: 20 %}
+                </button>
+              </div>
+
+              <!-- Product Info -->
+              <div class="px-2 pt-3 pb-4 font-outfit">
+                <h3 class="text-xs uppercase font-medium text-gray-900 group-hover:text-gray-700 transition-colors mb-0.5 line-clamp-2 min-h-[2.5em]">
+                  ${item.title}
+                </h3>
+                <div class="flex items-center justify-between leading-[1] mt-1">
+                  <div class="price-container">
+                    <span class="text-sm text-gray-700">${formatMoney(item.price)}</span>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+        `).join('');
+
+      } catch (e) {
+        console.error('Error rendering wishlist:', e);
+        wishlistSection.classList.add('hidden');
+      }
+    };
+
+    // Global Wishlist Helpers
+    window.removeFromWishlist = (id) => {
+      if (window.WishlistHandler && window.WishlistHandler.toggle) {
+        // Emulate product data structure for toggle (needs ID)
+        window.WishlistHandler.toggle(document.createElement('button'), { id: id });
+        renderWishlist(); // Re-render after removal
+      }
+    };
+
+    window.addWishlistItemToCart = (btn, variantId) => {
+      const originalText = btn.textContent;
+      btn.textContent = '...';
+      btn.disabled = true;
+
+      const formData = new FormData();
+      formData.append('id', variantId);
+      formData.append('quantity', 1);
+
+      fetch('/cart/add.js', {
+        method: 'POST',
+        body: formData
+      })
+        .then(r => r.json())
+        .then(item => {
+          if (item.status) { // Error
+            if (window.Toast) window.Toast.show({ title: 'Error', description: item.description }, { type: 'error' });
+            else alert(item.description);
+            btn.textContent = 'Retry';
+          } else {
+            btn.textContent = 'Added';
+            fetchCart(); // Update cart UI
+            // Optional: Remove from wishlist after adding? User didn't specify, but usually you keep it or let user remove.
+          }
+        })
+        .catch(e => {
+          console.error(e);
+          btn.textContent = 'Error';
+        })
+        .finally(() => {
+          if (btn.textContent !== 'Added') {
+            setTimeout(() => {
+              btn.textContent = originalText;
+              btn.disabled = false;
+            }, 2000);
+          }
+        });
+    };
+
+    // Listen for wishlist updates from other components
+    document.addEventListener('wishlist:updated', renderWishlist);
 
     // Global controls
     document.addEventListener('click', (e) => {
