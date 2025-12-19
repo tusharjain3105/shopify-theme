@@ -368,15 +368,21 @@ Usage: place `{% render 'cart-drawer' %}` once (e.g., in `layout/theme.liquid` o
             <div>
                 <div class="flex justify-between items-start">
                     <a href="${item.url}" class="text-sm font-semibold text-gray-900 truncate pr-2 hover:underline block">${item.product_title}</a>
-                    <button type="button" class="text-gray-400 hover:text-red-500 transition-colors p-1" onclick="changeItemQuantity('${item.key}', 0)">
-                        {% render 'icon', icon: 'trash', size: 14 %}
-                    </button>
+                    <div class="flex items-center gap-1">
+                      <button type="button" class="text-gray-400 hover:text-red-500 transition-colors p-1" onclick="changeItemQuantity('${item.key}', 0)" title="Remove">
+                          {% render 'icon', icon: 'trash', size: 14 %}
+                      </button>
+                    </div>
                 </div>
                 
                 <div class="text-xs text-gray-500 truncate mb-1">
                   ${item.variant_title && item.variant_title !== 'Default Title' ? item.variant_title : ''}
                 </div>
                 <div class="text-sm font-bold">${formatMoney(item.original_line_price)}</div>
+                
+                <button type="button" class="text-[10px] uppercase font-bold tracking-wider text-gray-400 hover:text-black transition-colors mt-2 text-left" onclick="moveToWishlist('${item.key}')">
+                  Move to Wishlist
+                </button>
             </div>
             
             <div class="flex justify-end items-end mt-2">
@@ -498,6 +504,59 @@ Usage: place `{% render 'cart-drawer' %}` once (e.g., in `layout/theme.liquid` o
           submitBtn.disabled = false;
         });
     }
+
+    // Move to Wishlist Helper
+    window.moveToWishlist = (key) => {
+      if (!currentCartState) return;
+      const item = currentCartState.items.find(i => i.key === key);
+      if (!item) return;
+
+      // Construct product object for wishlist
+      // We need to map available cart item fields to what wishlist expects
+      const wishlistItem = {
+        id: item.product_id, // Product ID
+        variant_id: item.variant_id,
+        title: item.product_title,
+        price: item.price,
+        image: item.image,
+        url: item.url,
+        handle: item.handle // Might not be available in cart item, but url usually contains it
+      };
+
+      // Add to wishlist
+      if (window.WishlistHandler && window.WishlistHandler.toggle) {
+        // WishlistHandler usually needs an element or button, but we can try to find a way or manually add.
+        // Since WishlistHandler implementation isn't fully visible, we'll use a direct localStorage approach 
+        // compatible with the renderWishlist function we see in this file.
+
+        try {
+          let wishlist = JSON.parse(localStorage.getItem('wishlistItems') || '[]');
+          // Check if already exists (by variant_id or product_id depending on logic, renderWishlist uses id)
+          // The renderWishlist uses `item.id` for remove, which seems to imply it stores objects that have an `id`.
+          // Let's assume we store unique items.
+
+          // Check for duplicates
+          const exists = wishlist.some(w => w.variant_id === wishlistItem.variant_id);
+          if (!exists) {
+            wishlist.push(wishlistItem);
+            localStorage.setItem('wishlistItems', JSON.stringify(wishlist));
+
+            // Trigger update event
+            const event = new CustomEvent('wishlist:updated');
+            document.dispatchEvent(event);
+
+            if (window.Toast) window.Toast.show({ title: 'Moved to Wishlist', description: 'Item moved from cart to wishlist.' });
+          } else {
+            if (window.Toast) window.Toast.show({ title: 'Already in Wishlist', description: 'Item removed from cart.' });
+          }
+        } catch (e) {
+          console.error('Failed to move to wishlist', e);
+        }
+      }
+
+      // Remove from cart
+      changeItemQuantity(key, 0);
+    };
 
     // Wishlist Rendering Logic
     const wishlistSection = document.getElementById('cart-wishlist-section');
