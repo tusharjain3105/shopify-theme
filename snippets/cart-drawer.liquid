@@ -11,7 +11,7 @@ Usage: place `{% render 'cart-drawer' %}` once (e.g., in `layout/theme.liquid` o
 
   <!-- Panel -->
   <aside data-cart-panel
-    class="absolute right-0 top-0 h-full w-full md:w-[400px] bg-[#f8f9fa] shadow-xl translate-x-full transition-transform duration-300 flex flex-col">
+    class="absolute right-0 top-0 h-full w-full md:w-[400px] bg-white shadow-xl translate-x-full transition-transform duration-300 flex flex-col">
     {% render 'toast' %}
     <!-- Header -->
     <div class="flex items-center justify-between p-4 bg-white border-b sticky top-0 z-10">
@@ -48,37 +48,35 @@ Usage: place `{% render 'cart-drawer' %}` once (e.g., in `layout/theme.liquid` o
             <path id="gauge-progress" d="M 10 100 A 90 90 0 0 1 190 100" fill="none"
               class="text-black transition-[stroke-dashoffset] duration-700 ease-out" stroke="currentColor"
               stroke-width="4" stroke-linecap="round" stroke-dasharray="282.7" stroke-dashoffset="282.7" />
-
-            <!-- Needle Group -->
-            <g id="gauge-needle" transform="translate(100, 100) rotate(-90)"
-              class="transition-transform duration-700 ease-out">
-              <!-- The Needle shape -->
-              <path d="M -4 -4 L 0 -90 L 4 -4 Z" fill="black" filter="url(#shadow)" />
-              <circle r="6" fill="black" />
-            </g>
           </svg>
 
+          <!-- Central Text Display -->
+          <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-center w-full px-4">
+            <p class="text-xs font-bold text-gray-900 uppercase tracking-wide" data-gauge-text>Shipping on us — almost
+            </p>
+          </div>
+
           <!-- Checkpoint Icons (Absolute overlay using computed percentages) -->
-          <!-- 699 (58.25%) -> x=123, y=13 -> left ~61.5%, top ~13% -->
+          <!-- 699 (33%) -> 60deg -> ~27.5% left, ~22% top -->
           <div
             class="absolute w-8 h-8 -ml-4 -mt-4 flex items-center justify-center bg-white rounded-full shadow-sm border border-gray-100 transition-colors duration-300 z-10"
-            style="left: 61.5%; top: 13%;" data-cpoint="699">
+            style="left: 27.5%; top: 22%;" data-cpoint="699">
             <div class="text-gray-400 transition-colors duration-300">{% render 'icon', icon: 'shipping', size: 16 %}
             </div>
           </div>
 
-          <!-- 899 (75%) -> x=163.4, y=36.2 -> left ~81.7%, top ~36.2% -->
+          <!-- 899 (66%) -> 120deg -> ~72.5% left, ~22% top -->
           <div
             class="absolute w-8 h-8 -ml-4 -mt-4 flex items-center justify-center bg-white rounded-full shadow-sm border border-gray-100 transition-colors duration-300 z-10"
-            style="left: 81.7%; top: 36.2%;" data-cpoint="899">
+            style="left: 72.5%; top: 22%;" data-cpoint="899">
             <div class="text-gray-400 transition-colors duration-300">{% render 'icon', icon: 'discount', size: 16 %}
             </div>
           </div>
 
-          <!-- 1099 (91.5%) -> x=186.8, y=76.5 -> left ~93.4%, top ~76.5% -->
+          <!-- 1099 (100%) -> 180deg -> ~95% left, ~100% top (bottom-right) -->
           <div
             class="absolute w-8 h-8 -ml-4 -mt-4 flex items-center justify-center bg-white rounded-full shadow-sm border border-gray-100 transition-colors duration-300 z-10"
-            style="left: 93.4%; top: 76.5%;" data-cpoint="1099">
+            style="left: 95%; top: 100%;" data-cpoint="1099">
             <div class="text-gray-400 transition-colors duration-300">{% render 'icon', icon: 'discount', size: 16 %}
             </div>
           </div>
@@ -86,31 +84,23 @@ Usage: place `{% render 'cart-drawer' %}` once (e.g., in `layout/theme.liquid` o
           <!-- Text Labels -->
           <!-- 699 Label -->
           <div class="absolute -translate-x-1/2 -translate-y-full pb-2 text-center pointer-events-none"
-            style="left: 61.5%; top: 10%;">
-            <span class="text-[10px] font-bold uppercase tracking-wider block whitespace-nowrap">Free<br>Ship</span>
+            style="left: 27.5%; top: 18%;">
+            <span class="text-[10px] font-bold uppercase tracking-wider block whitespace-nowrap">Free Ship</span>
           </div>
 
           <!-- 899 Label -->
           <div class="absolute -translate-x-1/2 -translate-y-full pb-2 text-center pointer-events-none"
-            style="left: 84%; top: 34%;">
-            <span class="text-[10px] font-bold uppercase tracking-wider block whitespace-nowrap">₹70<br>Off</span>
+            style="left: 72.5%; top: 18%;">
+            <span class="text-[10px] font-bold uppercase tracking-wider block whitespace-nowrap">₹70 Off</span>
           </div>
 
           <!-- 1099 Label -->
           <div class="absolute -translate-x-1/2 -translate-y-full pb-2 text-center pointer-events-none"
-            style="left: 96%; top: 74%;">
-            <span class="text-[10px] font-bold uppercase tracking-wider block whitespace-nowrap">₹120<br>Off</span>
+            style="left: 104%; top: 96%;">
+            <span class="text-[10px] font-bold uppercase tracking-wider block whitespace-nowrap">₹120 Off</span>
           </div>
-
-          <!-- Labels (Absolute overlaid) -->
-          <div
-            class="absolute bottom-0 left-0 translate-y-full pt-2 text-[10px] text-gray-500 font-medium transform -translate-x-[20%]">
-            ₹0</div>
-          <div
-            class="absolute bottom-0 right-0 translate-y-full pt-2 text-[10px] text-gray-500 font-medium transform translate-x-[20%]">
-            ₹1200</div>
         </div>
-        <p class="text-center text-sm font-medium mt-10 text-gray-700 text-white bg-black py-1" data-reward-message>Add
+        <p class="text-center text-sm font-medium mt-10 text-white bg-black py-1" data-reward-message>Add
           items to unlock rewards</p>
       </div>
 
@@ -126,7 +116,7 @@ Usage: place `{% render 'cart-drawer' %}` once (e.g., in `layout/theme.liquid` o
           <input type="text" placeholder="Enter Coupon Code"
             class="flex-1 p-2 text-sm outline-none bg-transparent placeholder-gray-400">
         </div>
-        <button onclick="document.getElementById('offers-list').classList.toggle('hidden')"
+        {% comment %} <button onclick="document.getElementById('offers-list').classList.toggle('hidden')"
           class="w-full text-left text-blue-600 text-sm font-medium mt-2 flex items-center hover:underline">
           View All Offers {% render 'icon', icon: 'chevron-right', size: 12 %}
         </button>
@@ -141,7 +131,7 @@ Usage: place `{% render 'cart-drawer' %}` once (e.g., in `layout/theme.liquid` o
             <span class="font-bold text-green-800">PREPAID5</span>
             <span class="text-green-600">Extra 5% on Prepaid</span>
           </div>
-        </div>
+        </div> {% endcomment %}
       </div>
 
       <!-- Wishlist Section (Hidden by default) -->
@@ -155,7 +145,7 @@ Usage: place `{% render 'cart-drawer' %}` once (e.g., in `layout/theme.liquid` o
       </div>
 
       <!-- Cross Sells (Carousel) -->
-      <div class="p-4 bg-[#f8f9fa] border-t">
+      <div class="p-4 bg-white border-t">
         <h4 class="text-lg font-bold uppercase mb-4">You may also like</h4>
         <div class="overflow-x-auto no-scrollbar -mx-4 px-4">
           <div class="flex gap-3 pb-2" style="width: max-content;">
@@ -205,7 +195,7 @@ Usage: place `{% render 'cart-drawer' %}` once (e.g., in `layout/theme.liquid` o
     const subtotalEl = drawer.querySelector('[data-cart-subtotal]');
     const titleEl = drawer.querySelector('[data-cart-title]');
     const progressPath = document.getElementById('gauge-progress');
-    const needleGroup = document.getElementById('gauge-needle');
+    const gaugeTextEl = drawer.querySelector('[data-gauge-text]');
     const rewardMsgEl = drawer.querySelector('[data-reward-message]');
 
     // Checkpoints
@@ -218,7 +208,6 @@ Usage: place `{% render 'cart-drawer' %}` once (e.g., in `layout/theme.liquid` o
     const SHIPPING_THRESHOLD = 69900;
     const DISCOUNT_1_THRESHOLD = 89900;
     const DISCOUNT_2_THRESHOLD = 109900;
-    const MAX_GAUGE_VALUE = 120000; // Updated to 1200
     const ARC_LENGTH = 282.7; // PI * 90 (radius)
 
     const open = () => {
@@ -252,17 +241,58 @@ Usage: place `{% render 'cart-drawer' %}` once (e.g., in `layout/theme.liquid` o
     };
 
     const updateRewards = (totalPrice) => {
-      // Calculate progress percentage based on max value
-      const progress = Math.min(1, Math.max(0, totalPrice / MAX_GAUGE_VALUE));
+      // 3-Segment Progress Calculation
+      let progress = 0;
+      let statusText = '';
 
-      // Update Arc
+      if (totalPrice < SHIPPING_THRESHOLD) {
+        // Segment 1: 0 -> SHIPPING_THRESHOLD (0% -> 33%)
+        const segmentProgress = totalPrice / SHIPPING_THRESHOLD;
+        progress = segmentProgress * 0.33;
+        statusText = 'Shipping on us — almost';
+      } else if (totalPrice < DISCOUNT_1_THRESHOLD) {
+        // Segment 2: SHIPPING_THRESHOLD -> DISCOUNT_1_THRESHOLD (33% -> 66%)
+        // Normalized progress within this segment
+        const segmentRange = DISCOUNT_1_THRESHOLD - SHIPPING_THRESHOLD;
+        const valueInSegment = totalPrice - SHIPPING_THRESHOLD;
+        const segmentProgress = valueInSegment / segmentRange;
+        progress = 0.33 + (segmentProgress * 0.33);
+        statusText = 'Almost there — ₹70 off';
+      } else if (totalPrice < DISCOUNT_2_THRESHOLD) {
+        // Segment 3: DISCOUNT_1_THRESHOLD -> DISCOUNT_2_THRESHOLD (66% -> 100%)
+        const segmentRange = DISCOUNT_2_THRESHOLD - DISCOUNT_1_THRESHOLD;
+        const valueInSegment = totalPrice - DISCOUNT_1_THRESHOLD;
+        const segmentProgress = valueInSegment / segmentRange;
+        progress = 0.66 + (segmentProgress * 0.34);
+        statusText = 'Go all the way — ₹120 off';
+      } else {
+        // Maxed out
+        progress = 1;
+        statusText = 'You have unlocked all rewards!';
+      }
+
+      // Update Gauge Arc
       const dashOffset = ARC_LENGTH * (1 - progress);
       if (progressPath) progressPath.style.strokeDashoffset = dashOffset;
 
-      // Update Needle Rotation
-      // Range: -90deg (0%) to 90deg (100%)
-      const rotation = -90 + (progress * 180);
-      if (needleGroup) needleGroup.style.transform = `translate(100px, 100px) rotate(${rotation}deg)`;
+      // Update Central Text
+      if (gaugeTextEl) gaugeTextEl.textContent = statusText;
+
+      // Update Message Bar
+      if (rewardMsgEl) {
+        if (totalPrice < SHIPPING_THRESHOLD) {
+          const diff = SHIPPING_THRESHOLD - totalPrice;
+          rewardMsgEl.innerHTML = `Just <strong>${formatMoney(diff)}</strong> away for <strong>Free Shipping</strong>`;
+        } else if (totalPrice < DISCOUNT_1_THRESHOLD) {
+          const diff = DISCOUNT_1_THRESHOLD - totalPrice;
+          rewardMsgEl.innerHTML = `Just <strong>${formatMoney(diff)}</strong> away for <strong>₹70 Off</strong>`;
+        } else if (totalPrice < DISCOUNT_2_THRESHOLD) {
+          const diff = DISCOUNT_2_THRESHOLD - totalPrice;
+          rewardMsgEl.innerHTML = `Just <strong>${formatMoney(diff)}</strong> away for <strong>₹120 Off</strong>`;
+        } else {
+          rewardMsgEl.innerHTML = `<strong>You have unlocked all rewards!</strong>`;
+        }
+      }
 
       // Update Checkpoint Icons Active State
       // 699
@@ -304,19 +334,7 @@ Usage: place `{% render 'cart-drawer' %}` once (e.g., in `layout/theme.liquid` o
         cpointEls[1099].firstElementChild.classList.remove('text-white');
       }
 
-      // Update Message
-      if (totalPrice < SHIPPING_THRESHOLD) {
-        const diff = SHIPPING_THRESHOLD - totalPrice;
-        rewardMsgEl.innerHTML = `Add <strong>${formatMoney(diff)}</strong> for <strong>Free Shipping</strong>`;
-      } else if (totalPrice < DISCOUNT_1_THRESHOLD) {
-        const diff = DISCOUNT_1_THRESHOLD - totalPrice;
-        rewardMsgEl.innerHTML = `Add <strong>${formatMoney(diff)}</strong> for <strong>₹70 Off</strong>`;
-      } else if (totalPrice < DISCOUNT_2_THRESHOLD) {
-        const diff = DISCOUNT_2_THRESHOLD - totalPrice;
-        rewardMsgEl.innerHTML = `Add <strong>${formatMoney(diff)}</strong> for <strong>₹120 Off</strong>`;
-      } else {
-        rewardMsgEl.innerHTML = `<strong>You have unlocked all rewards!</strong>`;
-      }
+
     };
 
     const renderCart = (cart) => {
@@ -343,13 +361,13 @@ Usage: place `{% render 'cart-drawer' %}` once (e.g., in `layout/theme.liquid` o
 
       content.innerHTML = cart.items.map(item => `
         <div class="flex gap-4 p-3 border border-gray-400 border-[1px] rounded-lg bg-white relative group" data-line-item-key="${item.key}">
-          <div class="w-20 h-24 bg-gray-100 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
+          <a href="${item.url}" class="w-20 h-24 bg-gray-100 flex-shrink-0 overflow-hidden rounded-md border border-gray-200 block">
             ${item.image ? `<img src="${item.image}" alt="${item.product_title}" class="w-full h-full object-cover" />` : ''}
-          </div>
+          </a>
           <div class="flex-1 min-w-0 flex flex-col justify-between py-0.5">
             <div>
                 <div class="flex justify-between items-start">
-                    <div class="text-sm font-semibold text-gray-900 truncate pr-2">${item.product_title}</div>
+                    <a href="${item.url}" class="text-sm font-semibold text-gray-900 truncate pr-2 hover:underline block">${item.product_title}</a>
                     <button type="button" class="text-gray-400 hover:text-red-500 transition-colors p-1" onclick="changeItemQuantity('${item.key}', 0)">
                         {% render 'icon', icon: 'trash', size: 14 %}
                     </button>

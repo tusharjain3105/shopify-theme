@@ -23,9 +23,9 @@ Sidebar component
             <ul class="pl-4 border-l border-zinc-200 mb-2 overflow-hidden uppercase divide-y divide-[#e0e0e0]">
               {% for child_link in link.links %}
               <li>
-                <a href="{{ child_link.url }}" class="block px-2 py-2 hover:bg-zinc-100 rounded">{{
-                  child_link.title }}</a>
                 {% if child_link.links != blank %}
+                <span href="{{ child_link.url }}" class="block px-2 py-2 hover:bg-zinc-100 rounded">{{
+                  child_link.title }}</span>
                 <ul class="pl-4 border-l border-zinc-200 my-1 divide-y divide-[#e0e0e0]">
                   {% for grand_link in child_link.links %}
                   <li>
@@ -34,6 +34,9 @@ Sidebar component
                   </li>
                   {% endfor %}
                 </ul>
+                {% else %}
+                <a href="{{ child_link.url }}" class="block px-2 py-2 hover:bg-zinc-100 rounded">{{
+                  child_link.title }}</a>
                 {% endif %}
               </li>
               {% endfor %}
