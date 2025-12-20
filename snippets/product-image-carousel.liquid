@@ -85,88 +85,76 @@ Usage: {% render 'product-image-carousel', product: product, mobile: true/false 
     {% endif %}
 
     const carousel{{ product.id }} = new Swiper('.{{ carousel_id }}', {
-    slidesPerView: 1,
-    spaceBetween: 0,
-    loop: {{ should_loop }},
-    grabCursor: true,
+      slidesPerView: 1,
+      spaceBetween: 0,
+      loop: {{ should_loop }},
+      grabCursor: true,
 
-    {% if product.images.size > 1 %}
-  navigation: {
-    nextEl: '.{{ carousel_id }} .swiper-button-next',
-      prevEl: '.{{ carousel_id }} .swiper-button-prev',
+      {% if product.images.size > 1 %}
+      navigation: {
+        nextEl: '.{{ carousel_id }} .swiper-button-next',
+        prevEl: '.{{ carousel_id }} .swiper-button-prev',
       },
-  pagination: {
-    el: '.{{ carousel_id }} .swiper-pagination',
-      clickable: true,
+      pagination: {
+        el: '.{{ carousel_id }} .swiper-pagination',
+        clickable: true,
         dynamicBullets: true,
       },
-  {% endif %}
+      {% endif %}
 
-  a11y: {
-    prevSlideMessage: 'Previous image',
-      nextSlideMessage: 'Next image',
+      a11y: {
+        prevSlideMessage: 'Previous image',
+        nextSlideMessage: 'Next image',
       },
-  lazy: { loadPrevNext: true },
-  on: {
-    init: function () {
-      console.log('Carousel initialized successfully');
-    },
-    slideChange: function () {
-      console.log('Slide changed to: ' + this.realIndex);
-      const activeIndex = this.realIndex;
-      document.querySelectorAll('.thumbnail-btn').forEach((btn, index) => {
-        if (index === activeIndex) {
-          btn.classList.remove('border-transparent');
-          btn.classList.add('border-gray-800');
-        } else {
-          btn.classList.remove('border-gray-800');
-          btn.classList.add('border-transparent');
+      lazy: { loadPrevNext: true },
+      on: {
+        init: function () {
+          console.log('Carousel initialized successfully');
+        },
+        slideChange: function () {
+          console.log('Slide changed to: ' + this.realIndex);
+          const activeIndex = this.realIndex;
+          document.querySelectorAll('.thumbnail-btn').forEach((btn, index) => {
+            if (index === activeIndex) {
+              btn.classList.remove('border-transparent');
+              btn.classList.add('border-gray-800');
+            } else {
+              btn.classList.remove('border-gray-800');
+              btn.classList.add('border-transparent');
+            }
+          });
         }
+      }
+    });
+
+    {% unless is_mobile %}
+    document.querySelectorAll('.thumbnail-btn').forEach((btn, index) => {
+      btn.addEventListener('click', function () {
+        console.log('Thumbnail clicked: ' + index);
+        const slideIndex = parseInt(this.dataset.slide);
+        const swipers = [carousel{{ product.id }}].flat();
+        swipers.forEach(swiper => swiper.slideTo(slideIndex));
       });
-    }
-  }
+    });
+    {% endunless %}
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowLeft') {
+        carousel{{ product.id }}.slidePrev();
+      } else if (e.key === 'ArrowRight') {
+        carousel{{ product.id }}.slideNext();
+      }
     });
 
-  {% unless is_mobile %}
-  document.querySelectorAll('.thumbnail-btn').forEach((btn, index) => {
-    btn.addEventListener('click', function () {
-      console.log('Thumbnail clicked: ' + index);
-      const slideIndex = parseInt(this.dataset.slide);
-      const swipers = [carousel{{ product.id }}].flat();
-    swipers.forEach(swiper => swiper.slideTo(slideIndex));
-  });
-    });
-  {% endunless %}
-
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'ArrowLeft') {
-        carousel{ { product.id } }.slidePrev();
-    } else if (e.key === 'ArrowRight') {
-        carousel{ { product.id } }.slideNext();
-    }
-  });
-
-  {% else %}
-  console.log('No images found for product {{ product.id }}');
-  {% endif %}
+    {% else %}
+    console.log('No images found for product {{ product.id }}');
+    {% endif %}
   });
 </script>
 
 <style>
-  . {
-      {
-      carousel_id
-    }
-  }
-
-  .swiper-button-next,
-  . {
-      {
-      carousel_id
-    }
-  }
-
-  .swiper-button-prev {
+  .{{ carousel_id }} .swiper-button-next,
+  .{{ carousel_id }} .swiper-button-prev {
     color: #111827;
     background: rgba(255, 255, 255, 0.8);
     width: 32px;
@@ -176,69 +164,27 @@ Usage: {% render 'product-image-carousel', product: product, mobile: true/false 
     transition: all 0.2s ease;
   }
 
-  . {
-      {
-      carousel_id
-    }
-  }
-
-  .swiper-button-next:after,
-  . {
-      {
-      carousel_id
-    }
-  }
-
-  .swiper-button-prev:after {
+  .{{ carousel_id }} .swiper-button-next:after,
+  .{{ carousel_id }} .swiper-button-prev:after {
     font-size: 14px;
     font-weight: bold;
   }
 
-  . {
-      {
-      carousel_id
-    }
-  }
-
-  .swiper-button-next:hover,
-  . {
-      {
-      carousel_id
-    }
-  }
-
-  .swiper-button-prev:hover {
+  .{{ carousel_id }} .swiper-button-next:hover,
+  .{{ carousel_id }} .swiper-button-prev:hover {
     background: white;
     transform: scale(1.1);
   }
 
-  . {
-      {
-      carousel_id
-    }
-  }
-
-  .swiper-button-prev {
+  .{{ carousel_id }} .swiper-button-prev {
     left: 10px;
   }
 
-  . {
-      {
-      carousel_id
-    }
-  }
-
-  .swiper-button-next {
+  .{{ carousel_id }} .swiper-button-next {
     right: 10px;
   }
 
-  . {
-      {
-      carousel_id
-    }
-  }
-
-  .swiper-pagination-bullet {
+  .{{ carousel_id }} .swiper-pagination-bullet {
     width: 8px;
     height: 8px;
     background: #d1d5db;
@@ -246,13 +192,7 @@ Usage: {% render 'product-image-carousel', product: product, mobile: true/false 
     transition: all 0.3s ease;
   }
 
-  . {
-      {
-      carousel_id
-    }
-  }
-
-  .swiper-pagination-bullet-active {
+  .{{ carousel_id }} .swiper-pagination-bullet-active {
     background: #374151;
     transform: scale(1.2);
   }

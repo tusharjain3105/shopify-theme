@@ -2254,10 +2254,24 @@
       }
     }
   }
+  .data-active\:\*\:fill-red-600 {
+    &[data-active] {
+      :is(& > *) {
+        fill: var(--color-red-600);
+      }
+    }
+  }
   .data-active\:\*\:text-black {
     &[data-active] {
       :is(& > *) {
         color: var(--color-black);
+      }
+    }
+  }
+  .data-active\:\*\:text-red-600 {
+    &[data-active] {
+      :is(& > *) {
+        color: var(--color-red-600);
       }
     }
   }
