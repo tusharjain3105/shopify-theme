@@ -1,0 +1,123 @@
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 font-inter mt-10">
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10">
+        <h1 class="text-3xl font-raleway font-bold text-gray-900">My Account</h1>
+        <a href="{{ routes.account_logout_url }}"
+            class="text-sm font-medium text-red-600 hover:text-red-800 transition-colors">
+            Log out
+        </a>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+        <!-- Order History -->
+        <div class="lg:col-span-2">
+            <h2 class="text-xl font-raleway font-semibold mb-6">Order History</h2>
+
+            {% paginate customer.orders by 20 %}
+            {% if customer.orders.size > 0 %}
+            <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm">
+                        <thead class="bg-gray-50 text-gray-500 font-medium border-b border-gray-200">
+                            <tr>
+                                <th class="px-6 py-4 whitespace-nowrap">Order</th>
+                                <th class="px-6 py-4 whitespace-nowrap">Date</th>
+                                <th class="px-6 py-4 whitespace-nowrap">Payment</th>
+                                <th class="px-6 py-4 whitespace-nowrap">Fulfillment</th>
+                                <th class="px-6 py-4 whitespace-nowrap text-right">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            {% for order in customer.orders %}
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-6 py-4 font-medium text-black">
+                                    <a href="{{ order.customer_url }}"
+                                        class="hover:underline bg-gray-100 px-2 py-1 rounded">
+                                        {{ order.name }}
+                                    </a>
+                                </td>
+                                <td class="px-6 py-4 text-gray-600">
+                                    {{ order.created_at | time_tag: format: 'date' }}
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span
+                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                          {% if order.financial_status == 'paid' %}bg-green-100 text-green-800{% else %}bg-yellow-100 text-yellow-800{% endif %}">
+                                        {{ order.financial_status_label }}
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span
+                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                          {% if order.fulfillment_status == 'fulfilled' %}bg-blue-100 text-blue-800{% else %}bg-gray-100 text-gray-800{% endif %}">
+                                        {{ order.fulfillment_status_label }}
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 text-right font-medium text-gray-900">
+                                    {{ order.total_price | money }}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            {% if paginate.pages > 1 %}
+            <div class="mt-6 flex justify-center">
+                {{ paginate | default_pagination }}
+            </div>
+            {% endif %}
+            {% else %}
+            <div class="bg-gray-50 rounded-lg p-8 text-center border border-gray-200">
+                <svg class="w-12 h-12 text-gray-400 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                        d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                </svg>
+                <p class="text-gray-600 mb-4">You haven't placed any orders yet.</p>
+                <a href="{{ routes.all_products_collection_url }}"
+                    class="inline-block bg-black text-white px-6 py-2 rounded-md hover:bg-gray-800 transition-colors text-sm font-medium">
+                    Start Shopping
+                </a>
+            </div>
+            {% endif %}
+            {% endpaginate %}
+        </div>
+
+        <!-- Account Details -->
+        <div>
+            <h2 class="text-xl font-raleway font-semibold mb-6">Account Details</h2>
+            <div class="bg-white rounded-lg border border-gray-200 p-6">
+                {% if customer.default_address %}
+                <h3 class="font-medium text-gray-900 mb-2">Default Address</h3>
+                <div class="text-sm text-gray-600 leading-relaxed mb-4">
+                    <p>{{ customer.default_address.name }}</p>
+                    {% if customer.default_address.company != blank %}
+                    <p>{{ customer.default_address.company }}</p>
+                    {% endif %}
+                    <p>{{ customer.default_address.street }}</p>
+                    <p>{{ customer.default_address.city }}, {{ customer.default_address.province_code }} {{
+                        customer.default_address.zip }}</p>
+                    <p>{{ customer.default_address.country }}</p>
+                    {% if customer.default_address.phone != blank %}
+                    <p class="mt-1">{{ customer.default_address.phone }}</p>
+                    {% endif %}
+                </div>
+                {% else %}
+                <p class="text-sm text-gray-600 mb-4">No default address set.</p>
+                {% endif %}
+
+                <a href="{{ routes.account_addresses_url }}"
+                    class="text-sm text-blue-600 hover:text-blue-800 hover:underline font-medium">
+                    View Addresses ({{ customer.addresses_count }})
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% schema %}
+{
+"name": "Account Dashboard",
+"settings": []
+}
+{% endschema %}

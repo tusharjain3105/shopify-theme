@@ -1,0 +1,217 @@
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 font-inter">
+    <!-- Header -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+        <div>
+            <div class="flex items-center gap-2 text-sm text-gray-500 mb-2">
+                <a href="{{ routes.account_url }}" class="hover:text-black transition-colors">Account</a>
+                <span>/</span>
+                <span>Order {{ order.name }}</span>
+            </div>
+            <h1 class="text-3xl font-raleway font-bold text-gray-900">Order {{ order.name }}</h1>
+            <p class="text-gray-500 mt-1 flex items-center gap-2">
+                {{ order.created_at | time_tag: format: 'date' }}
+                {% if order.cancelled %}
+                <span class="bg-red-100 text-red-800 text-xs px-2 py-1 rounded-full">Cancelled</span>
+                {% endif %}
+            </p>
+        </div>
+        <div class="flex gap-3">
+            <span
+                class="px-3 py-1 rounded-full text-sm font-medium
+        {% if order.financial_status == 'paid' %}bg-green-100 text-green-800{% else %}bg-yellow-100 text-yellow-800{% endif %}">
+                {{ order.financial_status_label }}
+            </span>
+            <span
+                class="px-3 py-1 rounded-full text-sm font-medium
+        {% if order.fulfillment_status == 'fulfilled' %}bg-blue-100 text-blue-800{% else %}bg-gray-100 text-gray-800{% endif %}">
+                {{ order.fulfillment_status_label }}
+            </span>
+        </div>
+    </div>
+
+    {% if order.cancelled %}
+    <div class="bg-red-50 border border-red-200 rounded-lg p-4 mb-8">
+        <p class="text-sm text-red-800 font-medium mb-1">Order Cancelled on {{ order.cancelled_at | time_tag: format:
+            'date_at_time' }}</p>
+        <p class="text-sm text-red-600">{{ order.cancel_reason_label }}</p>
+    </div>
+    {% endif %}
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Main Content: Line Items -->
+        <div class="lg:col-span-2 space-y-8">
+            <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
+                <table class="w-full text-left text-sm">
+                    <thead class="bg-gray-50 text-gray-500 font-medium border-b border-gray-200">
+                        <tr>
+                            <th class="px-6 py-4">Product</th>
+                            <th class="px-6 py-4 hidden sm:table-cell">Price</th>
+                            <th class="px-6 py-4 hidden sm:table-cell text-center">Quantity</th>
+                            <th class="px-6 py-4 text-right">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        {% for line_item in order.line_items %}
+                        <tr>
+                            <td class="px-6 py-4">
+                                <div class="flex items-center gap-4">
+                                    {% if line_item.image %}
+                                    <div
+                                        class="w-16 h-16 flex-shrink-0 bg-gray-100 rounded-md overflow-hidden border border-gray-200">
+                                        <img src="{{ line_item.image | img_url: '100x100' }}"
+                                            alt="{{ line_item.title | escape }}" class="w-full h-full object-cover">
+                                    </div>
+                                    {% endif %}
+                                    <div>
+                                        <p class="font-medium text-gray-900">{{ line_item.product.title | link_to:
+                                            line_item.product.url }}</p>
+                                        {% unless line_item.product.has_only_default_variant %}
+                                        <p class="text-gray-500 text-xs mt-0.5">{{ line_item.variant.title }}</p>
+                                        {% endunless %}
+                                        {% if line_item.selling_plan_allocation %}
+                                        <p class="text-xs text-gray-500 mt-0.5">{{
+                                            line_item.selling_plan_allocation.selling_plan.name }}</p>
+                                        {% endif %}
+                                        {% if line_item.fulfillment %}
+                                        <div class="mt-2 text-xs text-gray-600 bg-gray-50 p-1.5 rounded inline-block">
+                                            Fulfilled {{ line_item.fulfillment.created_at | time_tag: format: 'date' }}
+                                            {% if line_item.fulfillment.tracking_url %}
+                                            <a href="{{ line_item.fulfillment.tracking_url }}" target="_blank"
+                                                class="text-blue-600 hover:underline ml-1">Track</a>
+                                            {% endif %}
+                                        </div>
+                                        {% endif %}
+                                        <div class="sm:hidden mt-2 text-xs text-gray-500">
+                                            {{ line_item.quantity }} x {{ line_item.original_price | money }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 hidden sm:table-cell text-gray-600">
+                                {% if line_item.original_price != line_item.final_price %}
+                                <span class="line-through text-gray-400">{{ line_item.original_price | money }}</span>
+                                <br>
+                                <span class="text-red-600">{{ line_item.final_price | money }}</span>
+                                {% else %}
+                                {{ line_item.original_price | money }}
+                                {% endif %}
+                            </td>
+                            <td class="px-6 py-4 hidden sm:table-cell text-center text-gray-600">
+                                {{ line_item.quantity }}
+                            </td>
+                            <td class="px-6 py-4 text-right font-medium text-gray-900">
+                                {% if line_item.original_line_price != line_item.final_line_price %}
+                                <span class="line-through text-gray-400 block text-xs">{{ line_item.original_line_price
+                                    | money }}</span>
+                                <span>{{ line_item.final_line_price | money }}</span>
+                                {% else %}
+                                {{ line_item.original_line_price | money }}
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="space-y-6">
+            <!-- Order Summary -->
+            <div class="bg-white rounded-lg border border-gray-200 p-6">
+                <h2 class="font-raleway font-bold text-lg mb-4">Summary</h2>
+                <div class="space-y-3 text-sm">
+                    <div class="flex justify-between text-gray-600">
+                        <span>Subtotal</span>
+                        <span>{{ order.line_items_subtotal_price | money }}</span>
+                    </div>
+
+                    {%- if order.cart_level_discount_applications != blank -%}
+                    {%- for discount_application in order.cart_level_discount_applications -%}
+                    <div class="flex justify-between text-red-600">
+                        <span class="flex items-center gap-1">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z">
+                                </path>
+                            </svg>
+                            {{ discount_application.title }}
+                        </span>
+                        <span>-{{ discount_application.total_allocated_amount | money }}</span>
+                    </div>
+                    {%- endfor -%}
+                    {%- endif -%}
+
+                    {% for shipping_method in order.shipping_methods %}
+                    <div class="flex justify-between text-gray-600">
+                        <span>Shipping ({{ shipping_method.title }})</span>
+                        <span>{{ shipping_method.price | money }}</span>
+                    </div>
+                    {% endfor %}
+
+                    {% for tax_line in order.tax_lines %}
+                    <div class="flex justify-between text-gray-600">
+                        <span>Tax ({{ tax_line.title }} {{ tax_line.rate | times: 100 }}%)</span>
+                        <span>{{ tax_line.price | money }}</span>
+                    </div>
+                    {% endfor %}
+
+                    {% if order.total_tips > 0 %}
+                    <div class="flex justify-between text-gray-600">
+                        <span>Tip</span>
+                        <span>{{ order.total_tips | money }}</span>
+                    </div>
+                    {% endif %}
+
+                    <div class="pt-3 border-t border-gray-100 flex justify-between font-bold text-lg text-gray-900">
+                        <span>Total</span>
+                        <span>{{ order.total_price | money_with_currency }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Shipping Address -->
+            <div class="bg-white rounded-lg border border-gray-200 p-6">
+                <h2 class="font-raleway font-bold text-lg mb-4">Shipping Address</h2>
+                <div class="text-sm text-gray-600 leading-relaxed">
+                    <p class="font-medium text-gray-900 mb-1">{{ order.shipping_address.name }}</p>
+                    {% if order.shipping_address.company != blank %}
+                    <p>{{ order.shipping_address.company }}</p>
+                    {% endif %}
+                    <p>{{ order.shipping_address.street }}</p>
+                    <p>{{ order.shipping_address.city }}, {{ order.shipping_address.province_code }} {{
+                        order.shipping_address.zip }}</p>
+                    <p>{{ order.shipping_address.country }}</p>
+                    {% if order.shipping_address.phone != blank %}
+                    <p class="mt-2">{{ order.shipping_address.phone }}</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Billing Address -->
+            <div class="bg-white rounded-lg border border-gray-200 p-6">
+                <h2 class="font-raleway font-bold text-lg mb-4">Billing Address</h2>
+                <div class="text-sm text-gray-600 leading-relaxed">
+                    <p class="font-medium text-gray-900 mb-1">{{ order.billing_address.name }}</p>
+                    {% if order.billing_address.company != blank %}
+                    <p>{{ order.billing_address.company }}</p>
+                    {% endif %}
+                    <p>{{ order.billing_address.street }}</p>
+                    <p>{{ order.billing_address.city }}, {{ order.billing_address.province_code }} {{
+                        order.billing_address.zip }}</p>
+                    <p>{{ order.billing_address.country }}</p>
+                    {% if order.billing_address.phone != blank %}
+                    <p class="mt-2">{{ order.billing_address.phone }}</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% schema %}
+{
+"name": "Order Detail",
+"settings": []
+}
+{% endschema %}

@@ -1,0 +1,158 @@
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 font-inter mt-10">
+    <!-- Header -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+        <div>
+            <div class="flex items-center gap-2 text-sm text-gray-500 mb-2">
+                <a href="#" class="hover:text-black transition-colors">Account</a>
+                <span>/</span>
+                <span>Order #1001</span>
+            </div>
+            <h1 class="text-3xl font-raleway font-bold text-gray-900">Order #1001</h1>
+            <p class="text-gray-500 mt-1 flex items-center gap-2">
+                December 20, 2025
+            </p>
+        </div>
+        <div class="flex gap-3">
+            <span class="px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                Paid
+            </span>
+            <span class="px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800">
+                Unfulfilled
+            </span>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Main Content: Line Items -->
+        <div class="lg:col-span-2 space-y-8">
+            <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
+                <table class="w-full text-left text-sm">
+                    <thead class="bg-gray-50 text-gray-500 font-medium border-b border-gray-200">
+                        <tr>
+                            <th class="px-6 py-4">Product</th>
+                            <th class="px-6 py-4 hidden sm:table-cell">Price</th>
+                            <th class="px-6 py-4 hidden sm:table-cell text-center">Quantity</th>
+                            <th class="px-6 py-4 text-right">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        <!-- Mock Item 1 -->
+                        <tr>
+                            <td class="px-6 py-4">
+                                <div class="flex items-center gap-4">
+                                    <div
+                                        class="w-16 h-16 flex-shrink-0 bg-gray-100 rounded-md overflow-hidden border border-gray-200 flex items-center justify-center text-gray-400">
+                                        <!-- Placeholder until real image assets are available -->
+                                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z">
+                                            </path>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium text-gray-900">MINNESOTA CHAIN</p>
+                                        <p class="text-gray-500 text-xs mt-0.5">Silver</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 hidden sm:table-cell text-gray-600">
+                                Rs. 600.00
+                            </td>
+                            <td class="px-6 py-4 hidden sm:table-cell text-center text-gray-600">
+                                1
+                            </td>
+                            <td class="px-6 py-4 text-right font-medium text-gray-900">
+                                Rs. 600.00
+                            </td>
+                        </tr>
+                        <!-- Mock Item 2 -->
+                        <tr>
+                            <td class="px-6 py-4">
+                                <div class="flex items-center gap-4">
+                                    <div
+                                        class="w-16 h-16 flex-shrink-0 bg-gray-100 rounded-md overflow-hidden border border-gray-200 flex items-center justify-center text-gray-400">
+                                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z">
+                                            </path>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium text-gray-900">ETHEREAL CHAIN</p>
+                                        <p class="text-gray-500 text-xs mt-0.5">Silver / Crystal</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 hidden sm:table-cell text-gray-600">
+                                Rs. 450.00
+                            </td>
+                            <td class="px-6 py-4 hidden sm:table-cell text-center text-gray-600">
+                                1
+                            </td>
+                            <td class="px-6 py-4 text-right font-medium text-gray-900">
+                                Rs. 450.00
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="space-y-6">
+            <!-- Order Summary -->
+            <div class="bg-white rounded-lg border border-gray-200 p-6">
+                <h2 class="font-raleway font-bold text-lg mb-4">Summary</h2>
+                <div class="space-y-3 text-sm">
+                    <div class="flex justify-between text-gray-600">
+                        <span>Subtotal</span>
+                        <span>Rs. 1,050.00</span>
+                    </div>
+
+                    <div class="flex justify-between text-gray-600">
+                        <span>Shipping (Standard)</span>
+                        <span>Rs. 50.00</span>
+                    </div>
+
+                    <div class="pt-3 border-t border-gray-100 flex justify-between font-bold text-lg text-gray-900">
+                        <span>Total</span>
+                        <span>Rs. 1,100.00</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Shipping Address -->
+            <div class="bg-white rounded-lg border border-gray-200 p-6">
+                <h2 class="font-raleway font-bold text-lg mb-4">Shipping Address</h2>
+                <div class="text-sm text-gray-600 leading-relaxed">
+                    <p class="font-medium text-gray-900 mb-1">Tushar Jain</p>
+                    <p>1204, Oberoi Springs, Andheri Link Road</p>
+                    <p>Andheri West</p>
+                    <p>Mumbai, Maharashtra 400053</p>
+                    <p>India</p>
+                    <p class="mt-2">+91 98765 43210</p>
+                </div>
+            </div>
+
+            <!-- Billing Address -->
+            <div class="bg-white rounded-lg border border-gray-200 p-6">
+                <h2 class="font-raleway font-bold text-lg mb-4">Billing Address</h2>
+                <div class="text-sm text-gray-600 leading-relaxed">
+                    <p class="font-medium text-gray-900 mb-1">Tushar Jain</p>
+                    <p>1204, Oberoi Springs, Andheri Link Road</p>
+                    <p>Andheri West</p>
+                    <p>Mumbai, Maharashtra 400053</p>
+                    <p>India</p>
+                    <p class="mt-2">+91 98765 43210</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% schema %}
+{
+"name": "Design Demo Order",
+"settings": []
+}
+{% endschema %}

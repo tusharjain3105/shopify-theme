@@ -1,0 +1,148 @@
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 font-inter mt-10">
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10">
+        <h1 class="text-3xl font-raleway font-bold text-gray-900">My Account</h1>
+        <a href="#" class="text-sm font-medium text-red-600 hover:text-red-800 transition-colors">
+            Log out
+        </a>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+        <!-- Order History -->
+        <div class="lg:col-span-2">
+            <h2 class="text-xl font-raleway font-semibold mb-6">Order History</h2>
+
+            <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm">
+                        <thead class="bg-gray-50 text-gray-500 font-medium border-b border-gray-200">
+                            <tr>
+                                <th class="px-6 py-4 whitespace-nowrap">Order</th>
+                                <th class="px-6 py-4 whitespace-nowrap">Date</th>
+                                <th class="px-6 py-4 whitespace-nowrap">Payment</th>
+                                <th class="px-6 py-4 whitespace-nowrap">Fulfillment</th>
+                                <th class="px-6 py-4 whitespace-nowrap text-right">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <!-- Mock Order 1 -->
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-6 py-4 font-medium text-black">
+                                    <a href="#" class="hover:underline bg-gray-100 px-2 py-1 rounded">
+                                        #1001
+                                    </a>
+                                </td>
+                                <td class="px-6 py-4 text-gray-600">
+                                    December 20, 2025
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span
+                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                        Paid
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span
+                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                        Unfulfilled
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 text-right font-medium text-gray-900">
+                                    Rs. 1,100.00
+                                </td>
+                            </tr>
+                            <!-- Mock Order 2 -->
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-6 py-4 font-medium text-black">
+                                    <a href="#" class="hover:underline bg-gray-100 px-2 py-1 rounded">
+                                        #1000
+                                    </a>
+                                </td>
+                                <td class="px-6 py-4 text-gray-600">
+                                    November 15, 2025
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span
+                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                        Paid
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span
+                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                        Fulfilled
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 text-right font-medium text-gray-900">
+                                    Rs. 650.00
+                                </td>
+                            </tr>
+                            <!-- Mock Order 3 -->
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="px-6 py-4 font-medium text-black">
+                                    <a href="#" class="hover:underline bg-gray-100 px-2 py-1 rounded">
+                                        #999
+                                    </a>
+                                </td>
+                                <td class="px-6 py-4 text-gray-600">
+                                    October 05, 2025
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span
+                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                        Paid
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span
+                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                        Fulfilled
+                                    </span>
+                                </td>
+                                <td class="px-6 py-4 text-right font-medium text-gray-900">
+                                    Rs. 450.00
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="mt-6 flex justify-center">
+                <div class="flex gap-2">
+                    <span
+                        class="px-4 py-2 border border-gray-300 rounded-md text-gray-400 bg-gray-50 cursor-not-allowed">Previous</span>
+                    <span class="px-4 py-2 border border-black bg-black text-white rounded-md cursor-pointer">1</span>
+                    <span
+                        class="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 cursor-pointer">Next</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Account Details -->
+        <div>
+            <h2 class="text-xl font-raleway font-semibold mb-6">Account Details</h2>
+            <div class="bg-white rounded-lg border border-gray-200 p-6">
+                <h3 class="font-medium text-gray-900 mb-2">Default Address</h3>
+                <div class="text-sm text-gray-600 leading-relaxed mb-4">
+                    <p>Tushar Jain</p>
+                    <p>1204, Oberoi Springs, Andheri Link Road</p>
+                    <p>Andheri West</p>
+                    <p>Mumbai, Maharashtra 400053</p>
+                    <p>India</p>
+                    <p class="mt-1">+91 98765 43210</p>
+                </div>
+
+                <a href="#" class="text-sm text-blue-600 hover:text-blue-800 hover:underline font-medium">
+                    View Addresses (2)
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% schema %}
+{
+"name": "Account Design Demo",
+"settings": []
+}
+{% endschema %}
