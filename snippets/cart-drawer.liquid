@@ -512,15 +512,15 @@ Usage: place `{% render 'cart-drawer' %}` once (e.g., in `layout/theme.liquid` o
       if (!item) return;
 
       // Construct product object for wishlist
-      // We need to map available cart item fields to what wishlist expects
       const wishlistItem = {
-        id: item.product_id, // Product ID
-        variant_id: item.variant_id,
+        id: item.id, // Use Variant ID
+        variant_id: item.variant_id || item.id, // Explicitly set Variant ID
+        product_id: item.product_id, // Store Product ID separate if needed
         title: item.product_title,
         price: item.price,
         image: item.image,
         url: item.url,
-        handle: item.handle // Might not be available in cart item, but url usually contains it
+        handle: item.handle
       };
 
       // Add to wishlist

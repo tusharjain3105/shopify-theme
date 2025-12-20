@@ -17,9 +17,15 @@ Parameters:
 
     <!-- Product Image -->
     <div class="relative overflow-hidden aspect-image">
-      {% if product.featured_image %}
-      <img src="{{ product.featured_image | img_url: '400x400' }}" alt="{{ product.title | escape }}"
-        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" />
+      {% if product.images.size > 0 %}
+      <div class="flex overflow-x-auto snap-x snap-mandatory w-full h-full scrollbar-hide">
+        {% for image in product.images %}
+        <div class="flex-none w-full h-full snap-center relative">
+          <img src="{{ image | img_url: '400x400' }}" alt="{{ product.title | escape }}"
+            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" />
+        </div>
+        {% endfor %}
+      </div>
       {% else %}
       <div class="w-full h-full bg-gray-50 flex items-center justify-center">
         <svg class="w-12 h-12 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
