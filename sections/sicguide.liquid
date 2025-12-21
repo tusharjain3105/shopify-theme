@@ -1,0 +1,87 @@
+{% schema %}
+{
+"name": "SicGuide Vibe Picker",
+"settings": [
+{
+"type": "text",
+"id": "section_heading",
+"label": "Section Heading",
+"default": "Pick Your Vibe"
+},
+{
+"type": "image_picker",
+"id": "guide_image",
+"label": "Guide Image"
+}
+],
+"blocks": [
+{
+"type": "hotspot",
+"name": "Hotspot Link",
+"settings": [
+{
+"type": "url",
+"id": "link",
+"label": "Link URL"
+},
+{
+"type": "text",
+"id": "coordinates",
+"label": "Coordinates (Top, Left, Width, Height)",
+"info": "Format: 20, 10, 30, 30 (Percentages). Example: 20% from top, 10% from left, 30% width, 30% height.",
+"default": "0,0,10,10"
+},
+{
+"type": "text",
+"id": "title",
+"label": "Area Title (Accessiblity)",
+"default": "Link"
+}
+]
+}
+],
+"presets": [
+{
+"name": "SicGuide Vibe Picker",
+"blocks": []
+}
+]
+}
+{% endschema %}
+
+<div class="sicguide-section py-8">
+    <div class="container mx-auto">
+        {% if section.settings.section_heading != blank %}
+        <h2 class="text-3xl font-bold text-center mb-8 uppercase font-outfit">{{ section.settings.section_heading }}
+        </h2>
+        {% endif %}
+
+        <div class="relative w-full max-w-4xl mx-auto overflow-hidden rounded-lg shadow-sm">
+            {% if section.settings.guide_image %}
+            <img src="{{ section.settings.guide_image | img_url: 'master' }}"
+                alt="{{ section.settings.guide_image.alt | default: 'Vibe Guide' }}" class="w-full h-auto block"
+                loading="lazy">
+            {% else %}
+            <div class="w-full h-[600px] bg-gray-100 flex items-center justify-center text-gray-400">
+                <span>Select an Image</span>
+            </div>
+            {% endif %}
+
+            {% for block in section.blocks %}
+            {% assign coords = block.settings.coordinates | split: ',' %}
+            {% if coords.size == 4 %}
+            {% assign top = coords[0] | strip %}
+            {% assign left = coords[1] | strip %}
+            {% assign width = coords[2] | strip %}
+            {% assign height = coords[3] | strip %}
+
+            <a href="{{ block.settings.link }}"
+                class="absolute block hover:bg-white/10 transition-colors duration-200 border border-transparent hover:border-white/30"
+                style="top: {{ top }}%; left: {{ left }}%; width: {{ width }}%; height: {{ height }}%;"
+                title="{{ block.settings.title }}" aria-label="{{ block.settings.title }}">
+            </a>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</div>

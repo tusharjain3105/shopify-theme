@@ -275,21 +275,52 @@
         "button_text_color": "#ffffff"
       }
     },
-    "quiz_7MyJmN": {
-      "type": "quiz",
+    "sicguide_V9d8A7": {
+      "type": "sicguide",
+      "blocks": {
+        "hotspot_FtLBGF": {
+          "type": "hotspot",
+          "settings": {
+            "link": "shopify://collections/minimal",
+            "coordinates": "20,0,100,20",
+            "title": "Link"
+          }
+        },
+        "hotspot_dnMXWK": {
+          "type": "hotspot",
+          "settings": {
+            "link": "shopify://collections/everyday",
+            "coordinates": "40,0,100,18",
+            "title": "Link"
+          }
+        },
+        "hotspot_BGB4Tg": {
+          "type": "hotspot",
+          "settings": {
+            "link": "shopify://collections/experimental",
+            "coordinates": "58,0,100,20",
+            "title": "Link"
+          }
+        },
+        "hotspot_CNLr9a": {
+          "type": "hotspot",
+          "settings": {
+            "link": "shopify://collections/best-sellers",
+            "coordinates": "78,0,100,20",
+            "title": "Link"
+          }
+        }
+      },
+      "block_order": [
+        "hotspot_FtLBGF",
+        "hotspot_dnMXWK",
+        "hotspot_BGB4Tg",
+        "hotspot_CNLr9a"
+      ],
+      "name": "SicGuide Vibe Picker",
       "settings": {
-        "enable_backdrop_video": false,
-        "backdrop_video": "shopify://files/videos/IMG_1750.MP4",
-        "background_color": "#ffffff",
-        "main_heading": "",
-        "sub_heading": "",
-        "description": "",
-        "button_text": "Start Quiz",
-        "button_link": "",
-        "hero_image": "shopify://shop_images/BEST_SELLERS_1.png",
-        "text_color": "#1f2937",
-        "button_bg_color": "#1f2937",
-        "button_text_color": "#ffffff"
+        "section_heading": "",
+        "guide_image": "shopify://shop_images/BEST_SELLERS_1.png"
       }
     },
     "1759897621bed437ba": {
@@ -530,7 +561,7 @@
     "sicarchive_T7UzeM",
     "product_gallery_Pech8Q",
     "quiz",
-    "quiz_7MyJmN",
+    "sicguide_V9d8A7",
     "1759897621bed437ba",
     "reviews_HNCkX3",
     "featured"
