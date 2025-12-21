@@ -42,6 +42,18 @@ Usage: {% render 'product-form', product: product %}
       {% endfor %}
     </select>
   </div>
+
+  <!-- Size Chart Link (Only for Rings) -->
+  {% assign product_tags_string = product.tags | join: ', ' | downcase %}
+  {% if product_tags_string contains 'rings' or product_tags_string contains 'ring' %}
+  <div class="mb-4 text-right">
+    <button type="button" class="text-xs text-gray-500 underline hover:text-black cursor-pointer"
+      onclick="document.getElementById('size-chart-modal').showModal()">
+      Size Chart
+    </button>
+  </div>
+  {% endif %}
+
   {% else %}
   <input type="hidden" name="id" value="{{ current_variant.id }}">
   {% endif %}
@@ -100,6 +112,36 @@ Usage: {% render 'product-form', product: product %}
   </div>
   {% endform %}
 </div>
+
+<!-- Size Chart Dialog -->
+<dialog id="size-chart-modal" class="m-auto p-0 rounded-lg shadow-xl max-w-lg w-full bg-white backdrop:bg-black/50">
+  <div class="relative bg-white p-4">
+    <button type="button" class="absolute top-2 right-2 p-2 text-gray-500 hover:text-black z-10 bg-white rounded-full"
+      onclick="document.getElementById('size-chart-modal').close()">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+    <h3 class="text-lg font-bold mb-4 text-center">Size Chart</h3>
+    <div class="overflow-auto max-h-[80vh]">
+      <img src="https://placehold.co/600x800?text=Rings+Size+Chart" alt="Ring Size Chart" class="w-full h-auto" />
+    </div>
+  </div>
+</dialog>
+
+<style>
+  #size-chart-modal::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2px);
+  }
+
+  #size-chart-modal {
+    margin: auto;
+    inset: 0;
+    position: fixed;
+    z-index: 50;
+  }
+</style>
 
 <script>
   (function () {
@@ -287,6 +329,17 @@ Usage: {% render 'product-form', product: product %}
         formEl.addEventListener('submit', function (e) {
           addToCart(formEl, addBtn, e);
         });
+      });
+
+      // Close dialog when clicking on backdrop
+      const sizeChartModal = document.querySelector('#size-chart-modal');
+      sizeChartModal?.addEventListener('click', function (e) {
+        const rect = this.getBoundingClientRect();
+        const isInDialog = (rect.top <= e.clientY && e.clientY <= rect.top + rect.height &&
+          rect.left <= e.clientX && e.clientX <= rect.left + rect.width);
+        if (!isInDialog) {
+          this.close();
+        }
       });
     };
 

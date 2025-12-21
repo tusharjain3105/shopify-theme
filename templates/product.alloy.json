@@ -43,7 +43,7 @@
           "settings": {
             "accordion_type": "care",
             "custom_title": "",
-            "custom_content": "<p>You’ve got yourself a Sicsense &lt;product.tags&gt —built to last, no stress required. But if you want to keep it looking sharp, here’s the simple game plan:<br/>1️⃣ Waterproof – Shower? Sweat? Spilled your drink? No worries, it’s built different.<br/>2️⃣ Anti-Tarnish – Stays shining, no green neck disasters here.<br/>3️⃣ Hypoallergenic – Your skin will love it. No rashes, no redness, just vibes.<br/>4️⃣ 6-Month Warranty – If it ever lets you down (it won’t), we’ve got you.<br/>Basically, put it on and forget about it—this &lt;product.tags&gt works harder than your ex ever did.Wear it. Love it. Forget the hassle. Sicsense has you covered. 😏</p>",
+            "custom_content": "<p>•        Store in a box or a pouch to give your accessories the love they deserve<br/>•        Let those perfumes and lotions dry before flexing your Sicsense Accessories.<br/>•        Give your accessories a break too! Take them off before going to bed.<br/>•        The Only time you don’t wear our accessories should be while entering water</p>",
             "open_by_default": false
           }
         },
@@ -52,7 +52,7 @@
           "settings": {
             "accordion_type": "shipping",
             "custom_title": "",
-            "custom_content": "<p>After placing your order, please wait for least 48 Hours which includes making, processing and packaging followed by 4-7 business days of shipping for India-wide orders.<br/>We will get ready and ship your package within 48 hours. Tracking information is automatically emailed to all customers and sent via message if the phone number is added to your order. If you don't receive this, please check your spam folder.<br/><br/>If you have any questions about shipping, please dm us on Instagram @Sicsense.in or WhatsApp us on 9167120360<br/></p>",
+            "custom_content": "<p>After placing your order, please wait for least 48 Hours which includes making, processing and packaging followed by 4-7 business days of shipping for India-wide orders.<br/>We will get ready and ship your package within 48 hours. Tracking information is automatically emailed to all customers and sent via message if the phone number is added to your order. If you don't receive this, please check your spam folder.<br/><br/>If you have any questions about shipping, please dm us on Instagram @Sicsense.in</p>",
             "open_by_default": false
           }
         },
@@ -61,7 +61,7 @@
           "settings": {
             "accordion_type": "returns",
             "custom_title": "",
-            "custom_content": "<p>All sales made are final and cannot be refunded or cancelled once payment has processed and the order is confirmed.<br/>For any Exchange or Replacement give us a text on Instagram @Sicsense.in or WhatsApp us on 9167120360<br/></p>",
+            "custom_content": "<p>All sales made are final and cannot be refunded or cancelled once payment has processed and the order is confirmed.<br/>For any Exchange or Replacement give us a text on Instagram @Sicsense.in</p>",
             "open_by_default": false
           }
         }

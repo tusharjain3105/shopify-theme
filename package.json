@@ -7,7 +7,7 @@
 	},
 	"private": true,
 	"scripts": {
-		"dev": "shopify theme dev --theme-editor-sync --store=0srnet-ks",
+		"dev": "shopify theme pull && shopify theme dev --theme-editor-sync --store=0srnet-ks",
 		"dev-local": "shopify theme dev --store=0srnet-ks",
 		"tailwind": "npx tailwindcss -i ./assets/base-tailwind.css -o ./assets/base.css --watch",
 		"push": "shopify theme push",

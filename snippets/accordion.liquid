@@ -25,7 +25,7 @@
   {% endif %}>
   <summary>
   <div class="flex items-center justify-between cursor-pointer select-none text-zinc-800 hover:text-zinc-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-black/30">
-    <span class="pr-4">
+    <span class="pr-4 uppercase">
       {{- trigger -}}
     </span>
     <span class="ml-auto inline-flex items-center justify-center shrink-0 transition-transform duration-200 group-open:rotate-180" aria-hidden="true">
@@ -47,7 +47,7 @@
   </div>
   <div data-acc-body class="overflow-hidden grid min-h-0 grid-rows-[0fr] group-open:grid-rows-[1fr] transition-[grid-template-rows] duration-300 ease-in-out">
     <div class="text-sm leading-relaxed text-zinc-700 overflow-hidden">
-      <div class="mt-3">{{- body -}}</div>
+      <div class="mt-3">{{- body | replace: '&lt;product.tags&gt', product.tags.first -}}</div>
       {% if _show_specs %}
         {% render 'product-specs'
           , product: product
