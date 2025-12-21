@@ -36,7 +36,7 @@ Usage: {% render 'product-mobile', product: product %}
 
     {% if product.description != blank %}
     {% render 'accordion'
-    , trigger: 'Description'
+    , trigger: 'Description/Material'
     , body: product.description
     , show_specs: section.settings.show_specs
     , open: true %}

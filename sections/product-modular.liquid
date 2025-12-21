@@ -33,7 +33,7 @@
               {% case block.settings.accordion_type %}
                 {% when 'description' %}
                   {% if product.description != blank %}
-                    {% render 'accordion', trigger: 'Description', body: product.description, open: block.settings.open_by_default %}
+                    {% render 'accordion', trigger: 'Description/Material', body: product.description, open: block.settings.open_by_default %}
                   {% endif %}
                 {% when 'care' %}
                   {% render 'accordion', trigger: 'Care Instructions', body: block.settings.custom_content %}
@@ -106,7 +106,7 @@
                     {% case block.settings.accordion_type %}
                       {% when 'description' %}
                         {% if product.description != blank %}
-                          {% render 'accordion', trigger: 'Description', body: product.description, open: block.settings.open_by_default %}
+                          {% render 'accordion', trigger: 'Description/Material', body: product.description, open: block.settings.open_by_default %}
                         {% endif %}
                       {% when 'care' %}
                         {% render 'accordion', trigger: 'Care Instructions', body: block.settings.custom_content %}
