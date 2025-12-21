@@ -77,6 +77,13 @@
       ],
       "settings": {}
     },
+    "recommendations": {
+      "type": "product-recommendations",
+      "settings": {
+        "heading": "You May Also Like",
+        "products_limit": 8
+      }
+    },
     "175989774856db7742": {
       "type": "apps",
       "blocks": {
@@ -94,18 +101,11 @@
         "judge_me_reviews_review_widget_9L7RNk"
       ],
       "settings": {}
-    },
-    "recommendations": {
-      "type": "product-recommendations",
-      "settings": {
-        "heading": "You May Also Like",
-        "products_limit": 8
-      }
     }
   },
   "order": [
     "main",
-    "175989774856db7742",
-    "recommendations"
+    "recommendations",
+    "175989774856db7742"
   ]
 }
