@@ -105,7 +105,7 @@ Usage: place `{% render 'cart-drawer' %}` once (e.g., in `layout/theme.liquid` o
       </div>
 
       <!-- Cart Items -->
-      <div data-cart-content class="p-4 space-y-4 bg-white mb-2 min-h-[100px]">
+      <div data-cart-content class="py-4 bg-white mb-2 min-h-[100px]">
         <div class="text-sm text-gray-500 text-center py-8">Loading your cart...</div>
       </div>
 
@@ -360,7 +360,7 @@ Usage: place `{% render 'cart-drawer' %}` once (e.g., in `layout/theme.liquid` o
       }
 
       content.innerHTML = cart.items.map(item => `
-        <div class="flex gap-4 p-3 border border-gray-400 border-[1px] rounded-lg bg-white relative group" data-line-item-key="${item.key}">
+        <div class="flex gap-4 p-3 border-b border-gray-400 first:border-t bg-white relative group" data-line-item-key="${item.key}">
           <a href="${item.url}" class="w-20 h-24 bg-gray-100 flex-shrink-0 overflow-hidden rounded-md border border-gray-200 block">
             ${item.image ? `<img src="${item.image}" alt="${item.product_title}" class="w-full h-full object-cover" />` : ''}
           </a>
