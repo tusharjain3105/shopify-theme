@@ -66,6 +66,9 @@ if (!window.WishlistHandler) {
                 (productCard && productCard.getAttribute('data-product-handle')) ||
                 '';
 
+            const variantId = btn.getAttribute('data-variant-id') ||
+                (productCard && productCard.getAttribute('data-variant-id'));
+
             // Get the product title
             let productTitle = 'Product';
             const titleElement = productCard && productCard.querySelector('[data-product-title], .product-title, h3');
@@ -122,7 +125,7 @@ if (!window.WishlistHandler) {
                 formatted_price: formattedPrice,
                 url: productUrl,
                 image: productImage,
-                variant_id: productId
+                variant_id: variantId
             };
         }
 

@@ -18,6 +18,7 @@ Usage: {% render 'product-image-carousel', product: product, mobile: true/false 
       aria-label="Add to wishlist" data-wishlist-toggle data-product-id="{{ product.id }}"
       data-product-title="{{ product.title | escape }}" data-product-price="{{ product.price }}"
       data-product-url="{{ product.url }}" data-product-image="{{ product.featured_image | img_url: '400x400' }}"
+      data-variant-id="{{ product.selected_or_first_available_variant.id }}"
       style="z-index: 20;">
       {% render 'icon', icon: 'wishlist' %}
     </button>
