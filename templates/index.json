@@ -253,7 +253,7 @@
       "type": "product-gallery",
       "settings": {
         "gallery_collection": "new-arrivals",
-        "section_heading": "Sicsense Hall of Fame",
+        "section_heading": "Best Sellers",
         "products_limit": 8,
         "gallery_layout": "carousel"
       }
@@ -321,7 +321,7 @@
       "name": "SicGuide Vibe Picker",
       "settings": {
         "section_heading": "",
-        "guide_image": "shopify://shop_images/BEST_SELLERS_1.png"
+        "guide_image": "shopify://shop_images/BEST_SELLERS_2.png"
       }
     },
     "1759897621bed437ba": {
@@ -492,7 +492,7 @@
       ],
       "name": "Custom Review Carousel",
       "settings": {
-        "title": "Hear It From Them",
+        "title": "",
         "bg_color": "#ffffff"
       }
     },

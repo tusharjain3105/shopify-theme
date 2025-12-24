@@ -154,11 +154,14 @@ body {
   grid-column: 1 / -1;
 }
 
+.shopify-policy__container:first-child {
+  margin-top: 5rem !important;
+}
+
 .shopify-policy__container {
   margin: auto;
   max-width: 100vw !important;
   width: 70vw !important;
-  margin-block: 5rem !important;
   text-align: justify;
 
   .shopify-policy__title {
