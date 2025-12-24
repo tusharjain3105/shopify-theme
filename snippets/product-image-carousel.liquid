@@ -43,7 +43,7 @@ Usage: {% render 'product-image-carousel', product: product, mobile: true/false 
   <div class="thumbnail-nav mt-4 grid grid-cols-5 gap-2 px-4">
     {% for image in product.images limit: 5 %}
     <button
-      class="thumbnail-btn aspect-square overflow-hidden border-2 {% if forloop.first %}border-gray-800{% else %}border-transparent{% endif %} hover:border-gray-400 transition-colors"
+      class="thumbnail-btn aspect-image overflow-hidden border-2 {% if forloop.first %}border-gray-800{% else %}border-transparent{% endif %} hover:border-gray-400 transition-colors"
       data-slide="{{ forloop.index0 }}">
       <img src="{{ image | img_url: '120x120' }}" alt="{{ image.alt | default: product.title | escape }}"
         class="w-full aspect-image object-cover" loading="lazy" />
@@ -205,3 +205,268 @@ Usage: {% render 'product-image-carousel', product: product, mobile: true/false 
     transform: scale(1.05);
   }
 </style>
+<!-- Zoom Overlay Implementation -->
+<div id="zoom-overlay-{{ product.id }}"
+  class="fixed inset-0 z-50 hidden bg-black flex-col items-center justify-center opacity-0 transition-opacity duration-300"
+  aria-hidden="true" style="touch-action: none;">
+
+  <!-- Viewport -->
+  <div class="zoom-viewport w-full h-full overflow-hidden flex items-center justify-center relative">
+    <img id="zoom-img-{{ product.id }}" src="" alt="Zoom view"
+      class="max-w-full max-h-full object-contain origin-center select-none" draggable="false"
+      style="transform: translate3d(0,0,0) scale(1); will-change: transform;">
+  </div>
+
+  <!-- Toolbar -->
+  <div
+    class="absolute top-0 left-0 w-full p-4 flex justify-between items-center z-[60] bg-gradient-to-b from-black/50 to-transparent">
+    <span id="zoom-counter-{{ product.id }}" class="text-white font-medium text-sm tracking-wide"></span>
+    <button id="zoom-close-{{ product.id }}" class="text-white p-2 hover:bg-white/20 rounded-full transition-colors"
+      aria-label="Close zoom">
+      <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Navigation Buttons -->
+  <button id="zoom-prev-{{ product.id }}"
+    class="absolute left-4 top-1/2 -translate-y-1/2 z-[60] text-white p-3 hover:bg-white/20 rounded-full transition-colors disabled:opacity-30"
+    aria-label="Previous image">
+    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+    </svg>
+  </button>
+  <button id="zoom-next-{{ product.id }}"
+    class="absolute right-4 top-1/2 -translate-y-1/2 z-[60] text-white p-3 hover:bg-white/20 rounded-full transition-colors disabled:opacity-30"
+    aria-label="Next image">
+    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+    </svg>
+  </button>
+</div>
+
+<script>
+  (function () {
+    // Data setup
+    const productImages = [
+      {% for image in product.images %}
+        "{{ image | img_url: 'master' }}"{% unless forloop.last %}, {% endunless %}
+  {% endfor %}
+    ];
+  let currentIndex = 0;
+
+  // State
+  const state = {
+    scale: 1,
+    panning: false,
+    pointX: 0,
+    pointY: 0,
+    startX: 0,
+    startY: 0,
+    lastX: 0,
+    lastY: 0,
+    isZooming: false,
+    startDist: 0,
+    startScale: 1
+  };
+
+  // Elements
+  const overlay = document.getElementById('zoom-overlay-{{ product.id }}');
+  const imgElement = document.getElementById('zoom-img-{{ product.id }}');
+  const closeBtn = document.getElementById('zoom-close-{{ product.id }}');
+  const nextBtn = document.getElementById('zoom-next-{{ product.id }}');
+  const prevBtn = document.getElementById('zoom-prev-{{ product.id }}');
+  const counter = document.getElementById('zoom-counter-{{ product.id }}');
+  // Scope slides to this specific product carousel
+  const slides = document.querySelectorAll('.product-image-carousel[data-product-id="{{ product.id }}"] .swiper-slide img');
+
+  // === Core Transform Logic ===
+  function updateTransform() {
+    imgElement.style.transform = `translate3d(${state.pointX}px, ${state.pointY}px, 0) scale(${state.scale})`;
+  }
+
+  function resetZoom() {
+    state.scale = 1;
+    state.pointX = 0;
+    state.pointY = 0;
+    updateTransform();
+  }
+
+  function loadImage(index) {
+    if (index < 0) index = productImages.length - 1;
+    if (index >= productImages.length) index = 0;
+    currentIndex = index;
+
+    imgElement.src = productImages[currentIndex];
+    counter.textContent = `${currentIndex + 1} / ${productImages.length}`;
+    resetZoom();
+  }
+
+  // === Event Handlers ===
+
+  function openOverlay(index) {
+    loadImage(index);
+    overlay.classList.remove('hidden');
+    overlay.classList.add('flex');
+    requestAnimationFrame(() => {
+      overlay.classList.remove('opacity-0');
+    });
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeOverlay() {
+    overlay.classList.add('opacity-0');
+    setTimeout(() => {
+      overlay.classList.remove('flex');
+      overlay.classList.add('hidden');
+      resetZoom();
+      imgElement.src = '';
+    }, 300);
+    document.body.style.overflow = '';
+  }
+
+  // Attach click to this carousel's images only
+  slides.forEach((img, idx) => {
+    img.style.cursor = 'zoom-in';
+    img.addEventListener('click', (e) => {
+      e.preventDefault();
+      openOverlay(idx);
+    });
+  });
+
+  if (closeBtn) closeBtn.addEventListener('click', closeOverlay);
+  if (nextBtn) nextBtn.addEventListener('click', (e) => { e.stopPropagation(); loadImage(currentIndex + 1); });
+  if (prevBtn) prevBtn.addEventListener('click', (e) => { e.stopPropagation(); loadImage(currentIndex - 1); });
+
+  // === Gestures ===
+
+  let lastTap = 0;
+  imgElement.addEventListener('click', (e) => {
+    const currentTime = new Date().getTime();
+    const tapLength = currentTime - lastTap;
+    if (tapLength < 300 && tapLength > 0) {
+      e.preventDefault();
+      if (state.scale > 1) {
+        resetZoom();
+      } else {
+        state.scale = 2.5;
+        state.pointX = 0;
+        state.pointY = 0;
+        updateTransform();
+      }
+    }
+    lastTap = currentTime;
+  });
+
+  overlay.addEventListener('wheel', (e) => {
+    if (e.ctrlKey || e.metaKey) {
+      e.preventDefault();
+      const delta = -e.deltaY * 0.01;
+      const newScale = Math.min(Math.max(1, state.scale + delta), 4);
+      state.scale = newScale;
+      if (state.scale === 1) { state.pointX = 0; state.pointY = 0; }
+      updateTransform();
+    }
+  }, { passive: false });
+
+  function getDistance(touches) {
+    return Math.hypot(
+      touches[0].pageX - touches[1].pageX,
+      touches[0].pageY - touches[1].pageY
+    );
+  }
+
+  overlay.addEventListener('touchstart', (e) => {
+    // Allow interaction with buttons
+    if (e.target.closest('button')) return;
+
+    if (e.touches.length === 2) {
+      state.isZooming = true;
+      state.startDist = getDistance(e.touches);
+      state.startScale = state.scale;
+    } else if (e.touches.length === 1) {
+      state.panning = true;
+      state.startX = e.touches[0].pageX - state.pointX;
+      state.startY = e.touches[0].pageY - state.pointY;
+      state.touchStartX = e.touches[0].pageX;
+      state.touchStartY = e.touches[0].pageY;
+    }
+  }, { passive: false });
+
+  overlay.addEventListener('touchmove', (e) => {
+    // If pressing button, don't move
+    if (e.target.closest('button')) return;
+    e.preventDefault();
+
+    if (state.isZooming && e.touches.length === 2) {
+      const dist = getDistance(e.touches);
+      const scaleChange = dist / state.startDist;
+      const newScale = Math.min(Math.max(1, state.startScale * scaleChange), 4);
+
+      state.scale = newScale;
+      updateTransform();
+    } else if (state.panning && e.touches.length === 1 && state.scale > 1) {
+      e.preventDefault();
+      state.pointX = e.touches[0].pageX - state.startX;
+      state.pointY = e.touches[0].pageY - state.startY;
+      updateTransform();
+    }
+  }, { passive: false });
+
+  overlay.addEventListener('touchend', (e) => {
+    if (e.target.closest('button')) return;
+
+    if (e.touches.length < 2) {
+      state.isZooming = false;
+    }
+    if (e.touches.length === 0) {
+      // Swipe Detection when not zoomed
+      if (state.scale === 1 && state.panning && e.changedTouches.length > 0) {
+        const diffX = e.changedTouches[0].pageX - state.touchStartX;
+        const diffY = e.changedTouches[0].pageY - state.touchStartY;
+
+        // Threshold for swipe
+        if (Math.abs(diffX) > 50 && Math.abs(diffY) < 100) {
+          if (diffX > 0) {
+            loadImage(currentIndex - 1);
+          } else {
+            loadImage(currentIndex + 1);
+          }
+        }
+      }
+
+      state.panning = false;
+      if (state.scale <= 1) {
+        resetZoom();
+      }
+    }
+  });
+
+  // Mouse Drag (Desktop Pan)
+  let isMouseDown = false;
+  imgElement.addEventListener('mousedown', (e) => {
+    if (state.scale > 1) {
+      isMouseDown = true;
+      state.startX = e.clientX - state.pointX;
+      state.startY = e.clientY - state.pointY;
+      imgElement.style.cursor = 'grabbing';
+      e.preventDefault();
+    }
+  });
+
+  window.addEventListener('mousemove', (e) => {
+    if (!isMouseDown) return;
+    e.preventDefault();
+    state.pointX = e.clientX - state.startX;
+    state.pointY = e.clientY - state.startY;
+    updateTransform();
+  });
+
+  window.addEventListener('mouseup', () => {
+    isMouseDown = false;
+    imgElement.style.cursor = state.scale > 1 ? 'grab' : 'default';
+  });
+
+  }) ();
+</script>

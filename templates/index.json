@@ -29,6 +29,7 @@
         "desktop_height": "calc(100vh - 4rem)",
         "mobile_media_type": "video",
         "mobile_video": "shopify://files/videos/1080x1920_1.mp4",
+        "mobile_video_poster": "shopify://shop_images/Screenshot_2025-12-24_at_8.19.22_PM.png",
         "mobile_height": "calc(100vh - 4rem)",
         "autoplay_video": true,
         "loop_video": true,

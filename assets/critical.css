@@ -26,6 +26,15 @@ h1, h2 {
 .font-outfit {
     font-family: 'Outfit', sans-serif;
 }
+.font-bebas {
+    font-family: 'Bebas Neue', sans-serif;
+}
+.font-zalando {
+    font-family: 'Zalando Sans Expanded', sans-serif;
+}
+.font-special-gothic {
+    font-family: 'Special Gothic Expanded One', sans-serif;
+}
 
 html:has(dialog[scroll-lock][open], details[scroll-lock][open]) {
   overflow: hidden;

@@ -15,7 +15,7 @@ Usage: place `{% render 'cart-drawer' %}` once (e.g., in `layout/theme.liquid` o
     {% render 'toast' %}
     <!-- Header -->
     <div class="flex items-center justify-between p-4 bg-white border-b sticky top-0 z-10">
-      <h3 class="text-sm font-semibold font-outfit" data-cart-title>Your Cart (0 items)</h3>
+      <h3 class="text-lg font-semibold font-outfit" data-cart-title>Your Cart (0 items)</h3>
       <button type="button" data-cart-close class="p-2 text-gray-500 hover:text-gray-800" aria-label="Close cart">
         {% render 'icon', icon: 'x', size: 24 %}
       </button>
@@ -51,8 +51,9 @@ Usage: place `{% render 'cart-drawer' %}` once (e.g., in `layout/theme.liquid` o
           </svg>
 
           <!-- Central Text Display -->
-          <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-center w-full px-4">
-            <p class="text-xs font-bold text-gray-900 uppercase tracking-wide" data-gauge-text>Shipping on us — almost
+          <div class="absolute bottom-5 left-1/2 transform -translate-x-1/2 text-center w-full px-12">
+            <p class="text-xl font-black text-black uppercase tracking-widest leading-none font-special-gothic"
+              style="text-shadow: 1px 1px 0 #9ca3af;" data-gauge-text>Shipping on us — almost
             </p>
           </div>
 
@@ -85,19 +86,19 @@ Usage: place `{% render 'cart-drawer' %}` once (e.g., in `layout/theme.liquid` o
           <!-- 699 Label -->
           <div class="absolute -translate-x-1/2 -translate-y-full pb-2 text-center pointer-events-none"
             style="left: 27.5%; top: 18%;">
-            <span class="text-[10px] font-bold uppercase tracking-wider block whitespace-nowrap">Free Ship</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider block whitespace-nowrap">Free <br /> Ship</span>
           </div>
 
           <!-- 899 Label -->
           <div class="absolute -translate-x-1/2 -translate-y-full pb-2 text-center pointer-events-none"
             style="left: 72.5%; top: 18%;">
-            <span class="text-[10px] font-bold uppercase tracking-wider block whitespace-nowrap">₹70 Off</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider block whitespace-nowrap">Flat<br /> ₹70 Off</span>
           </div>
 
           <!-- 1099 Label -->
           <div class="absolute -translate-x-1/2 -translate-y-full pb-2 text-center pointer-events-none"
-            style="left: 104%; top: 96%;">
-            <span class="text-[10px] font-bold uppercase tracking-wider block whitespace-nowrap">₹120 Off</span>
+            style="left: 104%; top: 90%;">
+            <span class="text-[10px] font-bold uppercase tracking-wider block whitespace-nowrap">Flat<br /> ₹120 Off</span>
           </div>
         </div>
         <p class="text-center text-sm font-medium mt-10 text-white bg-black py-1" data-reward-message>Add
@@ -285,10 +286,10 @@ Usage: place `{% render 'cart-drawer' %}` once (e.g., in `layout/theme.liquid` o
           rewardMsgEl.innerHTML = `Just <strong>${formatMoney(diff)}</strong> away for <strong>Free Shipping</strong>`;
         } else if (totalPrice < DISCOUNT_1_THRESHOLD) {
           const diff = DISCOUNT_1_THRESHOLD - totalPrice;
-          rewardMsgEl.innerHTML = `Just <strong>${formatMoney(diff)}</strong> away for <strong>₹70 Off</strong>`;
+          rewardMsgEl.innerHTML = `Just <strong>${formatMoney(diff)}</strong> away for <strong>Flat ₹70 Off</strong>`;
         } else if (totalPrice < DISCOUNT_2_THRESHOLD) {
           const diff = DISCOUNT_2_THRESHOLD - totalPrice;
-          rewardMsgEl.innerHTML = `Just <strong>${formatMoney(diff)}</strong> away for <strong>₹120 Off</strong>`;
+          rewardMsgEl.innerHTML = `Just <strong>${formatMoney(diff)}</strong> away for <strong>Flat ₹120 Off</strong>`;
         } else {
           rewardMsgEl.innerHTML = `<strong>You have unlocked all rewards!</strong>`;
         }
@@ -360,11 +361,11 @@ Usage: place `{% render 'cart-drawer' %}` once (e.g., in `layout/theme.liquid` o
       }
 
       content.innerHTML = cart.items.map(item => `
-        <div class="flex gap-4 p-3 border-b border-gray-400 first:border-t bg-white relative group" data-line-item-key="${item.key}">
-          <a href="${item.url}" class="w-20 h-24 bg-gray-100 flex-shrink-0 overflow-hidden rounded-md border border-gray-200 block">
+        <div class="flex gap-4 border-b border-gray-400 h-36 first:border-t bg-white relative group" data-line-item-key="${item.key}">
+          <a href="${item.url}" class="aspect-square h-36 bg-gray-100 flex-shrink-0 overflow-hidden border border-gray-200 block">
             ${item.image ? `<img src="${item.image}" alt="${item.product_title}" class="w-full h-full object-cover" />` : ''}
           </a>
-          <div class="flex-1 min-w-0 flex flex-col justify-between py-0.5">
+          <div class="flex-1 min-w-0 flex flex-col justify-between py-3 pr-3">
             <div>
                 <div class="flex justify-between items-start">
                     <a href="${item.url}" class="text-sm font-semibold text-gray-900 truncate pr-2 hover:underline block">${item.product_title}</a>
@@ -673,14 +674,20 @@ Usage: place `{% render 'cart-drawer' %}` once (e.g., in `layout/theme.liquid` o
       const trigger = e.target.closest('[data-cart-open]');
       if (trigger) {
         e.preventDefault();
+        localStorage.setItem('cart_open', true);
         open();
         return;
       }
       if (e.target.closest('[data-cart-close]') || e.target === overlay) {
+        localStorage.removeItem('cart_open');
         e.preventDefault();
         close();
       }
     });
+
+    if (localStorage.getItem('cart_open')) {
+      open();
+    }
 
     // Expose
     window.CartDrawer = { open, close, refresh: fetchCart };

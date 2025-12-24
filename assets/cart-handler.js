@@ -23,7 +23,10 @@ if (!window.CartHandler) {
                 // Check if this button is part of a product card (has data attributes)
                 // or if it's a standard form submit button
                 if (btn.hasAttribute('data-product-id')) {
-                    handleProductCardClick(e, btn);
+                    const variants = Number(btn.getAttribute('data-variants'));
+                    if(variants === 1) {
+                        handleProductCardClick(e, btn);
+                    }
                 }
             });
         }
