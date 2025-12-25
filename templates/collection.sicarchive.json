@@ -11,8 +11,9 @@
   "sections": {
     "sicarchive_gakyWF": {
       "type": "sicarchive",
+      "disabled": true,
       "custom_css": [
-        "{margin-top: 5rem}"
+        "{margin-top: 5rem;}"
       ],
       "name": "SIC Archive",
       "settings": {

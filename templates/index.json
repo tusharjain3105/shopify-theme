@@ -222,6 +222,9 @@
     },
     "banner_FfHwgK": {
       "type": "banner",
+      "custom_css": [
+        "{display: block; @media screen and (min-width: 768px) {display: none; }}"
+      ],
       "name": "Banner",
       "settings": {
         "media_type": "video",
@@ -229,6 +232,28 @@
         "banner_image_height": "80vh",
         "banner_image_height_mobile": "125vw",
         "banner_video": "shopify://files/videos/4x5 format web.mp4",
+        "autoplay_video": true,
+        "loop_video": true,
+        "mute_video": true,
+        "show_card": false,
+        "heading": "Welcome to Our Store",
+        "subtext": "Discover the latest collections and exclusive offers.",
+        "button_link": "shopify://collections/sicarchive",
+        "button_text": "Shop Now"
+      }
+    },
+    "banner_cJDPcU": {
+      "type": "banner",
+      "custom_css": [
+        "{display: none; @media screen and (min-width: 768px) {display: block; }}"
+      ],
+      "name": "Banner",
+      "settings": {
+        "media_type": "video",
+        "banner_image": "shopify://shop_images/TY7RF.jpg",
+        "banner_image_height": "56vw",
+        "banner_image_height_mobile": "125vw",
+        "banner_video": "shopify://files/videos/website.mp4",
         "autoplay_video": true,
         "loop_video": true,
         "mute_video": true,
@@ -559,6 +584,7 @@
     "categories",
     "product-gallery",
     "banner_FfHwgK",
+    "banner_cJDPcU",
     "sicarchive_T7UzeM",
     "product_gallery_Pech8Q",
     "quiz",

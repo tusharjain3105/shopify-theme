@@ -154,15 +154,13 @@ body {
   grid-column: 1 / -1;
 }
 
-.shopify-policy__container:first-child {
-  margin-top: 5rem !important;
-}
-
 .shopify-policy__container {
   margin: auto;
+  margin-top: 5rem !important;
   max-width: 100vw !important;
   width: 70vw !important;
   text-align: justify;
+  padding-inline: 0 !important;
 
   .shopify-policy__title {
     display: none;
@@ -175,10 +173,17 @@ body {
 
   h1, h2 {
     margin-top: 0.5rem;
-    font-size: 2rem;
     font-weight: bold;
     color: #000;
     text-align: center;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  h2 {
+    font-size: 1.7rem;
   }
 
   h3 {
