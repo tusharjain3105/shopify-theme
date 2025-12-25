@@ -826,6 +826,9 @@
   .w-\[100vw\] {
     width: 100vw;
   }
+  .w-\[calc\(100vw-32px\)\] {
+    width: calc(100vw - 32px);
+  }
   .w-fit {
     width: fit-content;
   }
@@ -2679,6 +2682,11 @@
   .md\:max-w-2xl {
     @media (width >= 48rem) {
       max-width: var(--container-2xl);
+    }
+  }
+  .md\:max-w-\[420px\] {
+    @media (width >= 48rem) {
+      max-width: 420px;
     }
   }
   .md\:-translate-x-1\/2 {

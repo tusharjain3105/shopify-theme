@@ -12,6 +12,9 @@
   const rootId = 'toast-root';
   const ensureRoot = () => {
     let r = document.getElementById(rootId);
+    if (r && r.parentElement !== document.body) {
+      document.body.appendChild(r);
+    }
     if (!r) {
       r = document.createElement('div');
       r.id = rootId;
@@ -50,7 +53,7 @@
     };
     const el = document.createElement('div');
     el.role = 'status';
-    el.className = `pointer-events-auto ${colorClass} shadow-sm rounded-lg px-5 py-4 text-base flex items-center gap-3 max-w-[92vw] lg:max-w-[420px]`;
+    el.className = `pointer-events-auto ${colorClass} shadow-sm rounded-lg px-5 py-4 text-base flex items-center gap-3 w-[calc(100vw-32px)] md:w-[400px] md:max-w-[420px]`;
     el.innerHTML = `
       <span class="toast-icon flex-none" aria-hidden="true">${icons[type] || ''}</span>
       <span class="toast-msg flex-1">
@@ -132,7 +135,7 @@
         warn: 'bg-amber-50 text-amber-900 border border-amber-200',
         success: 'bg-green-50 text-green-900 border border-green-200'
       };
-      el.className = `pointer-events-auto ${palette[type]||palette.info} shadow-sm rounded-lg px-5 py-4 text-base flex items-center gap-3 max-w-[92vw] lg:max-w-[420px]`;
+      el.className = `pointer-events-auto ${palette[type] || palette.info} shadow-sm rounded-lg px-5 py-4 text-base flex items-center gap-3 w-[calc(100vw-32px)] md:w-[400px] md:max-w-[420px]`;
       // swap icon from spinner to appropriate type icon
       const iconEl = el.querySelector('.toast-icon');
       if (iconEl) {
@@ -156,6 +159,17 @@
     return { dismiss: remove };
   };
 
-  window.Toast = window.Toast || { show, promise };
+  const api = {
+    show,
+    promise,
+    success: (msg, opts) => show(msg, { ...opts, type: 'success' }),
+    error: (msg, opts) => show(msg, { ...opts, type: 'error' }),
+    info: (msg, opts) => show(msg, { ...opts, type: 'info' }),
+    warn: (msg, opts) => show(msg, { ...opts, type: 'warn' }),
+    warning: (msg, opts) => show(msg, { ...opts, type: 'warn' })
+  };
+
+  // Force update to include new methods even if previously initialized
+  window.Toast = api;
 })();
 </script>

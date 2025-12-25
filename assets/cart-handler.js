@@ -87,9 +87,12 @@ if (!window.CartHandler) {
                     'X-Requested-With': 'XMLHttpRequest'
                 }
             })
-                .then(response => {
-                    if (!response.ok) throw new Error('Network response was not ok');
-                    return response.json();
+                .then(async response => {
+                    const data = await response.json();
+                    if (!response.ok) {
+                        throw new Error(data.description || data.message || 'Network response was not ok');
+                    }
+                    return data;
                 })
                 .then(item => {
                     // Success
@@ -111,7 +114,7 @@ if (!window.CartHandler) {
                     btn.classList.add('error');
                     // Show error toast if available
                     if (window.Toast && typeof window.Toast.error === 'function') {
-                        window.Toast.error('Failed to add to cart');
+                        window.Toast.error(error.message || 'Failed to add to cart');
                     }
                 })
                 .finally(() => {

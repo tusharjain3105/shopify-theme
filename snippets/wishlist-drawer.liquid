@@ -98,7 +98,7 @@ Shows locally stored wishlist items. Trigger with [data-wishlist-open] and inclu
     const saveWishlist = (list) => {
       try {
         localStorage.setItem('wishlistItems', JSON.stringify(list));
-        window.dispatchEvent(new CustomEvent('wishlist:updated'));
+        document.dispatchEvent(new CustomEvent('wishlist:updated'));
       } catch (e) {
         console.error('Error saving wishlist:', e);
       }
@@ -295,7 +295,7 @@ Shows locally stored wishlist items. Trigger with [data-wishlist-open] and inclu
         }
       });
 
-      window.addEventListener('wishlist:updated', render);
+      document.addEventListener('wishlist:updated', render);
     };
 
     // Initialize

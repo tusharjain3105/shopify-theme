@@ -35,6 +35,9 @@ if (!window.WishlistHandler) {
                     dispatchUpdateEvent();
                 }
             });
+
+            // Listen for internal updates
+            document.addEventListener('wishlist:updated', initWishlistButtons);
         }
 
         function handleWishlistClick(e) {
@@ -116,8 +119,7 @@ if (!window.WishlistHandler) {
 
             // Get variant ID
             let variantId = btn.getAttribute('data-variant-id') ||
-                (productCard && productCard.getAttribute('data-variant-id')) ||
-                productId;
+                (productCard && productCard.getAttribute('data-variant-id'));
 
             return {
                 id: productId,

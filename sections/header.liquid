@@ -462,7 +462,7 @@
     initWishlistButton();
 
     // Listen for wishlist updates
-    window.addEventListener('wishlist:updated', updateWishlistBadge);
+    document.addEventListener('wishlist:updated', updateWishlistBadge);
 
     // Also update when the page becomes visible again (in case changes were made in another tab)
     document.addEventListener('visibilitychange', function () {
