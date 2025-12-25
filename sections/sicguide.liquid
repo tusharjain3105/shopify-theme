@@ -59,8 +59,11 @@
         <div class="relative w-full max-w-4xl mx-auto overflow-hidden rounded-lg shadow-sm">
             {% if section.settings.guide_image %}
             <img src="{{ section.settings.guide_image | img_url: 'master' }}"
-                alt="{{ section.settings.guide_image.alt | default: 'Vibe Guide' }}" class="w-full h-auto block"
-                loading="lazy">
+                alt="{{ section.settings.guide_image.alt | default: 'Vibe Guide' }}" 
+                width="{{ section.settings.guide_image.width }}"
+                height="{{ section.settings.guide_image.height }}"
+                class="w-full h-auto block"
+                loading="eager">
             {% else %}
             <div class="w-full h-[600px] bg-gray-100 flex items-center justify-center text-gray-400">
                 <span>Select an Image</span>

@@ -19,7 +19,7 @@ Parameters:
     <div class="relative overflow-hidden aspect-image">
       {% if product.featured_image %}
       <img src="{{ product.featured_image | img_url: '400x400' }}" alt="{{ product.title | escape }}"
-        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy" />
+        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="eager" />
       {% else %}
       <div class="w-full h-full bg-gray-50 flex items-center justify-center">
         <svg class="w-12 h-12 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">

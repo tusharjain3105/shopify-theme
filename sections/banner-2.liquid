@@ -149,7 +149,7 @@
 {% if section.settings.button_link != blank %}
 <a href="{{ section.settings.button_link }}" class="no-row">
   {% endif %}
-  <section class="relative flex items-center justify-center w-full bg-gray-400 overflow-hidden 
+  <section class="relative flex items-center justify-center w-full bg-white overflow-hidden 
   h-[var(--banner-height)] md:h-[var(--banner-height-desktop)] no-row" style="
     --banner-height: {{ section.settings.mobile_height | default: '60vh' }};
     --banner-height-desktop: {{ section.settings.desktop_height | default: '100vh' }};
@@ -213,7 +213,6 @@
 
     function playVideo(video) {
       if (video) {
-        console.log("Play video", video)
         const playPromise = video.play();
         if (playPromise !== undefined) {
           playPromise.catch((e) => {

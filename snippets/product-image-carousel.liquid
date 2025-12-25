@@ -48,7 +48,7 @@ Usage: {% render 'product-image-carousel', product: product, mobile: true/false 
       class="thumbnail-btn aspect-image overflow-hidden border-2 {% if forloop.first %}border-gray-800{% else %}border-transparent{% endif %} hover:border-gray-400 transition-colors"
       data-slide="{{ forloop.index0 }}">
       <img src="{{ image | img_url: '120x120' }}" alt="{{ image.alt | default: product.title | escape }}"
-        class="w-full aspect-image object-cover" loading="lazy" />
+        class="w-full aspect-image object-cover" loading="eager" />
     </button>
     {% endfor %}
   </div>
