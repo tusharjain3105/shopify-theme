@@ -214,9 +214,10 @@ Shows locally stored wishlist items. Trigger with [data-wishlist-open] and inclu
               </div>
               <div class="mt-3 flex items-center gap-2">
                 <button type="button" 
-                  data-wishlist-add-tocart="${item.variant_id || item.id}" 
-                  class="inline-flex items-center justify-center bg-black text-white rounded-md h-8 px-4 text-xs font-bold uppercase tracking-wider hover:bg-gray-800 whitespace-nowrap transition-colors flex-1"
-                  ${!item.variant_id ? 'disabled title="Select options on product page"' : ''}>
+                  data-wishlist-action
+                  data-handle="${item.handle}"
+                  data-variant-id="${item.variant_id || ''}"
+                  class="inline-flex items-center justify-center bg-black text-white rounded-md h-8 px-4 text-xs font-bold uppercase tracking-wider hover:bg-gray-800 whitespace-nowrap transition-colors flex-1">
                   Add to Cart
                 </button>
                 <button type="button" data-wishlist-remove="${item.id}" class="inline-flex items-center justify-center w-8 h-8 rounded-full hover:bg-gray-100 transition-colors text-gray-500" title="Remove">
@@ -260,30 +261,42 @@ Shows locally stored wishlist items. Trigger with [data-wishlist-open] and inclu
           return;
         }
 
-        const addToCartBtn = e.target.closest('[data-wishlist-add-tocart]');
-        if (addToCartBtn) {
+        const actionBtn = e.target.closest('[data-wishlist-action]');
+        if (actionBtn) {
           e.preventDefault();
           e.stopPropagation();
-          const variantId = addToCartBtn.getAttribute('data-wishlist-add-tocart');
-          if (!variantId) return;
 
-          // Use CartHandler
-          if (window.CartHandler) {
-            const formData = new FormData();
-            formData.append('id', variantId);
-            formData.append('quantity', 1);
-            window.CartHandler.addToCart(addToCartBtn, formData);
+          const variantId = actionBtn.getAttribute('data-variant-id');
+          const handle = actionBtn.getAttribute('data-handle');
+
+          if (variantId) {
+            // Use CartHandler
+            if (window.CartHandler) {
+              const formData = new FormData();
+              formData.append('id', variantId);
+              formData.append('quantity', 1);
+              window.CartHandler.addToCart(actionBtn, formData);
+            } else {
+              console.warn('CartHandler not available, using fallback');
+              // Fallback
+              const originalText = actionBtn.textContent;
+              actionBtn.textContent = 'Adding...';
+              fetch('/cart/add.js', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ items: [{ id: variantId, quantity: 1 }] })
+              }).then(() => {
+                window.location.reload();
+              }).catch(err => {
+                console.error(err);
+                actionBtn.textContent = originalText;
+              });
+            }
+          } else if (handle && window.VariantPicker) {
+            window.VariantPicker.open(handle);
           } else {
-            console.error('CartHandler not available');
-            // Fallback
-            addToCartBtn.textContent = 'Adding...';
-            fetch('/cart/add.js', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ items: [{ id: variantId, quantity: 1 }] })
-            }).then(() => {
-              window.location.reload();
-            }).catch(err => console.error(err));
+            console.error('Cannot add to cart: Missing variant ID and cannot open picker');
+            if (handle) window.location.href = `/products/${handle}`;
           }
           return;
         }

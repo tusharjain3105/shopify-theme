@@ -52,9 +52,11 @@
     <div class="flex justify-between items-center">
       <h2 class="text-[22px] md:text-3xl font-bold md:text-center uppercase">{{ section.settings.section_heading }}
       </h2>
+      {% if section.settings.gallery_layout == 'carousel' %}
       <a href="{{ section.settings.gallery_collection | prepend: " /collections/" }}"
         class="p-1 px-2 bg-gray-200 text-xs grid place-items-center max-w-fit md:text-base" role="button">Discover
         More</a>
+      {% endif %}
     </div>
   </div>
 

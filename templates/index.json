@@ -217,7 +217,7 @@
         "gallery_collection": "new-arrivals",
         "section_heading": "Fresh Drops",
         "products_limit": 8,
-        "gallery_layout": "carousel"
+        "gallery_layout": "grid"
       }
     },
     "banner_FfHwgK": {
@@ -280,7 +280,7 @@
         "gallery_collection": "new-arrivals",
         "section_heading": "Best Sellers",
         "products_limit": 8,
-        "gallery_layout": "carousel"
+        "gallery_layout": "grid"
       }
     },
     "quiz": {

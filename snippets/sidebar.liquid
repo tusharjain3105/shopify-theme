@@ -7,7 +7,7 @@ Sidebar component
 <div class="h-dvh flex flex-col pt-0 pb-6 text-black">
   <!-- Navigation: mirror of main menu -->
   <nav class="flex-1 overflow-y-auto" role="navigation" aria-label="Mobile">
-    <ul class="px-2 py-2 divide-y divide-zinc-100">
+    <ul class="px-2 py-2 divide-y divide-zinc-100 font-semibold">
       {% for link in linklists.main-menu.links %}
       <li class="first:pt-1">
         {% if link.links != blank %}
@@ -24,18 +24,18 @@ Sidebar component
               {% for child_link in link.links %}
               <li>
                 {% if child_link.links != blank %}
-                <span href="{{ child_link.url }}" class="block px-2 py-2 hover:bg-zinc-100 rounded">{{
+                <span href="{{ child_link.url }}" class="block px-2 py-3 hover:bg-zinc-100 rounded">{{
                   child_link.title }}</span>
                 <ul class="pl-4 border-l border-zinc-200 my-1 divide-y divide-[#e0e0e0]">
                   {% for grand_link in child_link.links %}
                   <li>
-                    <a href="{{ grand_link.url }}" class="block px-2 py-2 hover:bg-zinc-100 rounded">{{
+                    <a href="{{ grand_link.url }}" class="block px-2 py-3 hover:bg-zinc-100 rounded">{{
                       grand_link.title }}</a>
                   </li>
                   {% endfor %}
                 </ul>
                 {% else %}
-                <a href="{{ child_link.url }}" class="block px-2 py-2 hover:bg-zinc-100 rounded">{{
+                <a href="{{ child_link.url }}" class="block px-2 py-3 hover:bg-zinc-100 rounded">{{
                   child_link.title }}</a>
                 {% endif %}
               </li>
