@@ -26,6 +26,17 @@ if (!window.CartHandler) {
                     const variants = Number(btn.getAttribute('data-variants'));
                     if(variants === 1) {
                         handleProductCardClick(e, btn);
+                    } else {
+                        // Open variant picker
+                        const handle = btn.getAttribute('data-handle');
+                        if (window.VariantPicker && handle) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            window.VariantPicker.open(handle);
+                        } else {
+                            // Fallback if no picker / handle, try adding default variant
+                            handleProductCardClick(e, btn); 
+                        }
                     }
                 }
             });

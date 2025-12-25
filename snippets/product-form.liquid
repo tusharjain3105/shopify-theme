@@ -113,37 +113,7 @@ Usage: {% render 'product-form', product: product %}
   {% endform %}
 </div>
 
-<!-- Size Chart Dialog -->
-<dialog id="size-chart-modal" class="m-auto p-0 rounded-lg shadow-xl max-w-lg w-full bg-white backdrop:bg-black/50">
-  <div class="relative bg-white p-4">
-    <button type="button" class="absolute top-2 right-2 p-2 text-gray-500 hover:text-black z-10 bg-white rounded-full"
-      onclick="document.getElementById('size-chart-modal').close()">
-      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-      </svg>
-    </button>
-    <h3 class="text-lg font-bold mb-4 text-center">Size Chart</h3>
-    <div class="overflow-auto max-h-[80vh]">
-      <img src="https://cdn.shopify.com/s/files/1/0706/2686/9440/files/Untitled_design_11.png?v=1766626731"
-        alt="Ring Size Chart" class="w-full h-auto" />
-    </div>
-  </div>
-</dialog>
-
-<style>
-  #size-chart-modal::backdrop {
-    background-color: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(2px);
-  }
-
-  #size-chart-modal {
-    margin: auto;
-    inset: 0;
-    position: fixed;
-    z-index: 50;
-  }
-</style>
-
+<!-- Size Chart Dialog (Moved Global) -->
 <script>
   (function () {
     const init = () => {

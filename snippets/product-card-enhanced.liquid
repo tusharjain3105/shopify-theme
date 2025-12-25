@@ -63,7 +63,10 @@ Parameters:
       <button type="button"
         class="product-card-btn {% if product.available == false %}opacity-50{% else %}hover:bg-white active:bg-white{% endif %} absolute bottom-2 right-2 bg-white/50 p-2 rounded-full"
         data-product-id="{{ product.selected_or_first_available_variant.id }}"
-        data-product-available="{{ product.available }}" {% if product.available==false %}disabled{% endif %}>
+        data-product-available="{{ product.available }}"
+        data-variants="{{ product.variants.size }}"
+        data-handle="{{ product.handle }}"
+        {% if product.available==false %}disabled{% endif %}>
         {% render 'icon', icon: 'plus', size: '20' %}
       </button>
       {% endif %}
