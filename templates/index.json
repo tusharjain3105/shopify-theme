@@ -89,13 +89,13 @@
             "category_link": "shopify://collections/earrings"
           }
         },
-        "category_DiT67t": {
+        "category_qWbfBh": {
           "type": "category",
-          "name": "Pearls",
+          "name": "Chains",
           "settings": {
-            "category_image": "shopify://shop_images/7ae4c4_5977d3a7d2a147f6b67727a7eed6f96c_mv2_34d08753-8f6c-40f0-b9b4-8f7d04fc0b5f.jpg",
-            "category_title": "Pearls",
-            "category_link": "shopify://collections/pearls"
+            "category_image": "shopify://shop_images/UNI02769_SnapseedCopy.jpg",
+            "category_title": "Chains",
+            "category_link": "shopify://collections/chains"
           }
         },
         "category_8zErqL": {
@@ -116,13 +116,13 @@
             "category_link": "shopify://collections/rings"
           }
         },
-        "category_qWbfBh": {
+        "category_DiT67t": {
           "type": "category",
-          "name": "Chains",
+          "name": "Pearls",
           "settings": {
-            "category_image": "shopify://shop_images/IMG_2545_JPEG.jpg",
-            "category_title": "Chains",
-            "category_link": "shopify://collections/chains"
+            "category_image": "shopify://shop_images/7ae4c4_8f851a5d76f546e3a5d5c68760aff587_mv2.jpg",
+            "category_title": "Pearls",
+            "category_link": "shopify://collections/pearls"
           }
         }
       },
@@ -130,10 +130,10 @@
         "category_MfFTUF",
         "category_xyHxbQ",
         "category_HLfFft",
-        "category_DiT67t",
+        "category_qWbfBh",
         "category_8zErqL",
         "category_VM8VzJ",
-        "category_qWbfBh"
+        "category_DiT67t"
       ],
       "name": "Category Stories",
       "settings": {}
