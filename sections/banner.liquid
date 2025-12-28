@@ -102,7 +102,7 @@
     ">
 
     {% if section.settings.media_type == 'video' and section.settings.banner_video != blank %}
-    <video id="banner-video" class="w-full h-full object-cover absolute inset-0" {% if section.settings.autoplay_video
+    <video id="banner-video" autoplay class="w-full h-full object-cover absolute inset-0" {% if section.settings.autoplay_video
       %} playsinline webkit-playsinline x-webkit-airplay="allow" muted="muted" {% endif %} {% if
       section.settings.loop_video %} loop{% endif %} preload="auto" {% if section.settings.video_poster !=blank
       %}poster="{{ section.settings.video_poster | img_url: '1600x' }}" {% endif %}>
@@ -128,19 +128,23 @@
 
           if (playPromise !== undefined) {
             playPromise.catch(() => {
+              // Autoplay failed, try on user interaction
+            document.addEventListener('touchstart', function () {
+              video.play();
+            }, { once: true });
               // Show a play button overlay if autoplay fails
-              const playOverlay = document.createElement('div');
-              playOverlay.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.3);z-index:10;';
-              playOverlay.innerHTML = '<div style="background:white;border-radius:50%;width:60px;height:60px;display:flex;align-items:center;justify-content:center;cursor:pointer;"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg></div>';
+              // const playOverlay = document.createElement('div');
+              // playOverlay.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.3);z-index:10;';
+              // playOverlay.innerHTML = '<div style="background:white;border-radius:50%;width:60px;height:60px;display:flex;align-items:center;justify-content:center;cursor:pointer;"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg></div>';
 
-              playOverlay.onclick = function (e) {
-                e.stopPropagation();
-                video.play().then(() => {
-                  playOverlay.style.display = 'none';
-                });
-              };
+              // playOverlay.onclick = function (e) {
+              //   e.stopPropagation();
+              //   video.play().then(() => {
+              //     playOverlay.style.display = 'none';
+              //   });
+              // };
 
-              video.parentNode.insertBefore(playOverlay, video.nextSibling);
+              // video.parentNode.insertBefore(playOverlay, video.nextSibling);
             });
           }
         };
@@ -157,7 +161,15 @@
             tryAutoPlay();
           }
         });
-        })
+        // iOS specific handling
+        if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
+          if (video) {
+            video.setAttribute('webkit-playsinline', '');
+            video.load();
+            setTimeout(() => playVideo(video), 100);
+          }
+        }
+      })
       });
     </script>
     {% endif %}
