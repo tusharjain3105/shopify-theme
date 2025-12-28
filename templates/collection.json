@@ -34,25 +34,25 @@
           "type": "category",
           "name": "Earrings",
           "settings": {
-            "category_image": "shopify://shop_images/IMG_2544_JPEG.jpg",
+            "category_image": "shopify://shop_images/IMG_2537_JPEG.jpg",
             "category_title": "Earrings",
             "category_link": "shopify://collections/earrings"
           }
         },
-        "category_DiT67t": {
+        "category_qWbfBh": {
           "type": "category",
-          "name": "Pearls",
+          "name": "Chains",
           "settings": {
-            "category_image": "shopify://shop_images/IMG_2537_JPEG.jpg",
-            "category_title": "Pearls",
-            "category_link": "shopify://collections/pearls"
+            "category_image": "shopify://shop_images/IMG_2949.jpg",
+            "category_title": "Chains",
+            "category_link": "shopify://collections/chains"
           }
         },
         "category_8zErqL": {
           "type": "category",
           "name": "Pendants",
           "settings": {
-            "category_image": "shopify://shop_images/IMG_2542.png",
+            "category_image": "shopify://shop_images/IMG_2962.jpg",
             "category_title": "Pendants",
             "category_link": "shopify://collections/pendants"
           }
@@ -66,13 +66,13 @@
             "category_link": "shopify://collections/rings"
           }
         },
-        "category_qWbfBh": {
+        "category_DiT67t": {
           "type": "category",
-          "name": "Chains",
+          "name": "Pearls",
           "settings": {
-            "category_image": "shopify://shop_images/Screenshot_2025-08-31_at_10.03.32_PM.png",
-            "category_title": "Chains",
-            "category_link": "shopify://collections/chains"
+            "category_image": "shopify://shop_images/7ae4c4_8f851a5d76f546e3a5d5c68760aff587_mv2.jpg",
+            "category_title": "Pearls",
+            "category_link": "shopify://collections/pearls"
           }
         }
       },
@@ -80,10 +80,10 @@
         "category_MfFTUF",
         "category_xyHxbQ",
         "category_HLfFft",
-        "category_DiT67t",
+        "category_qWbfBh",
         "category_8zErqL",
         "category_VM8VzJ",
-        "category_qWbfBh"
+        "category_DiT67t"
       ],
       "custom_css": [
         "{@media screen and (max-width: 768px) {margin-top: 5rem; }}"

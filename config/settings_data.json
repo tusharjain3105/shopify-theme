@@ -15,7 +15,7 @@
     "goEnable": true,
     "goBuynowEnable": true,
     "google_font_family": "Outfit",
-    "favicon_image": "shopify://shop_images/logo.png",
+    "favicon_image": "https://cdn.shopify.com/s/files/1/0706/2686/9440/files/logo.png?v=1753328327",
     "max_page_width": "100vw",
     "min_page_margin": 0,
     "background_color": "#ffffff",

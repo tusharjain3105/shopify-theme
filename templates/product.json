@@ -77,6 +77,46 @@
       ],
       "settings": {}
     },
+    "17668297361bd7619b": {
+      "type": "apps",
+      "blocks": {
+        "pw_stock_notify_app_block_jE7bRC": {
+          "type": "shopify://apps/pw-stock-notify/blocks/app-block/7ef0db28-d812-422b-987c-57978e35f1fe",
+          "disabled": true,
+          "settings": {
+            "popup_display": true,
+            "buy_button_selector": "#gokwik-buy-now",
+            "popup_layout_text_color": "#000000",
+            "popup_layout_background": "linear-gradient(180deg, rgba(255, 255, 255, 1))",
+            "popup_alignment": "top",
+            "notify_trigger_sticky": false,
+            "trigger_btn_alignment": "right",
+            "trigger_btn_width": "full_width",
+            "trigger_btn_floating_alignment": "defaults",
+            "triggerBTN": "Notify when available",
+            "tbtnbg": "#000000",
+            "tbttnbg": "#ffffff",
+            "btnRadius": 1,
+            "pop_up_heading": "Notify When Available",
+            "sub_heading": "Get an email when this product is back in stock.",
+            "bottomtxt": "We respect your privacy and don't share your email with anybody.",
+            "btntxt": "Email me when available",
+            "email_placeholder": "Your Email",
+            "bbtbtnbg": "#000000",
+            "bbtbttnbg": "#ffffff",
+            "input_radius": 1,
+            "email_notify_sub_msg": "Your notification has been subscribed.",
+            "email_notify_already_sub_msg": "Your notification is already subscribed.",
+            "email_validat_error_msg": "Please add Valid Email id",
+            "email_sub_error_msg": "Something not good. Please try again!"
+          }
+        }
+      },
+      "block_order": [
+        "pw_stock_notify_app_block_jE7bRC"
+      ],
+      "settings": {}
+    },
     "recommendations": {
       "type": "product-recommendations",
       "settings": {
@@ -105,6 +145,7 @@
   },
   "order": [
     "main",
+    "17668297361bd7619b",
     "recommendations",
     "175989774856db7742"
   ]

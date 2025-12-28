@@ -113,8 +113,8 @@
     {% if section.settings.autoplay_video %}
     <script>
       document.addEventListener('DOMContentLoaded', function () {
-        const video = document.getElementById('banner-video');
-
+        const videos = document.querySelectorAll('#banner-video');
+        videos.forEach(video => {
         // Set video properties for iOS
         video.setAttribute('muted', '');
         video.muted = true;
@@ -157,6 +157,7 @@
             tryAutoPlay();
           }
         });
+        })
       });
     </script>
     {% endif %}

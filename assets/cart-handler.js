@@ -102,12 +102,12 @@ if (!window.CartHandler) {
                     btn.classList.add('success');
 
                     // Open drawer
-                    if (window.CartDrawer && typeof window.CartDrawer.open === 'function') {
-                        window.CartDrawer.open();
-                    } else {
-                        // Fallback to redirect if no drawer
-                        window.location.href = '/cart';
-                    }
+                    // if (window.CartDrawer && typeof window.CartDrawer.open === 'function') {
+                    //     window.CartDrawer.open();
+                    // } else {
+                    //     // Fallback to redirect if no drawer
+                    //     window.location.href = '/cart';
+                    // }
                 })
                 .catch(error => {
                     console.error('Error adding to cart:', error);

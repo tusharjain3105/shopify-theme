@@ -17,26 +17,12 @@
         "announcement_9ht3hL": {
           "type": "announcement",
           "settings": {
-            "text": "Free shipping at ₹699"
-          }
-        },
-        "announcement_ECaXgR": {
-          "type": "announcement",
-          "settings": {
-            "text": "Flat ₹70 off at ₹899"
-          }
-        },
-        "announcement_BXBmPm": {
-          "type": "announcement",
-          "settings": {
-            "text": "Flat ₹120 off at ₹1099"
+            "text": "Free shipping above ₹699"
           }
         }
       },
       "block_order": [
-        "announcement_9ht3hL",
-        "announcement_ECaXgR",
-        "announcement_BXBmPm"
+        "announcement_9ht3hL"
       ],
       "settings": {
         "autoplay_speed": 3000,

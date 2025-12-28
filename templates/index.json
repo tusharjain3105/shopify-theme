@@ -93,7 +93,7 @@
           "type": "category",
           "name": "Chains",
           "settings": {
-            "category_image": "shopify://shop_images/UNI02769_SnapseedCopy.jpg",
+            "category_image": "shopify://shop_images/IMG_2949.jpg",
             "category_title": "Chains",
             "category_link": "shopify://collections/chains"
           }
@@ -102,7 +102,7 @@
           "type": "category",
           "name": "Pendants",
           "settings": {
-            "category_image": "shopify://shop_images/IMG_2542.png",
+            "category_image": "shopify://shop_images/IMG_2962.jpg",
             "category_title": "Pendants",
             "category_link": "shopify://collections/pendants"
           }
@@ -277,7 +277,7 @@
     "product_gallery_Pech8Q": {
       "type": "product-gallery",
       "settings": {
-        "gallery_collection": "new-arrivals",
+        "gallery_collection": "best-sellers",
         "section_heading": "Best Sellers",
         "products_limit": 8,
         "gallery_layout": "grid"
@@ -343,10 +343,64 @@
         "hotspot_BGB4Tg",
         "hotspot_CNLr9a"
       ],
+      "custom_css": [
+        "{display: block; @media screen and (min-width: 768px) {display: none; }}"
+      ],
       "name": "SicGuide Vibe Picker",
       "settings": {
         "section_heading": "",
         "guide_image": "shopify://shop_images/BEST_SELLERS_2.png"
+      }
+    },
+    "sicguide_EXjCXy": {
+      "type": "sicguide",
+      "blocks": {
+        "hotspot_q8Mycf": {
+          "type": "hotspot",
+          "settings": {
+            "link": "shopify://collections/minimal",
+            "coordinates": "28,0,50,35",
+            "title": "Link"
+          }
+        },
+        "hotspot_3QbYVk": {
+          "type": "hotspot",
+          "settings": {
+            "link": "shopify://collections/everyday",
+            "coordinates": "28,50,50,35",
+            "title": "Link"
+          }
+        },
+        "hotspot_qrUMFT": {
+          "type": "hotspot",
+          "settings": {
+            "link": "shopify://collections/experimental",
+            "coordinates": "63,0,50,37",
+            "title": "Link"
+          }
+        },
+        "hotspot_8Hft6M": {
+          "type": "hotspot",
+          "settings": {
+            "link": "shopify://collections/best-sellers",
+            "coordinates": "63,50,50,37",
+            "title": "Link"
+          }
+        }
+      },
+      "block_order": [
+        "hotspot_q8Mycf",
+        "hotspot_3QbYVk",
+        "hotspot_qrUMFT",
+        "hotspot_8Hft6M"
+      ],
+      "custom_css": [
+        "{display: none; @media screen and (min-width: 768px) {display: block; }}"
+      ],
+      "name": "SicGuide Vibe Picker",
+      "settings": {
+        "section_heading": "",
+        "guide_image": "shopify://shop_images/796c3f5e-10e5-4e38-96ce-35a990d7813f.png"
       }
     },
     "1759897621bed437ba": {
@@ -373,8 +427,8 @@
           "settings": {
             "image": "shopify://shop_images/IMG_6057.jpg",
             "rating": 5,
-            "heading": "Loved the bracelet",
-            "text": "Best product decision and the team was super supportive and responsive Definately coming back for more products Quality of bracelet is too good and I gifted it to someone and everyone loved it",
+            "heading": "Loved the accessories",
+            "text": "Best product decision and the team was super supportive and responsive Definitely coming back for more products Quality of bracelet is too good and I gifted it to someone and everyone loved it",
             "author": "Shreya",
             "product": ""
           }
@@ -589,6 +643,7 @@
     "product_gallery_Pech8Q",
     "quiz",
     "sicguide_V9d8A7",
+    "sicguide_EXjCXy",
     "1759897621bed437ba",
     "reviews_HNCkX3",
     "featured"

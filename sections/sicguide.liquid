@@ -50,13 +50,13 @@
 {% endschema %}
 
 <div class="sicguide-section no-row">
-    <div class="container mx-auto">
+    <div class="mx-auto">
         {% if section.settings.section_heading != blank %}
         <h2 class="text-3xl font-bold text-center mb-8 uppercase font-outfit">{{ section.settings.section_heading }}
         </h2>
         {% endif %}
 
-        <div class="relative w-full max-w-4xl mx-auto overflow-hidden rounded-lg shadow-sm">
+        <div class="relative w-full mx-auto overflow-hidden rounded-lg shadow-sm">
             {% if section.settings.guide_image %}
             <img src="{{ section.settings.guide_image | img_url: 'master' }}"
                 alt="{{ section.settings.guide_image.alt | default: 'Vibe Guide' }}" 
