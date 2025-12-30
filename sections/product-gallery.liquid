@@ -59,15 +59,15 @@
 
   <div class="product-gallery overflow-x-auto scrollbar-hide">
     {% if section.settings.gallery_layout == 'carousel' %}
-    <div class="flex gap-2 pb-4" style="width: max-content;">
+    <div class="flex pb-4" style="width: max-content;">
       {% for product in gallery_collection.products limit: section.settings.products_limit %}
-      {% render 'product-card-enhanced', product: product, show_add_to_cart: true %}
+      {% render 'product-card-carousel', product: product, show_add_to_cart: true %}
       {% endfor %}
       </div>
     {% else %}
-    <div class="hidden md:flex gap-2 pb-4" style="width: max-content;">
+    <div class="hidden md:flex pb-4" style="width: max-content;">
       {% for product in gallery_collection.products limit: section.settings.products_limit %}
-      {% render 'product-card-enhanced', product: product, show_add_to_cart: true %}
+      {% render 'product-card-carousel', product: product, show_add_to_cart: true %}
       {% endfor %}
     </div>
     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:hidden">

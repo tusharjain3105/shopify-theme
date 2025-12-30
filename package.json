@@ -7,11 +7,11 @@
 	},
 	"private": true,
 	"scripts": {
-		"dev": "shopify theme pull && shopify theme dev --theme-editor-sync --store=0srnet-ks",
+		"dev": "shopify theme pull --store=0srnet-ks && shopify theme dev --theme-editor-sync --store=0srnet-ks",
 		"dev-local": "shopify theme dev --store=0srnet-ks",
 		"tailwind": "npx tailwindcss -i ./assets/base-tailwind.css -o ./assets/base.css --watch",
-		"push": "shopify theme push",
-		"pull": "shopify theme pull"
+		"push": "shopify theme push --store=0srnet-ks",
+		"pull": "shopify theme pull --store=0srnet-ks"
 	},
 	"type": "module",
 	"dependencies": {

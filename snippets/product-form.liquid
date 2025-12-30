@@ -44,8 +44,7 @@ Usage: {% render 'product-form', product: product %}
   </div>
 
   <!-- Size Chart Link (Only for Rings) -->
-  {% assign product_tags_string = product.tags | first | downcase %}
-  {% if product_tags_string == 'rings' %}
+  {% if product.tags contains 'Rings' or product.tags contains 'rings' %}
   <div class="mb-4 text-right">
     <button type="button" class="text-xs text-gray-500 underline hover:text-black cursor-pointer"
       onclick="document.getElementById('size-chart-modal').showModal()">
