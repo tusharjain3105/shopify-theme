@@ -1,4 +1,9 @@
 <!-- Size Chart Dialog -->
+{% assign sizeChartUrl =
+'https://cdn.shopify.com/s/files/1/0706/2686/9440/files/Untitled_design_11.png?v=1766626731' %}
+{% assign sizeChart2Url =
+'https://cdn.shopify.com/s/files/1/0706/2686/9440/files/size-chart-void-ring.jpg?v=1767103501' %}
+
 <dialog id="size-chart-modal"
     class="m-auto p-0 rounded-lg shadow-xl max-w-lg w-full bg-white backdrop:bg-black/50 hidden open:block">
     <div class="relative bg-white p-4">
@@ -11,7 +16,7 @@
         </button>
         <h3 class="text-lg font-bold mb-4 text-center">Size Chart</h3>
         <div class="overflow-auto max-h-[80vh]">
-            <img src="https://cdn.shopify.com/s/files/1/0706/2686/9440/files/Untitled_design_11.png?v=1766626731"
+            <img src="{% if product.tags contains 'size-chart-2'  %}{{ sizeChart2Url }}{% else %}{{ sizeChartUrl }}{% endif %}"
                 alt="Ring Size Chart" class="w-full h-auto" loading="lazy" />
         </div>
     </div>
